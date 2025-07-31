@@ -1,0 +1,41 @@
+﻿<!-- FootballNews.Web/Views/Team/Details.cshtml -->
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model ProLeague.Domain.Entities.Team
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="container mt-4">
+    <h1>@Model.Name</h1>
+    <p><strong>League:</strong> <a asp-controller="League" asp-action="Details" asp-route-id="@Model.LeagueId">@Model.League.Name</a></p>
+    @if (!string.IsNullOrEmpty(Model.ImagePath))
+    {
+        <img src="@Model.ImagePath" class="img-fluid mb-3" alt="@Model.Name Logo" style="max-height: 150px;">
+    }
+    <p><strong>Stadium:</strong> @Model.Stadium</p>
+    <p><strong>Fans:</strong> @Model.FanCount</p>
+
+    <h2>Players</h2>
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+        <tr>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Goals</th>
+            <th>Assists</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var player in Model.Players)
+        {
+            <tr>
+                <td><a asp-controller="Player" asp-action="Details" asp-route-id="@player.Id">@player.Name</a></td>
+                <td>@player.Position</td>
+                <td>@player.Goals</td>
+                <td>@player.Assists</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

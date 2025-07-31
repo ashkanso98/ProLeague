@@ -1,0 +1,55 @@
+﻿<!-- FootballNews.Web/Views/League/Details.cshtml -->
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using ProLeague.Domain.Entities
+@model ProLeague.Domain.Entities.League
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="container mt-4">
+    <h1>@Model.Name</h1>
+    @if (!string.IsNullOrEmpty(Model.ImagePath))
+    {
+        <img src="@Model.ImagePath" class="img-fluid mb-3" alt="@Model.Name Logo" style="max-height: 100px;">
+    }
+
+    <h2>Standings</h2>
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+        <tr>
+            <th>Pos</th>
+            <th>Team</th>
+            <th>P</th>
+            <th>W</th>
+            <th>D</th>
+            <th>L</th>
+            <th>GF</th>
+            <th>GA</th>
+            <th>GD</th>
+            <th>Pts</th>
+        </tr>
+        </thead>
+        <tbody>
+        @{
+            int position = 1;
+        }
+        @foreach (var team in ViewBag.SortedTeams as List<Team>)
+        {
+            <tr>
+                <td>@position</td>
+                <td><a asp-controller="Team" asp-action="Details" asp-route-id="@team.Id">@team.Name</a></td>
+                <td>@team.Played</td>
+                <td>@team.Wins</td>
+                <td>@team.Draws</td>
+                <td>@team.Losses</td>
+                <td>@team.GoalsFor</td>
+                <td>@team.GoalsAgainst</td>
+                <td>@team.GoalDifference</td>
+                <td>@team.Points</td>
+            </tr>
+            position++;
+        }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,18 @@
+﻿<!-- FootballNews.Web/Views/Player/Details.cshtml -->
+@model Player
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="container mt-4">
+    <h1>@Model.Name</h1>
+    <p><strong>Team:</strong> <a asp-controller="Team" asp-action="Details" asp-route-id="@Model.TeamId">@Model.Team.Name</a></p>
+    <p><strong>Position:</strong> @Model.Position</p>
+    <p><strong>Goals:</strong> @Model.Goals</p>
+    <p><strong>Assists:</strong> @Model.Assists</p>
+    @if (!string.IsNullOrEmpty(Model.ImagePath))
+    {
+        <img src="@Model.ImagePath" class="img-fluid mb-3" alt="@Model.Name Photo" style="max-height: 200px;">
+    }
+</div>

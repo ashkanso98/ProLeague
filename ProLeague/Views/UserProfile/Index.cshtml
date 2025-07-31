@@ -1,0 +1,98 @@
+﻿@* <!-- FootballNews.Web/Views/UserProfile/Index.cshtml -->
+@model ProLeague.Domain.Entities.ApplicationUser
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using ProLeague.Domain.Entities
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "User Profile";
+}
+
+<div class="container mt-4">
+    <h2>User Profile</h2>
+    <p>Welcome, @User.Identity.Name!</p>
+
+    <form asp-action="SetFavoriteTeam" method="post">
+        <div class="mb-3">
+            <label for="teamSelect" class="form-label">Select your favorite team:</label>
+            <select class="form-select" id="teamSelect" name="teamId">
+                <option value="">-- Select a Team --</option>
+                @foreach (var team in ViewBag.Teams as List<Team>)
+                {
+                    <option value="@team.Id" selected="@(Model.FavoriteTeamId == team.Id ? "selected" : null)">@team.Name</option>
+                }
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+
+    @if (Model.FavoriteTeam != null)
+    {
+        <div class="mt-3">
+            <p>Your favorite team is: <strong>@Model.FavoriteTeam.Name</strong></p>
+        </div>
+    }
+</div> *@
+
+@model ProLeague.Domain.Entities.ApplicationUser
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ProLeague.Domain.Entities.ApplicationUser> SignInManager
+@inject UserManager<ProLeague.Domain.Entities.ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "User Profile";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3>User Profile</h3>
+                </div>
+                <div class="card-body">
+                    <p><strong>Username:</strong> @User.Identity.Name</p>
+                    <p><strong>Email:</strong> @Model.Email</p>
+
+                    <form asp-action="SetFavoriteTeam" method="post">
+                        <div class="mb-3">
+                            <label for="teamSelect" class="form-label">Select your favorite team:</label>
+                            <select class="form-select" id="teamSelect" name="teamId">
+                                <option value="">-- Select a Team --</option>
+                                @foreach (var team in ViewBag.Teams as List<ProLeague.Domain.Entities.Team>)
+                                {
+                                    <option value="@team.Id" selected="@(Model.FavoriteTeamId == team.Id ? "selected" : null)">@team.Name</option>
+                                }
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </form>
+
+                    @if (Model.FavoriteTeam != null)
+                    {
+                        <div class="mt-3">
+                            <p>Your favorite team is: <strong>@Model.FavoriteTeam.Name</strong></p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Quick Links</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><a asp-area="Identity" asp-page="/Account/Manage/Index">Manage Account</a></li>
+                        <li class="list-group-item"><a asp-area="Identity" asp-page="/Account/Manage/ChangePassword">Change Password</a></li>
+                        <li class="list-group-item"><a asp-area="Identity" asp-page="/Account/Manage/Email">Manage Email</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

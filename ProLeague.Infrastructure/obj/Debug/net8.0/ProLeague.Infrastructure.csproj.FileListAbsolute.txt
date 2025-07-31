@@ -1,0 +1,17 @@
+C:\Users\User\source\repos\ProLeague\ProLeague.Infrastructure\bin\Debug\net8.0\ProLeague.Infrastructure.deps.json
+C:\Users\User\source\repos\ProLeague\ProLeague.Infrastructure\bin\Debug\net8.0\ProLeague.Infrastructure.runtimeconfig.json
+C:\Users\User\source\repos\ProLeague\ProLeague.Infrastructure\bin\Debug\net8.0\ProLeague.Infrastructure.dll
+C:\Users\User\source\repos\ProLeague\ProLeague.Infrastructure\bin\Debug\net8.0\ProLeague.Infrastructure.pdb
+C:\Users\User\source\repos\ProLeague\ProLeague.Infrastructure\bin\Debug\net8.0\ProLeague.Domain.dll
+C:\Users\User\source\repos\ProLeague\ProLeague.Infrastructure\bin\Debug\net8.0\ProLeague.Domain.pdb
+C:\Users\User\source\repos\ProLeague\ProLeague.Infrastructure\obj\Debug\net8.0\ProLeague.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\User\source\repos\ProLeague\ProLeague.Infrastructure\obj\Debug\net8.0\ProLeague.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\source\repos\ProLeague\ProLeague.Infrastructure\obj\Debug\net8.0\ProLeague.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\User\source\repos\ProLeague\ProLeague.Infrastructure\obj\Debug\net8.0\ProLeague.Infrastructure.AssemblyInfo.cs
+C:\Users\User\source\repos\ProLeague\ProLeague.Infrastructure\obj\Debug\net8.0\ProLeague.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\ProLeague\ProLeague.Infrastructure\obj\Debug\net8.0\ProLeagu.EB253EE5.Up2Date
+C:\Users\User\source\repos\ProLeague\ProLeague.Infrastructure\obj\Debug\net8.0\ProLeague.Infrastructure.dll
+C:\Users\User\source\repos\ProLeague\ProLeague.Infrastructure\obj\Debug\net8.0\refint\ProLeague.Infrastructure.dll
+C:\Users\User\source\repos\ProLeague\ProLeague.Infrastructure\obj\Debug\net8.0\ProLeague.Infrastructure.pdb
+C:\Users\User\source\repos\ProLeague\ProLeague.Infrastructure\obj\Debug\net8.0\ProLeague.Infrastructure.genruntimeconfig.cache
+C:\Users\User\source\repos\ProLeague\ProLeague.Infrastructure\obj\Debug\net8.0\ref\ProLeague.Infrastructure.dll

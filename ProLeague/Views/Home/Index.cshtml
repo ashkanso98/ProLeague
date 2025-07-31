@@ -1,0 +1,96 @@
+﻿<!-- FootballNews.Web/Views/Home/Index.cshtml -->
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model ProLeague.Controllers.HomeViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container">
+    <!-- Featured News Section -->
+    @if (Model.FeaturedNews.Any())
+    {
+        <div class="row mb-4">
+            <div class="col-12">
+                <h2>Breaking News</h2>
+                @foreach (var news in Model.FeaturedNews)
+                {
+                    <div class="card mb-3">
+                        <img src="@news.MainImagePath" class="card-img-top" alt="@news.Title">
+                        <div class="card-body">
+                            <h5 class="card-title"><a asp-controller="News" asp-action="Details" asp-route-id="@news.Id">@news.Title</a></h5>
+                            <p class="card-text">@news.Content.Substring(0, Math.Min(news.Content.Length, 150))...</p>
+                            <p class="card-text"><small class="text-muted">@news.PublishedDate.ToString("MMM dd, yyyy")</small></p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+
+    <div class="row">
+        <!-- Latest News Section -->
+        <div class="col-md-8">
+            <h2>Latest News</h2>
+            @foreach (var news in Model.LatestNews)
+            {
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="@news.MainImagePath" class="img-fluid rounded-start" alt="@news.Title">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title"><a asp-controller="News" asp-action="Details" asp-route-id="@news.Id">@news.Title</a></h5>
+                                <p class="card-text">@news.Content.Substring(0, Math.Min(news.Content.Length, 100))...</p>
+                                <p class="card-text"><small class="text-muted">@news.PublishedDate.ToString("MMM dd, yyyy")</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Leagues Table Section -->
+        <div class="col-md-4">
+            <h2>League Tables</h2>
+            @foreach (var league in Model.Leagues)
+            {
+                <div class="mb-4">
+                    <h4><a asp-controller="League" asp-action="Details" asp-route-id="@league.Id">@league.Name</a></h4>
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Team</th>
+                                <th>P</th>
+                                <th>W</th>
+                                <th>D</th>
+                                <th>L</th>
+                                <th>GF</th>
+                                <th>GA</th>
+                                <th>GD</th>
+                                <th>Pts</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var team in league.Teams.OrderByDescending(t => t.Points).ThenByDescending(t => t.GoalDifference).ThenByDescending(t => t.GoalsFor))
+                            {
+                                <tr>
+                                    <td>@team.Name</td>
+                                    <td>@team.Played</td>
+                                    <td>@team.Wins</td>
+                                    <td>@team.Draws</td>
+                                    <td>@team.Losses</td>
+                                    <td>@team.GoalsFor</td>
+                                    <td>@team.GoalsAgainst</td>
+                                    <td>@team.GoalDifference</td>
+                                    <td>@team.Points</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>
