@@ -1,0 +1,50 @@
+﻿@model ProLeague.Domain.Entities.League
+
+@{
+    ViewData["Title"] = "جزئیات لیگ";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <h4>لیگ: @Model.Name</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            شناسه
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class="col-sm-2">
+            نام لیگ
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            کشور
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Country)
+        </dd>
+        <dt class="col-sm-2">
+            لوگو
+        </dt>
+        <dd class="col-sm-10">
+            @if (!string.IsNullOrEmpty(Model.ImagePath))
+            {
+                <img src="@Model.ImagePath" alt="لوگوی @Model.Name" class="img-thumbnail" style="max-width: 200px;" />
+            }
+            else
+            {
+                <span class="text-muted">لوگو ثبت نشده است.</span>
+            }
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">ویرایش</a>
+    <a asp-action="Index" class="btn btn-secondary">بازگشت به لیست</a>
+</div>

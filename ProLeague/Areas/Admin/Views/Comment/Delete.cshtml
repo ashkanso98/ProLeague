@@ -1,0 +1,30 @@
+﻿@model ProLeague.Domain.Entities.NewsComment
+
+@{
+    ViewData["Title"] = "حذف نظر";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="h3">@ViewData["Title"]</h1>
+
+<div class="alert alert-danger mt-3">
+    <h4>آیا از حذف دائمی این نظر اطمینان دارید؟</h4>
+    <p>این عملیات قابل بازگشت نیست.</p>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">نویسنده</dt>
+            <dd class="col-sm-9">@Model.User.UserName</dd>
+            <dt class="col-sm-3">محتوا</dt>
+            <dd class="col-sm-9">"@Model.Content"</dd>
+        </dl>
+
+        <form asp-action="Delete" class="mt-3">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn btn-danger">بله، برای همیشه حذف کن</button>
+            <a asp-action="Index" asp-route-status="@Model.Status" class="btn btn-secondary">انصراف</a>
+        </form>
+    </div>
+</div>

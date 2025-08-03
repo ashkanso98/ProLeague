@@ -1,0 +1,75 @@
+﻿@model IEnumerable<ProLeague.Domain.Entities.NewsComment>
+@using ProLeague.Domain.Entities
+
+@{
+    ViewData["Title"] = "مدیریت نظرات";
+    var currentStatus = (CommentStatus)ViewBag.CurrentStatus;
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="h3 mb-3">@ViewData["Title"]</h1>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="card shadow-sm">
+    <div class="card-header">
+        <ul class="nav nav-pills card-header-pills">
+            <li class="nav-item">
+                <a class="nav-link @(currentStatus == CommentStatus.Pending ? "active" : "")" asp-action="Index" asp-route-status="@CommentStatus.Pending">در انتظار تأیید</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link @(currentStatus == CommentStatus.Approved ? "active" : "")" asp-action="Index" asp-route-status="@CommentStatus.Approved">تأیید شده</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link @(currentStatus == CommentStatus.Rejected ? "active" : "")" asp-action="Index" asp-route-status="@CommentStatus.Rejected">رد شده</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        @if (!Model.Any())
+        {
+            <p class="text-center text-muted">هیچ نظری در این دسته وجود ندارد.</p>
+        }
+        else
+        {
+            <ul class="list-group">
+                @foreach (var item in Model)
+                {
+                    <li class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <div>
+                                <h5 class="mb-1">@item.User.UserName</h5>
+                                <small class="text-muted">در خبر: <a asp-controller="News" asp-action="Details" asp-route-id="@item.NewsId" target="_blank">@item.News.Title</a></small>
+                                <p class="mb-1 mt-2">"@item.Content"</p>
+                            </div>
+                            <div class="text-end">
+                                <small>@item.CreatedDate.ToString("yyyy/MM/dd HH:mm")</small>
+                                <div class="mt-2">
+                                    @if (item.Status == CommentStatus.Pending)
+                                    {
+                                        <form asp-action="Approve" asp-route-id="@item.Id" method="post" class="d-inline">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-sm btn-success">تأیید</button>
+                                        </form>
+                                        <form asp-action="Reject" asp-route-id="@item.Id" method="post" class="d-inline">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-sm btn-warning">رد کردن</button>
+                                        </form>
+                                    }
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info">جزئیات</a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">حذف</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+</div>

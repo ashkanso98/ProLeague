@@ -8,6 +8,13 @@
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
+    <!-- در _Layout.cshtml یا _LoginPartial.cshtml -->
+    @if (User.IsInRole("Admin"))
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="UserManagement" asp-action="Index">مدیریت کاربران</a>
+        </li>
+    }
     <li class="nav-item">
         <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
     </li>

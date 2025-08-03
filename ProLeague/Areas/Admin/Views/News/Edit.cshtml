@@ -1,0 +1,105 @@
+﻿@model ProLeague.Areas.Admin.Models.EditNewsViewModel
+
+@{
+    ViewData["Title"] = "ویرایش خبر";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="h3 mb-3">@ViewData["Title"]</h1>
+
+<form asp-action="Edit" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id" />
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow-sm mb-3">
+                <div class="card-header">محتوای خبر</div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label asp-for="Title" class="form-label"></label>
+                        <input asp-for="Title" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Content" class="form-label"></label>
+                        <textarea asp-for="Content" class="form-control" rows="15"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card shadow-sm mb-3">
+                <div class="card-header">تنظیمات و تصاویر</div>
+                <div class="card-body">
+                    <div class="form-check form-switch mb-3">
+                        <input asp-for="IsFeatured" class="form-check-input" />
+                        <label asp-for="IsFeatured" class="form-check-label"></label>
+                    </div>
+                    <hr />
+                    <label asp-for="ExistingMainImagePath" class="form-label"></label>
+                    @if (!string.IsNullOrEmpty(Model.ExistingMainImagePath))
+                    {
+                        <img src="@Model.ExistingMainImagePath" class="img-fluid rounded mb-2" />
+                    }
+                    <div class="mb-3">
+                        <label asp-for="NewMainImageFile" class="form-label"></label>
+                        <input asp-for="NewMainImageFile" type="file" class="form-control" accept="image/*" />
+                    </div>
+                    <hr />
+                    <label asp-for="ExistingGalleryImages" class="form-label"></label>
+                    <div class="row g-2 mb-2">
+                        @foreach (var image in Model.ExistingGalleryImages)
+                        {
+                            <div class="col-4" id="gallery-image-@image.Id">
+                                <img src="@image.ImagePath" class="img-fluid rounded" />
+                                <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1" onclick="deleteImage(@image.Id)">×</button>
+                            </div>
+                        }
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="NewGalleryFiles" class="form-label"></label>
+                        <input asp-for="NewGalleryFiles" type="file" class="form-control" multiple accept="image/*" />
+                    </div>
+                </div>
+            </div>
+            <div class="card shadow-sm mb-3">
+                <div class="card-header">موجودیت‌های مرتبط</div>
+                <div class="card-body">
+                    <div class="mb-3"><label asp-for="RelatedLeagueIds" class="form-label"></label><select asp-for="RelatedLeagueIds" class="form-select" asp-items="ViewBag.Leagues" multiple></select></div>
+                    <div class="mb-3"><label asp-for="RelatedTeamIds" class="form-label"></label><select asp-for="RelatedTeamIds" class="form-select" asp-items="ViewBag.Teams" multiple></select></div>
+                    <div class="mb-3"><label asp-for="RelatedPlayerIds" class="form-label"></label><select asp-for="RelatedPlayerIds" class="form-select" asp-items="ViewBag.Players" multiple></select></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group mt-3">
+        <input type="submit" value="ذخیره تغییرات" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-secondary">انصراف</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        function deleteImage(imageId) {
+            if (!confirm('آیا از حذف این تصویر مطمئن هستید؟')) return;
+
+            fetch('/Admin/News/DeleteGalleryImage', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': '@Html.AntiForgeryToken()'
+                },
+                body: JSON.stringify({ imageId: imageId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('gallery-image-' + imageId).remove();
+                } else {
+                    alert('خطا در حذف تصویر.');
+                }
+            });
+        }
+    </script>
+}

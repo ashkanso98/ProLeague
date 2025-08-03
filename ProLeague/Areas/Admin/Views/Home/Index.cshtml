@@ -1,0 +1,163 @@
+﻿@model ProLeague.Areas.Admin.Models.AdminDashboardViewModel
+@{
+    ViewData["Title"] = "داشبورد";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@* این استایل‌ها برای ایجاد افکت‌های ظاهری کارت‌ها هستند.
+بهتر است در یک فایل CSS جداگانه قرار گیرند، اما برای راحتی اینجا اضافه شده‌اند. *@
+<style>
+    .card .border-left-primary {
+        border-left: .25rem solid #4e73df !important;
+    }
+
+    .card .border-left-success {
+        border-left: .25rem solid #1cc88a !important;
+    }
+
+    .card .border-left-info {
+        border-left: .25rem solid #36b9cc !important;
+    }
+
+    .card .border-left-warning {
+        border-left: .25rem solid #f6c23e !important;
+    }
+
+    .text-xs {
+        font-size: .8rem;
+    }
+</style>
+
+<div class="container-fluid py-4">
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-dark">داشبورد مدیریتی</h1>
+    </div>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+
+    <div class="row">
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card shadow h-100 py-2 border-left-primary">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="text-xs fw-bold text-primary text-uppercase mb-1">تعداد لیگ‌ها</div>
+                            <div class="h5 mb-0 fw-bold text-gray-800">@Model.TotalLeagues</div>
+                        </div>
+                        <div class="col-auto fs-2 text-gray-300">🏆</div>
+                    </div>
+                    <a asp-area="Admin" asp-controller="League" asp-action="Index" class="stretched-link" title="مدیریت لیگ‌ها"></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card shadow h-100 py-2 border-left-success">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="text-xs fw-bold text-success text-uppercase mb-1">تعداد تیم‌ها</div>
+                            <div class="h5 mb-0 fw-bold text-gray-800">@Model.TotalTeams</div>
+                        </div>
+                        <div class="col-auto fs-2 text-gray-300">👥</div>
+                    </div>
+                    <a asp-area="Admin" asp-controller="Team" asp-action="Index" class="stretched-link" title="مدیریت تیم‌ها"></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card shadow h-100 py-2 border-left-info">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="text-xs fw-bold text-info text-uppercase mb-1">تعداد بازیکنان</div>
+                            <div class="h5 mb-0 fw-bold text-gray-800">@Model.TotalPlayers</div>
+                        </div>
+                        <div class="col-auto fs-2 text-gray-300">👤</div>
+                    </div>
+                    <a asp-area="Admin" asp-controller="Player" asp-action="Index" class="stretched-link" title="مدیریت بازیکنان"></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card shadow h-100 py-2 border-left-warning">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="text-xs fw-bold text-warning text-uppercase mb-1">اخبار و نظرات</div>
+                            <div class="h5 mb-0 fw-bold text-gray-800">@Model.TotalNews خبر / @Model.TotalComments نظر</div>
+                        </div>
+                        <div class="col-auto fs-2 text-gray-300">📰</div>
+                    </div>
+                    <a asp-area="Admin" asp-controller="News" asp-action="Index" class="stretched-link" title="مدیریت اخبار"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 fw-bold text-primary">آخرین اخبار منتشر شده</h6>
+                </div>
+                <div class="card-body">
+                    @if (Model.RecentNews != null && Model.RecentNews.Any())
+                    {
+                        <ul class="list-group list-group-flush">
+                            @foreach (var news in Model.RecentNews)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <a href="#">@news.Title</a>
+                                    <span class="badge bg-primary rounded-pill">@news.PublishedDate.ToShortDateString()</span>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p class="text-center text-muted m-3">هیچ خبری اخیراً منتشر نشده است.</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 fw-bold text-success">آخرین نظرات کاربران</h6>
+                </div>
+                <div class="card-body">
+                    @if (Model.RecentComments != null && Model.RecentComments.Any())
+                    {
+                        <ul class="list-group list-group-flush">
+                            @foreach (var comment in Model.RecentComments)
+                            {
+                                <li class="list-group-item">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">@(comment.User?.UserName ?? "کاربر مهمان")</h6>
+                                        <small class="text-muted">@comment.CreatedDate.ToString("g")</small>
+                                    </div>
+                                    <p class="mb-1 fst-italic">"@comment.Content"</p>
+                                    <small class="text-muted">در خبر: @(comment.News?.Title ?? "-")</small>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p class="text-center text-muted m-3">هیچ نظر جدیدی ثبت نشده است.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

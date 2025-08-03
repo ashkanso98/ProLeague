@@ -1,5 +1,10 @@
 wwwroot\css\site.css
 wwwroot\favicon.ico
+wwwroot\images\league\55a6b9bb-a4a9-4144-bfbe-d04a192ccac1_task-management-logo.png
+wwwroot\images\news\gallery\cdc8d569-3e11-4e8a-a45d-0c1d34c21e86_images.jpg
+wwwroot\images\news\main\fa07f8c0-3ae3-4327-8c56-35cd8340e324_Barcelona-Logo.png
+wwwroot\images\players\764535c9-2f57-4960-8cf6-37b14f976e88_images.jpg
+wwwroot\images\teams\773c3aef-6fd8-4ade-9304-e673ac573289_Barcelona-Logo.png
 wwwroot\js\site.js
 wwwroot\lib\bootstrap\dist\css\bootstrap.css
 wwwroot\lib\bootstrap\dist\css\bootstrap.css.map

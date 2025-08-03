@@ -1,0 +1,62 @@
+﻿@model IEnumerable<ProLeague.Domain.Entities.Player>
+
+@{
+    ViewData["Title"] = "مدیریت بازیکنان";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3">@ViewData["Title"]</h1>
+    <a asp-action="Create" class="btn btn-primary">ثبت بازیکن جدید ➕</a>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>عکس</th>
+                        <th>نام بازیکن</th>
+                        <th>پست</th>
+                        <th>تیم</th>
+                        <th>گل</th>
+                        <th>پاس گل</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <img src="@(item.ImagePath ?? "/images/default-player.png")" alt="عکس @item.Name"
+                                     class="rounded-circle" style="width: 45px; height: 45px; object-fit: cover;" />
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Position)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Team.Name)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Goals)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Assists)</td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">ویرایش</a>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info">جزئیات</a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">حذف</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

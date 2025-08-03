@@ -1,0 +1,39 @@
+﻿@model ProLeague.Domain.Entities.NewsComment
+
+@{
+    ViewData["Title"] = "جزئیات نظر";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="h3">@ViewData["Title"]</h1>
+
+<div class="card shadow-sm mt-3">
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">نویسنده</dt>
+            <dd class="col-sm-9">@Model.User.UserName</dd>
+
+            <dt class="col-sm-3">تاریخ ثبت</dt>
+            <dd class="col-sm-9">@Model.CreatedDate.ToString("f")</dd>
+
+            <dt class="col-sm-3">وضعیت</dt>
+            <dd class="col-sm-9">
+                <span class="badge
+                    @(Model.Status == ProLeague.Domain.Entities.CommentStatus.Approved ? "bg-success" :
+                                            Model.Status == ProLeague.Domain.Entities.CommentStatus.Rejected ? "bg-danger" : "bg-warning")">
+                    @Model.Status
+                </span>
+            </dd>
+
+            <dt class="col-sm-3">خبر مرتبط</dt>
+            <dd class="col-sm-9"><a asp-controller="News" asp-action="Details" asp-route-id="@Model.NewsId">@Model.News.Title</a></dd>
+
+            <dt class="col-sm-3">محتوای نظر</dt>
+            <dd class="col-sm-9"><p class="border p-2 rounded bg-light">@Model.Content</p></dd>
+        </dl>
+    </div>
+</div>
+
+<div class="mt-3">
+    <a asp-action="Index" asp-route-status="@Model.Status" class="btn btn-secondary">بازگشت به لیست</a>
+</div>

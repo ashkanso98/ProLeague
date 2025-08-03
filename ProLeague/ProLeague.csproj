@@ -4,7 +4,7 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<UserSecretsId>aspnet-ProLeague.Web-XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX</UserSecretsId>
+		<UserSecretsId>aspnet-ProLeague-XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>

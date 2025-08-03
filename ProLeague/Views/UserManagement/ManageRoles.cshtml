@@ -1,0 +1,32 @@
+﻿<!-- Views/UserManagement/ManageRoles.cshtml -->
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model ProLeague.Controllers.ManageUserRolesViewModel
+
+@{
+    ViewData["Title"] = "مدیریت Roles";
+}
+
+<div class="container mt-4">
+    <h2>مدیریت Roles برای @Model.UserName</h2>
+
+    <form asp-action="ManageRoles" method="post">
+        <input type="hidden" name="UserId" value="@Model.UserId" />
+        <input type="hidden" name="UserName" value="@Model.UserName" />
+
+        <div class="form-group">
+            <label>انتخاب Roles:</label>
+            @foreach (var role in Model.AllRoles)
+            {
+                <div class="form-check">
+                    <input type="checkbox" name="SelectedRoles" value="@role"
+                           class="form-check-input"
+                           @(Model.UserRoles.Contains(role) ? "checked" : "") />
+                    <label class="form-check-label">@role</label>
+                </div>
+            }
+        </div>
+
+        <button type="submit" class="btn btn-primary">به‌روزرسانی Roles</button>
+        <a asp-action="Index" class="btn btn-secondary">لغو</a>
+    </form>
+</div>

@@ -1,0 +1,34 @@
+﻿@model ProLeague.Domain.Entities.Player
+
+@{
+    ViewData["Title"] = "حذف بازیکن";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="h3">@ViewData["Title"]</h1>
+
+<div class="alert alert-danger mt-3">
+    <h4>آیا از حذف بازیکن "@Model.Name" اطمینان دارید؟</h4>
+    <p>این عملیات قابل بازگشت نیست.</p>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <dl class="row align-items-center">
+            <dt class="col-sm-3">عکس</dt>
+            <dd class="col-sm-9">
+                <img src="@(Model.ImagePath ?? "/images/default-player.png")" alt="عکس" style="width: 75px; height: 75px; object-fit: cover;" class="rounded-circle">
+            </dd>
+            <dt class="col-sm-3">نام بازیکن</dt>
+            <dd class="col-sm-9">@Model.Name</dd>
+            <dt class="col-sm-3">تیم</dt>
+            <dd class="col-sm-9">@Model.Team.Name</dd>
+        </dl>
+
+        <form asp-action="Delete" class="mt-3">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn btn-danger">بله، حذف کن</button>
+            <a asp-action="Index" class="btn btn-secondary">انصراف</a>
+        </form>
+    </div>
+</div>

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using ProLeague.Domain.Entities;
+
+namespace ProLeague.Domain.Entities;
 
 public class News
 {

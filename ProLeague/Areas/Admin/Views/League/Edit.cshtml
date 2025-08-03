@@ -1,0 +1,54 @@
+﻿@model ProLeague.Areas.Admin.Models.EditLeagueViewModel
+
+@{
+    ViewData["Title"] = "ویرایش لیگ";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>@ViewData["Title"]</h2>
+
+    <form asp-action="Edit" enctype="multipart/form-data">
+        <!-- این خط بسیار مهم است -->
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group mb-3">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-3">
+            <label asp-for="Country" class="form-label"></label>
+            <input asp-for="Country" class="form-control" />
+            <span asp-validation-for="Country" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-3">
+            <label class="form-label">لوگوی فعلی</label>
+            @if (!string.IsNullOrEmpty(Model.ExistingLogoPath))
+            {
+                <div>
+                    <img src="@Model.ExistingLogoPath" alt="لوگوی فعلی" style="max-width: 100px; max-height: 100px;" />
+                </div>
+            }
+            else
+            {
+                <span>تصویری وجود ندارد</span>
+            }
+        </div>
+        <div class="form-group mb-3">
+            <label asp-for="NewLogoFile" class="form-label">لوگوی جدید (برای تغییر)</label>
+            <input asp-for="NewLogoFile" class="form-control" type="file" accept="image/*" />
+            <span asp-validation-for="NewLogoFile" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="ذخیره" class="btn btn-primary" />
+            <a asp-action="Index" class="btn btn-secondary">لغو</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

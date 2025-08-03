@@ -1,0 +1,57 @@
+﻿@model ProLeague.Areas.Admin.Models.CreateTeamViewModel
+
+@{
+    ViewData["Title"] = "ایجاد تیم جدید";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="h3 mb-3">@ViewData["Title"]</h1>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Name" class="form-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Stadium" class="form-label"></label>
+                    <input asp-for="Stadium" class="form-control" />
+                    <span asp-validation-for="Stadium" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="LeagueId" class="form-label"></label>
+                    <select asp-for="LeagueId" class="form-select" asp-items="ViewBag.LeagueId">
+                        <option value="">یک لیگ انتخاب کنید...</option>
+                    </select>
+                    <span asp-validation-for="LeagueId" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="LogoFile" class="form-label"></label>
+                    <input asp-for="LogoFile" type="file" class="form-control" accept="image/*" />
+                    <span asp-validation-for="LogoFile" class="text-danger"></span>
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="form-group">
+                <input type="submit" value="ایجاد" class="btn btn-success" />
+                <a asp-action="Index" class="btn btn-secondary">انصراف</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

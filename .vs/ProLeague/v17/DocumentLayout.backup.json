@@ -1,7 +1,28 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\User\\source\\repos\\ProLeague\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|c:\\users\\user\\source\\repos\\proleague\\proleague\\areas\\admin\\views\\comment\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|solutionrelative:proleague\\areas\\admin\\views\\comment\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|c:\\users\\user\\source\\repos\\proleague\\proleague\\areas\\admin\\views\\comment\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|solutionrelative:proleague\\areas\\admin\\views\\comment\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|c:\\users\\user\\source\\repos\\proleague\\proleague\\areas\\admin\\views\\comment\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|solutionrelative:proleague\\areas\\admin\\views\\comment\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|c:\\users\\user\\source\\repos\\proleague\\proleague\\areas\\admin\\controllers\\commentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|solutionrelative:proleague\\areas\\admin\\controllers\\commentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{04F1301D-6819-4902-B810-F3152A25513F}|ProLeague.Domain\\ProLeague.Domain.csproj|c:\\users\\user\\source\\repos\\proleague\\proleague.domain\\entities\\commentstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{04F1301D-6819-4902-B810-F3152A25513F}|ProLeague.Domain\\ProLeague.Domain.csproj|solutionrelative:proleague.domain\\entities\\commentstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,11 +30,74 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Delete.cshtml",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Areas\\Admin\\Views\\Comment\\Delete.cshtml",
+              "RelativeDocumentMoniker": "ProLeague\\Areas\\Admin\\Views\\Comment\\Delete.cshtml",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Areas\\Admin\\Views\\Comment\\Delete.cshtml",
+              "RelativeToolTip": "ProLeague\\Areas\\Admin\\Views\\Comment\\Delete.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-08-03T00:58:14.37Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Areas\\Admin\\Views\\Comment\\Index.cshtml",
+              "RelativeDocumentMoniker": "ProLeague\\Areas\\Admin\\Views\\Comment\\Index.cshtml",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Areas\\Admin\\Views\\Comment\\Index.cshtml",
+              "RelativeToolTip": "ProLeague\\Areas\\Admin\\Views\\Comment\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-08-03T00:57:33.567Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Areas\\Admin\\Views\\Comment\\Details.cshtml",
+              "RelativeDocumentMoniker": "ProLeague\\Areas\\Admin\\Views\\Comment\\Details.cshtml",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Areas\\Admin\\Views\\Comment\\Details.cshtml",
+              "RelativeToolTip": "ProLeague\\Areas\\Admin\\Views\\Comment\\Details.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-08-03T00:54:50.257Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CommentController.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Areas\\Admin\\Controllers\\CommentController.cs",
+              "RelativeDocumentMoniker": "ProLeague\\Areas\\Admin\\Controllers\\CommentController.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Areas\\Admin\\Controllers\\CommentController.cs",
+              "RelativeToolTip": "ProLeague\\Areas\\Admin\\Controllers\\CommentController.cs",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAswGgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-03T00:52:28.934Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CommentStatus.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague.Domain\\Entities\\CommentStatus.cs",
+              "RelativeDocumentMoniker": "ProLeague.Domain\\Entities\\CommentStatus.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague.Domain\\Entities\\CommentStatus.cs",
+              "RelativeToolTip": "ProLeague.Domain\\Entities\\CommentStatus.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-03T00:51:39.93Z"
             }
           ]
         }

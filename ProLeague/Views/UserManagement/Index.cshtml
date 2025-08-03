@@ -1,0 +1,37 @@
+﻿<!-- Views/UserManagement/Index.cshtml -->
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model List<ProLeague.Controllers.UserRolesViewModel>
+
+@{
+    ViewData["Title"] = "مدیریت کاربران";
+}
+
+<div class="container mt-4">
+    <h2>@ViewData["Title"]</h2>
+    
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>نام کاربری</th>
+            <th>ایمیل</th>
+            <th>Roles</th>
+            <th>عملیات</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                <td>@string.Join(", ", user.Roles)</td>
+                <td>
+                    <a asp-action="ManageRoles" asp-route-userId="@user.UserId" class="btn btn-primary btn-sm">
+                        مدیریت Roles
+                    </a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

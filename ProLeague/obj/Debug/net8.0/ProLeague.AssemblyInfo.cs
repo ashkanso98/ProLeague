@@ -12,7 +12,7 @@ using System;
 using System.Reflection;
 
 [assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap5")]
-[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("aspnet-ProLeague.Web-XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX")]
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("aspnet-ProLeague-XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("ProLeague")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]

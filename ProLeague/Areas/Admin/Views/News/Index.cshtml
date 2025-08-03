@@ -1,0 +1,67 @@
+﻿@model IEnumerable<ProLeague.Domain.Entities.News>
+
+@{
+    ViewData["Title"] = "مدیریت اخبار";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3">@ViewData["Title"]</h1>
+    <a asp-action="Create" class="btn btn-primary">ایجاد خبر جدید ➕</a>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>تصویر اصلی</th>
+                        <th>عنوان خبر</th>
+                        <th>تاریخ انتشار</th>
+                        <th>ویژه</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <img src="@(item.MainImagePath ?? "/images/default-news.png")" alt="@item.Title"
+                                     style="width: 100px; height: 60px; object-fit: cover;" />
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                            <td>@item.PublishedDate.ToString("yyyy/MM/dd HH:mm")</td>
+                            <td>
+                                @if (item.IsFeatured)
+                                {
+                                    <span class="badge bg-warning text-dark">بله</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">خیر</span>
+                                }
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">ویرایش</a>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info">جزئیات</a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">حذف</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

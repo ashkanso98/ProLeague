@@ -1,5 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using ProLeague.Domain.Entities;
+﻿// File: Domain/Entities/NewsComment.cs
+
+using System.ComponentModel.DataAnnotations;
+
+namespace ProLeague.Domain.Entities;
 
 public class NewsComment
 {
@@ -7,8 +10,12 @@ public class NewsComment
     [Required]
     public string Content { get; set; } = null!;
     public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
-    public string UserId { get; set; } = null!; // Foreign key to AspNetUsers
-    public ApplicationUser User { get; set; } = null!; // Navigation property
+
+    // فیلد جدید برای وضعیت نظر
+    public CommentStatus Status { get; set; } = CommentStatus.Pending;
+
+    public string UserId { get; set; } = null!;
+    public ApplicationUser User { get; set; } = null!;
     public int NewsId { get; set; }
-    public News News { get; set; } = null!; // Navigation property
+    public News News { get; set; } = null!;
 }

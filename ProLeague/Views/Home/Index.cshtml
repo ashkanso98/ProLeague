@@ -76,7 +76,7 @@
                             @foreach (var team in league.Teams.OrderByDescending(t => t.Points).ThenByDescending(t => t.GoalDifference).ThenByDescending(t => t.GoalsFor))
                             {
                                 <tr>
-                                    <td>@team.Name</td>
+                                    <td>@team.Name - @team.ImagePath</td>
                                     <td>@team.Played</td>
                                     <td>@team.Wins</td>
                                     <td>@team.Draws</td>

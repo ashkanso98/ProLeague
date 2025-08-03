@@ -1,0 +1,77 @@
+﻿@model ProLeague.Areas.Admin.Models.CreateNewsViewModel
+
+@{
+    ViewData["Title"] = "ایجاد خبر جدید";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="h3 mb-3">@ViewData["Title"]</h1>
+
+<form asp-action="Create" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow-sm mb-3">
+                <div class="card-header">محتوای خبر</div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label asp-for="Title" class="form-label"></label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Content" class="form-label"></label>
+                        <textarea asp-for="Content" class="form-control" rows="10"></textarea>
+                        <span asp-validation-for="Content" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card shadow-sm mb-3">
+                <div class="card-header">تنظیمات و تصاویر</div>
+                <div class="card-body">
+                    <div class="form-check form-switch mb-3">
+                        <input asp-for="IsFeatured" class="form-check-input" />
+                        <label asp-for="IsFeatured" class="form-check-label"></label>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="MainImageFile" class="form-label"></label>
+                        <input asp-for="MainImageFile" type="file" class="form-control" accept="image/*" />
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="GalleryFiles" class="form-label"></label>
+                        <input asp-for="GalleryFiles" type="file" class="form-control" multiple accept="image/*" />
+                    </div>
+                </div>
+            </div>
+            <div class="card shadow-sm mb-3">
+                <div class="card-header">موجودیت‌های مرتبط</div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label asp-for="RelatedLeagueIds" class="form-label"></label>
+                        <select asp-for="RelatedLeagueIds" class="form-select" asp-items="ViewBag.Leagues" multiple></select>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="RelatedTeamIds" class="form-label"></label>
+                        <select asp-for="RelatedTeamIds" class="form-select" asp-items="ViewBag.Teams" multiple></select>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="RelatedPlayerIds" class="form-label"></label>
+                        <select asp-for="RelatedPlayerIds" class="form-select" asp-items="ViewBag.Players" multiple></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group mt-3">
+        <input type="submit" value="ایجاد خبر" class="btn btn-success" />
+        <a asp-action="Index" class="btn btn-secondary">انصراف</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    @* برای بهبود لیست‌های چند-انتخابی می‌توانید از کتابخانه‌هایی مثل Select2 استفاده کنید *@
+}
