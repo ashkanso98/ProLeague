@@ -1,8 +1,11 @@
+C:\Users\User\source\repos\ProLeague\ProLeague.Infrastructure\bin\Debug\net8.0\ProLeague.Application.staticwebassets.endpoints.json
 C:\Users\User\source\repos\ProLeague\ProLeague.Infrastructure\bin\Debug\net8.0\ProLeague.Infrastructure.deps.json
 C:\Users\User\source\repos\ProLeague\ProLeague.Infrastructure\bin\Debug\net8.0\ProLeague.Infrastructure.runtimeconfig.json
 C:\Users\User\source\repos\ProLeague\ProLeague.Infrastructure\bin\Debug\net8.0\ProLeague.Infrastructure.dll
 C:\Users\User\source\repos\ProLeague\ProLeague.Infrastructure\bin\Debug\net8.0\ProLeague.Infrastructure.pdb
+C:\Users\User\source\repos\ProLeague\ProLeague.Infrastructure\bin\Debug\net8.0\ProLeague.Application.dll
 C:\Users\User\source\repos\ProLeague\ProLeague.Infrastructure\bin\Debug\net8.0\ProLeague.Domain.dll
+C:\Users\User\source\repos\ProLeague\ProLeague.Infrastructure\bin\Debug\net8.0\ProLeague.Application.pdb
 C:\Users\User\source\repos\ProLeague\ProLeague.Infrastructure\bin\Debug\net8.0\ProLeague.Domain.pdb
 C:\Users\User\source\repos\ProLeague\ProLeague.Infrastructure\obj\Debug\net8.0\ProLeague.Infrastructure.csproj.AssemblyReference.cache
 C:\Users\User\source\repos\ProLeague\ProLeague.Infrastructure\obj\Debug\net8.0\ProLeague.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig

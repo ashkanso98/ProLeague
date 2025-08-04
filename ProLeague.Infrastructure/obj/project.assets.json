@@ -1634,6 +1634,22 @@
           }
         }
       },
+      "ProLeague.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "ProLeague.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/ProLeague.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/ProLeague.Application.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
+      },
       "ProLeague.Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
@@ -4361,6 +4377,11 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "ProLeague.Application/1.0.0": {
+      "type": "project",
+      "path": "../ProLeague.Application/ProLeague.Application.csproj",
+      "msbuildProject": "../ProLeague.Application/ProLeague.Application.csproj"
+    },
     "ProLeague.Domain/1.0.0": {
       "type": "project",
       "path": "../ProLeague.Domain/ProLeague.Domain.csproj",
@@ -4375,6 +4396,7 @@
       "Microsoft.EntityFrameworkCore.SqlServer >= 8.0.10",
       "Microsoft.EntityFrameworkCore.Tools >= 8.0.10",
       "Microsoft.Extensions.FileProviders.Physical >= 8.0.0",
+      "ProLeague.Application >= 1.0.0",
       "ProLeague.Domain >= 1.0.0"
     ]
   },
@@ -4411,6 +4433,9 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
+            "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague.Application\\ProLeague.Application.csproj": {
+              "projectPath": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague.Application\\ProLeague.Application.csproj"
+            },
             "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague.Domain\\ProLeague.Domain.csproj": {
               "projectPath": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague.Domain\\ProLeague.Domain.csproj"
             }

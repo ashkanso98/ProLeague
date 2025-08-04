@@ -22,6 +22,21 @@ namespace ProLeague.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("LeagueNews", b =>
+                {
+                    b.Property<int>("NewsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RelatedLeaguesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("NewsId", "RelatedLeaguesId");
+
+                    b.HasIndex("RelatedLeaguesId");
+
+                    b.ToTable("LeagueNews");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -102,12 +117,10 @@ namespace ProLeague.Infrastructure.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -144,12 +157,10 @@ namespace ProLeague.Infrastructure.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -157,68 +168,6 @@ namespace ProLeague.Infrastructure.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("News", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsFeatured")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("MainImagePath")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("PublishedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("News");
-                });
-
-            modelBuilder.Entity("NewsComment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("NewsId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NewsId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("NewsComments");
                 });
 
             modelBuilder.Entity("NewsImage", b =>
@@ -243,32 +192,17 @@ namespace ProLeague.Infrastructure.Migrations
                     b.ToTable("NewsImages");
                 });
 
-            modelBuilder.Entity("NewsLeague", b =>
-                {
-                    b.Property<int>("LeagueId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NewsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("LeagueId", "NewsId");
-
-                    b.HasIndex("NewsId");
-
-                    b.ToTable("NewsLeague");
-                });
-
             modelBuilder.Entity("NewsPlayer", b =>
                 {
                     b.Property<int>("NewsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PlayerId")
+                    b.Property<int>("RelatedPlayersId")
                         .HasColumnType("int");
 
-                    b.HasKey("NewsId", "PlayerId");
+                    b.HasKey("NewsId", "RelatedPlayersId");
 
-                    b.HasIndex("PlayerId");
+                    b.HasIndex("RelatedPlayersId");
 
                     b.ToTable("NewsPlayer");
                 });
@@ -278,49 +212,14 @@ namespace ProLeague.Infrastructure.Migrations
                     b.Property<int>("NewsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TeamId")
+                    b.Property<int>("RelatedTeamsId")
                         .HasColumnType("int");
 
-                    b.HasKey("NewsId", "TeamId");
+                    b.HasKey("NewsId", "RelatedTeamsId");
 
-                    b.HasIndex("TeamId");
+                    b.HasIndex("RelatedTeamsId");
 
                     b.ToTable("NewsTeam");
-                });
-
-            modelBuilder.Entity("Player", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Assists")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Goals")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ImagePath")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("Position")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TeamId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TeamId");
-
-                    b.ToTable("Players");
                 });
 
             modelBuilder.Entity("ProLeague.Domain.Entities.ApplicationUser", b =>
@@ -419,6 +318,146 @@ namespace ProLeague.Infrastructure.Migrations
                     b.ToTable("Leagues");
                 });
 
+            modelBuilder.Entity("ProLeague.Domain.Entities.Match", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("AwayTeamGoals")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AwayTeamId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("HomeTeamGoals")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HomeTeamId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LeagueId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("MatchDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("MatchWeek")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AwayTeamId");
+
+                    b.HasIndex("HomeTeamId");
+
+                    b.HasIndex("LeagueId");
+
+                    b.ToTable("Matches");
+                });
+
+            modelBuilder.Entity("ProLeague.Domain.Entities.News", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsFeatured")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MainImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("PublishedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("News");
+                });
+
+            modelBuilder.Entity("ProLeague.Domain.Entities.NewsComment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("NewsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NewsId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("NewsComments");
+                });
+
+            modelBuilder.Entity("ProLeague.Domain.Entities.Player", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Assists")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Goals")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("Position")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeamId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TeamId");
+
+                    b.ToTable("Players");
+                });
+
             modelBuilder.Entity("ProLeague.Domain.Entities.Team", b =>
                 {
                     b.Property<int>("Id")
@@ -427,16 +466,7 @@ namespace ProLeague.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Draws")
-                        .HasColumnType("int");
-
                     b.Property<int>("FanCount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GoalsAgainst")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GoalsFor")
                         .HasColumnType("int");
 
                     b.Property<string>("ImagePath")
@@ -445,28 +475,34 @@ namespace ProLeague.Infrastructure.Migrations
                     b.Property<int>("LeagueId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Losses")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("Played")
-                        .HasColumnType("int");
-
                     b.Property<string>("Stadium")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Wins")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("LeagueId");
 
                     b.ToTable("Teams");
+                });
+
+            modelBuilder.Entity("LeagueNews", b =>
+                {
+                    b.HasOne("ProLeague.Domain.Entities.News", null)
+                        .WithMany()
+                        .HasForeignKey("NewsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProLeague.Domain.Entities.League", null)
+                        .WithMany()
+                        .HasForeignKey("RelatedLeaguesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -520,9 +556,87 @@ namespace ProLeague.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("NewsComment", b =>
+            modelBuilder.Entity("NewsImage", b =>
                 {
-                    b.HasOne("News", "News")
+                    b.HasOne("ProLeague.Domain.Entities.News", "News")
+                        .WithMany("Images")
+                        .HasForeignKey("NewsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("News");
+                });
+
+            modelBuilder.Entity("NewsPlayer", b =>
+                {
+                    b.HasOne("ProLeague.Domain.Entities.News", null)
+                        .WithMany()
+                        .HasForeignKey("NewsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProLeague.Domain.Entities.Player", null)
+                        .WithMany()
+                        .HasForeignKey("RelatedPlayersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("NewsTeam", b =>
+                {
+                    b.HasOne("ProLeague.Domain.Entities.News", null)
+                        .WithMany()
+                        .HasForeignKey("NewsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProLeague.Domain.Entities.Team", null)
+                        .WithMany()
+                        .HasForeignKey("RelatedTeamsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ProLeague.Domain.Entities.ApplicationUser", b =>
+                {
+                    b.HasOne("ProLeague.Domain.Entities.Team", "FavoriteTeam")
+                        .WithMany()
+                        .HasForeignKey("FavoriteTeamId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("FavoriteTeam");
+                });
+
+            modelBuilder.Entity("ProLeague.Domain.Entities.Match", b =>
+                {
+                    b.HasOne("ProLeague.Domain.Entities.Team", "AwayTeam")
+                        .WithMany("AwayMatches")
+                        .HasForeignKey("AwayTeamId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ProLeague.Domain.Entities.Team", "HomeTeam")
+                        .WithMany("HomeMatches")
+                        .HasForeignKey("HomeTeamId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ProLeague.Domain.Entities.League", "League")
+                        .WithMany("Matches")
+                        .HasForeignKey("LeagueId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AwayTeam");
+
+                    b.Navigation("HomeTeam");
+
+                    b.Navigation("League");
+                });
+
+            modelBuilder.Entity("ProLeague.Domain.Entities.NewsComment", b =>
+                {
+                    b.HasOne("ProLeague.Domain.Entities.News", "News")
                         .WithMany("Comments")
                         .HasForeignKey("NewsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -539,63 +653,7 @@ namespace ProLeague.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("NewsImage", b =>
-                {
-                    b.HasOne("News", "News")
-                        .WithMany("Images")
-                        .HasForeignKey("NewsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("News");
-                });
-
-            modelBuilder.Entity("NewsLeague", b =>
-                {
-                    b.HasOne("ProLeague.Domain.Entities.League", null)
-                        .WithMany()
-                        .HasForeignKey("LeagueId")
-                        .IsRequired()
-                        .HasConstraintName("FK_NewsLeague_League_LeagueId");
-
-                    b.HasOne("News", null)
-                        .WithMany()
-                        .HasForeignKey("NewsId")
-                        .IsRequired()
-                        .HasConstraintName("FK_NewsLeague_News_NewsId");
-                });
-
-            modelBuilder.Entity("NewsPlayer", b =>
-                {
-                    b.HasOne("News", null)
-                        .WithMany()
-                        .HasForeignKey("NewsId")
-                        .IsRequired()
-                        .HasConstraintName("FK_NewsPlayer_News_NewsId");
-
-                    b.HasOne("Player", null)
-                        .WithMany()
-                        .HasForeignKey("PlayerId")
-                        .IsRequired()
-                        .HasConstraintName("FK_NewsPlayer_Player_PlayerId");
-                });
-
-            modelBuilder.Entity("NewsTeam", b =>
-                {
-                    b.HasOne("News", null)
-                        .WithMany()
-                        .HasForeignKey("NewsId")
-                        .IsRequired()
-                        .HasConstraintName("FK_NewsTeam_News_NewsId");
-
-                    b.HasOne("ProLeague.Domain.Entities.Team", null)
-                        .WithMany()
-                        .HasForeignKey("TeamId")
-                        .IsRequired()
-                        .HasConstraintName("FK_NewsTeam_Team_TeamId");
-                });
-
-            modelBuilder.Entity("Player", b =>
+            modelBuilder.Entity("ProLeague.Domain.Entities.Player", b =>
                 {
                     b.HasOne("ProLeague.Domain.Entities.Team", "Team")
                         .WithMany("Players")
@@ -604,16 +662,6 @@ namespace ProLeague.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Team");
-                });
-
-            modelBuilder.Entity("ProLeague.Domain.Entities.ApplicationUser", b =>
-                {
-                    b.HasOne("ProLeague.Domain.Entities.Team", "FavoriteTeam")
-                        .WithMany()
-                        .HasForeignKey("FavoriteTeamId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.Navigation("FavoriteTeam");
                 });
 
             modelBuilder.Entity("ProLeague.Domain.Entities.Team", b =>
@@ -627,20 +675,26 @@ namespace ProLeague.Infrastructure.Migrations
                     b.Navigation("League");
                 });
 
-            modelBuilder.Entity("News", b =>
+            modelBuilder.Entity("ProLeague.Domain.Entities.League", b =>
+                {
+                    b.Navigation("Matches");
+
+                    b.Navigation("Teams");
+                });
+
+            modelBuilder.Entity("ProLeague.Domain.Entities.News", b =>
                 {
                     b.Navigation("Comments");
 
                     b.Navigation("Images");
                 });
 
-            modelBuilder.Entity("ProLeague.Domain.Entities.League", b =>
-                {
-                    b.Navigation("Teams");
-                });
-
             modelBuilder.Entity("ProLeague.Domain.Entities.Team", b =>
                 {
+                    b.Navigation("AwayMatches");
+
+                    b.Navigation("HomeMatches");
+
                     b.Navigation("Players");
                 });
 #pragma warning restore 612, 618

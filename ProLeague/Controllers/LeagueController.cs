@@ -1,45 +1,23 @@
-﻿// FootballNews.Web/Controllers/LeagueController.cs
-using ProLeague.Infrastructure.Data;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using ProLeague.Application.Interfaces;
 
-namespace ProLeague.Controllers
+public class LeagueController : Controller
 {
-    public class LeagueController : Controller
+    private readonly ILeagueService _leagueService;
+
+    public LeagueController(ILeagueService leagueService)
     {
-        private readonly ApplicationDbContext _context;
+        _leagueService = leagueService;
+    }
 
-        public LeagueController(ApplicationDbContext context)
+    public async Task<IActionResult> Details(int id)
+    {
+        // از متد جدید استفاده می‌کنیم
+        var league = await _leagueService.GetLeagueDetailsAsync(id);
+        if (league == null)
         {
-            _context = context;
+            return NotFound();
         }
-
-        // GET: League/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var league = await _context.Leagues
-                .Include(l => l.Teams)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (league == null)
-            {
-                return NotFound();
-            }
-
-            // Sort teams based on points, goal difference, goals for
-            var sortedTeams = league.Teams
-                .OrderByDescending(t => t.Points)
-                .ThenByDescending(t => t.GoalDifference)
-                .ThenByDescending(t => t.GoalsFor)
-                .ToList();
-
-            ViewBag.SortedTeams = sortedTeams; // Pass sorted list to view
-
-            return View(league);
-        }
+        return View(league);
     }
 }

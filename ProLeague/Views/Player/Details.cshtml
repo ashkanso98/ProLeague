@@ -1,18 +1,59 @@
-﻿<!-- FootballNews.Web/Views/Player/Details.cshtml -->
-@model ProLeague.Domain.Entities.Player
+﻿@model ProLeague.Domain.Entities.Player
 
 @{
     ViewData["Title"] = Model.Name;
 }
 
-<div class="container mt-4">
-    <h1>@Model.Name</h1>
-    <p><strong>Team:</strong> <a asp-controller="Team" asp-action="Details" asp-route-id="@Model.TeamId">@Model.Team.Name</a></p>
-    <p><strong>Position:</strong> @Model.Position</p>
-    <p><strong>Goals:</strong> @Model.Goals</p>
-    <p><strong>Assists:</strong> @Model.Assists</p>
-    @if (!string.IsNullOrEmpty(Model.ImagePath))
-    {
-        <img src="@Model.ImagePath" class="img-fluid mb-3" alt="@Model.Name Photo" style="max-height: 200px;">
+<style>
+    .player-profile-card {
+        margin-top: 20px;
     }
+
+    .player-profile-img {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        border: 5px solid #fff;
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
+</style>
+
+<div class="container player-profile-card">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4 text-center">
+                    <img src="@(Model.ImagePath ?? "/images/default-player.png")" class="img-fluid rounded-circle player-profile-img" alt="@Model.Name">
+                </div>
+                <div class="col-md-8">
+                    <h1 class="display-4">@Model.Name</h1>
+                    <hr>
+                    <dl class="row">
+                        <dt class="col-sm-3">تیم فعلی</dt>
+                        <dd class="col-sm-9">
+                            <a asp-controller="Team" asp-action="Details" asp-route-id="@Model.TeamId">
+                                <img src="@(Model.Team.ImagePath ?? "/images/default-logo.png")" style="width: 24px;" class="me-2" />
+                                @Model.Team.Name
+                            </a>
+                        </dd>
+
+                        <dt class="col-sm-3">پست</dt>
+                        <dd class="col-sm-9">
+                            <span class="badge bg-secondary fs-6">@Model.Position</span>
+                        </dd>
+
+                        <dt class="col-sm-3">تعداد گل</dt>
+                        <dd class="col-sm-9">
+                            <span class="badge bg-success fs-6">@Model.Goals</span>
+                        </dd>
+
+                        <dt class="col-sm-3">پاس گل</dt>
+                        <dd class="col-sm-9">
+                            <span class="badge bg-info fs-6">@Model.Assists</span>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

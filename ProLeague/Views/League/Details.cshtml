@@ -1,55 +1,52 @@
-﻿<!-- FootballNews.Web/Views/League/Details.cshtml -->
-@using Microsoft.AspNetCore.Mvc.TagHelpers
-@using ProLeague.Domain.Entities
-@model ProLeague.Domain.Entities.League
+﻿@model ProLeague.Domain.Entities.League
 
 @{
-    ViewData["Title"] = Model.Name;
+    ViewData["Title"] = $"جزئیات لیگ: {Model.Name}";
+    var matchesByWeek = Model.Matches.GroupBy(m => m.MatchWeek).OrderBy(g => g.Key);
 }
 
-<div class="container mt-4">
-    <h1>@Model.Name</h1>
-    @if (!string.IsNullOrEmpty(Model.ImagePath))
-    {
-        <img src="@Model.ImagePath" class="img-fluid mb-3" alt="@Model.Name Logo" style="max-height: 100px;">
-    }
+<header class="d-flex align-items-center pb-3 mb-4 border-bottom">
+    <img src="@Model.ImagePath" alt="@Model.Name" style="width: 60px; height: 60px;" class="me-3" />
+    <h1 class="h2">@Model.Name - @Model.Country</h1>
+</header>
 
-    <h2>Standings</h2>
-    <table class="table table-striped table-bordered">
-        <thead class="table-dark">
-        <tr>
-            <th>Pos</th>
-            <th>Team</th>
-            <th>P</th>
-            <th>W</th>
-            <th>D</th>
-            <th>L</th>
-            <th>GF</th>
-            <th>GA</th>
-            <th>GD</th>
-            <th>Pts</th>
-        </tr>
-        </thead>
-        <tbody>
-        @{
-            int position = 1;
-        }
-        @foreach (var team in ViewBag.SortedTeams as List<Team>)
-        {
-            <tr>
-                <td>@position</td>
-                <td><a asp-controller="Team" asp-action="Details" asp-route-id="@team.Id">@team.Name</a></td>
-                <td>@team.Played</td>
-                <td>@team.Wins</td>
-                <td>@team.Draws</td>
-                <td>@team.Losses</td>
-                <td>@team.GoalsFor</td>
-                <td>@team.GoalsAgainst</td>
-                <td>@team.GoalDifference</td>
-                <td>@team.Points</td>
-            </tr>
-            position++;
-        }
-        </tbody>
-    </table>
+<div class="container">
+    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="pills-table-tab" data-bs-toggle="pill" data-bs-target="#pills-table" type="button">جدول لیگ</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-fixtures-tab" data-bs-toggle="pill" data-bs-target="#pills-fixtures" type="button">نتایج و مسابقات</button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="pills-table" role="tabpanel">
+            <h3 class="mb-3">جدول کامل</h3>
+            <partial name="_LeagueTablePartial" model="Model.Teams" />
+        </div>
+        <div class="tab-pane fade" id="pills-fixtures" role="tabpanel">
+            <h3 class="mb-3">نتایج بر اساس هفته</h3>
+            @foreach (var weekGroup in matchesByWeek)
+            {
+                <div class="card mb-3">
+                    <div class="card-header">
+                        هفته @weekGroup.Key
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        @foreach (var match in weekGroup.OrderBy(m => m.MatchDate))
+                        {
+                            <li class="list-group-item d-flex justify-content-center align-items-center text-center">
+                                <span class="team-name col">@match.HomeTeam.Name</span>
+                                <img src="@match.HomeTeam.ImagePath" class="league-table-logo mx-2" />
+                                <span class="badge bg-dark fs-6">@match.HomeTeamGoals - @match.AwayTeamGoals</span>
+                                <img src="@match.AwayTeam.ImagePath" class="league-table-logo mx-2" />
+                                <span class="team-name col">@match.AwayTeam.Name</span>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+        </div>
+    </div>
 </div>

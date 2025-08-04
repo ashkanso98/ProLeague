@@ -1,36 +1,30 @@
-﻿// FootballNews.Web/Controllers/PlayerController.cs
-using ProLeague.Infrastructure.Data;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using ProLeague.Application.Interfaces;
+using System.Threading.Tasks;
 
 namespace ProLeague.Controllers
 {
     public class PlayerController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IPlayerService _playerService;
 
-        public PlayerController(ApplicationDbContext context)
+        public PlayerController(IPlayerService playerService)
         {
-            _context = context;
+            _playerService = playerService;
         }
 
         // GET: Player/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            // از سرویس برای دریافت بازیکن به همراه اطلاعات تیمش استفاده می‌کنیم
+            var player = await _playerService.GetPlayerWithTeamDetailsAsync(id);
 
-            var player = await _context.Players
-                .Include(p => p.Team) // Include team info
-                .FirstOrDefaultAsync(m => m.Id == id);
             if (player == null)
             {
-                return NotFound();
+                return NotFound(); // اگر بازیکن پیدا نشد، خطای ۴۰۴ برمی‌گرداند
             }
 
-            return View(player);
+            return View(player); // بازیکن معتبر به ویو ارسال می‌شود
         }
     }
 }

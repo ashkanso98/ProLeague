@@ -15,6 +15,7 @@
           "Microsoft.EntityFrameworkCore.Sqlite": "8.0.11",
           "Microsoft.EntityFrameworkCore.Tools": "8.0.11",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "8.0.7",
+          "ProLeague.Application": "1.0.0",
           "ProLeague.Domain": "1.0.0",
           "ProLeague.Infrastructure": "1.0.0"
         },
@@ -2180,6 +2181,17 @@
           }
         }
       },
+      "ProLeague.Application/1.0.0": {
+        "dependencies": {
+          "ProLeague.Domain": "1.0.0"
+        },
+        "runtime": {
+          "ProLeague.Application.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
       "ProLeague.Domain/1.0.0": {
         "dependencies": {
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "8.0.11"
@@ -2197,6 +2209,7 @@
           "Microsoft.EntityFrameworkCore": "8.0.11",
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.11",
           "Microsoft.Extensions.FileProviders.Physical": "8.0.0",
+          "ProLeague.Application": "1.0.0",
           "ProLeague.Domain": "1.0.0"
         },
         "runtime": {
@@ -3445,6 +3458,11 @@
       "sha512": "sha512-bR4qdCmssMMbo9Fatci49An5B1UaVJZHKNq70PRgzoLYIlitb8Tj7ns/Xt5Pz1CkERiTjcVBDU2y1AVrPBYkaw==",
       "path": "system.windows.extensions/7.0.0",
       "hashPath": "system.windows.extensions.7.0.0.nupkg.sha512"
+    },
+    "ProLeague.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     },
     "ProLeague.Domain/1.0.0": {
       "type": "project",

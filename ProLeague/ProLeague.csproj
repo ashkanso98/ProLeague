@@ -21,6 +21,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\ProLeague.Application\ProLeague.Application.csproj" />
 		<ProjectReference Include="..\ProLeague.Infrastructure\ProLeague.Infrastructure.csproj" />
 		<ProjectReference Include="..\ProLeague.Domain\ProLeague.Domain.csproj" />
 	</ItemGroup>

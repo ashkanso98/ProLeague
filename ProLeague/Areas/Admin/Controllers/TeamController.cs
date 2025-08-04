@@ -122,16 +122,16 @@ namespace ProLeague.Areas.Admin.Controllers
                     teamToUpdate.ImagePath = await UploadFile(model.NewLogoFile);
                 }
 
-                // به‌روزرسانی سایر اطلاعات
-                teamToUpdate.Name = model.Name;
-                teamToUpdate.Stadium = model.Stadium;
-                teamToUpdate.LeagueId = model.LeagueId;
-                teamToUpdate.Played = model.Played;
-                teamToUpdate.Wins = model.Wins;
-                teamToUpdate.Draws = model.Draws;
-                teamToUpdate.Losses = model.Losses;
-                teamToUpdate.GoalsFor = model.GoalsFor;
-                teamToUpdate.GoalsAgainst = model.GoalsAgainst;
+                //// به‌روزرسانی سایر اطلاعات
+                //teamToUpdate.Name = model.Name;
+                //teamToUpdate.Stadium = model.Stadium;
+                //teamToUpdate.LeagueId = model.LeagueId;
+                //teamToUpdate.Played = model.Played;
+                //teamToUpdate.Wins = model.Wins;
+                //teamToUpdate.Draws = model.Draws;
+                //teamToUpdate.Losses = model.Losses;
+                //teamToUpdate.GoalsFor = model.GoalsFor;
+                //teamToUpdate.GoalsAgainst = model.GoalsAgainst;
 
                 try
                 {

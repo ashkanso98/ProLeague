@@ -1,41 +1,74 @@
-﻿<!-- FootballNews.Web/Views/Team/Details.cshtml -->
-@using Microsoft.AspNetCore.Mvc.TagHelpers
-@model ProLeague.Domain.Entities.Team
+﻿@model ProLeague.Domain.Entities.Team
 
 @{
-    ViewData["Title"] = Model.Name;
+    ViewData["Title"] = $"پروفایل تیم: {Model.Name}";
 }
-
-<div class="container mt-4">
-    <h1>@Model.Name</h1>
-    <p><strong>League:</strong> <a asp-controller="League" asp-action="Details" asp-route-id="@Model.LeagueId">@Model.League.Name</a></p>
-    @if (!string.IsNullOrEmpty(Model.ImagePath))
-    {
-        <img src="@Model.ImagePath" class="img-fluid mb-3" alt="@Model.Name Logo" style="max-height: 150px;">
+<style>
+    .card-link {
+        text-decoration: none;
+        color: inherit;
     }
-    <p><strong>Stadium:</strong> @Model.Stadium</p>
-    <p><strong>Fans:</strong> @Model.FanCount</p>
 
-    <h2>Players</h2>
-    <table class="table table-striped table-bordered">
-        <thead class="table-dark">
-        <tr>
-            <th>Name</th>
-            <th>Position</th>
-            <th>Goals</th>
-            <th>Assists</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var player in Model.Players)
-        {
-            <tr>
-                <td><a asp-controller="Player" asp-action="Details" asp-route-id="@player.Id">@player.Name</a></td>
-                <td>@player.Position</td>
-                <td>@player.Goals</td>
-                <td>@player.Assists</td>
-            </tr>
+    .player-card {
+        transition: transform .2s ease-in-out, box-shadow .2s ease-in-out;
+    }
+
+        .player-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;
         }
-        </tbody>
-    </table>
+</style>
+<div class="card shadow-sm mb-4">
+    <div class="card-body p-4">
+        <div class="row align-items-center">
+            <div class="col-md-2 text-center">
+                <img src="@(Model.ImagePath ?? "/images/default-logo.png")" alt="@Model.Name" class="img-fluid" style="max-height: 120px;" />
+            </div>
+            <div class="col-md-10">
+                <h1 class="display-5">@Model.Name</h1>
+                <p class="lead text-muted">@Model.League.Name | ورزشگاه: @(Model.Stadium ?? "-")</p>
+                <div class="d-flex flex-wrap gap-3">
+                    <span class="badge bg-primary fs-6">بازی: @Model.Played</span>
+                    <span class="badge bg-success fs-6">برد: @Model.Wins</span>
+                    <span class="badge bg-warning fs-6">مساوی: @Model.Draws</span>
+                    <span class="badge bg-danger fs-6">باخت: @Model.Losses</span>
+                    <span class="badge bg-info fs-6">امتیاز: @Model.Points</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ul class="nav nav-tabs" id="teamTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="players-tab" data-bs-toggle="tab" data-bs-target="#players" type="button">بازیکنان</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="matches-tab" data-bs-toggle="tab" data-bs-target="#matches" type="button">مسابقات</button>
+    </li>
+</ul>
+<div class="tab-content border border-top-0 p-3" id="teamTabContent">
+    <div class="tab-pane fade show active" id="players" role="tabpanel">
+        <h4 class="mb-3">لیست بازیکنان</h4>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+            @foreach (var player in Model.Players)
+            {
+                <div class="col">
+                    <a asp-controller="Player" asp-action="Details" asp-route-id="@player.Id" class="card-link">
+                        <div class="card text-center h-100 player-card">
+                            <img src="@(player.ImagePath ?? "/images/default-player.png")" class="card-img-top rounded-circle p-3 mx-auto" style="width:120px; height:120px; object-fit:cover;" alt="@player.Name">
+                            <div class="card-body">
+                                <h5 class="card-title">@player.Name</h5>
+                                <p class="card-text text-muted">@player.Position</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="tab-pane fade" id="matches" role="tabpanel">
+        <h4 class="mb-3">نتایج و بازی‌های پیش‌رو</h4>
+        <p class="text-muted">لیست کامل مسابقات این تیم در اینجا نمایش داده خواهد شد.</p>
+    </div>
 </div>

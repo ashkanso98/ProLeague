@@ -1,36 +1,26 @@
-﻿// FootballNews.Web/Controllers/TeamController.cs
-using ProLeague.Infrastructure.Data;
+﻿// ProLeague/Controllers/TeamController.cs
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using ProLeague.Application.Interfaces;
 
 namespace ProLeague.Controllers
 {
     public class TeamController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ITeamService _teamService;
 
-        public TeamController(ApplicationDbContext context)
+        public TeamController(ITeamService teamService)
         {
-            _context = context;
+            _teamService = teamService;
         }
 
         // GET: Team/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var team = await _context.Teams
-                .Include(t => t.Players)
-                .Include(t => t.League) // Include league info
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var team = await _teamService.GetTeamDetailsAsync(id);
             if (team == null)
             {
                 return NotFound();
             }
-
             return View(team);
         }
     }
