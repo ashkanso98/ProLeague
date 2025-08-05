@@ -24,5 +24,15 @@ namespace ProLeague.Infrastructure.Repositories
                 .OrderByDescending(c => c.CreatedDate)
                 .ToListAsync();
         }
+        public async Task<IEnumerable<NewsComment>> GetRecentCommentsAsync(int count)
+        {
+            return await _context.NewsComments
+                .Include(c => c.User)
+                .Include(c => c.News)
+                .OrderByDescending(c => c.CreatedDate)
+                .Take(count)
+                .ToListAsync();
+        }
+
     }
 }

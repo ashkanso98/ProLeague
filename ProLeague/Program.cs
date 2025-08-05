@@ -39,7 +39,9 @@ builder.Services.AddScoped<INewsService, NewsService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IMatchService, MatchService>();
 builder.Services.AddScoped<IHomeService, HomeService>(); 
-builder.Services.AddScoped<IUserService, UserService>(); 
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAdminDashboardService, AdminDashboardService>(); // Add this line
+
 // سرویس‌های وب
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages(); // برای صفحات Identity

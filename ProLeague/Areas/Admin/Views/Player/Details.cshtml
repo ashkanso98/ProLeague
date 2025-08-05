@@ -1,46 +1,41 @@
 ﻿@model ProLeague.Domain.Entities.Player
 
 @{
-    ViewData["Title"] = "پروفایل بازیکن: " + Model.Name;
+    ViewData["Title"] = "جزئیات بازیکن: " + Model.Name;
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h1 class="h3">@ViewData["Title"]</h1>
     <div>
-        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">ویرایش</a>
-        <a asp-action="Index" class="btn btn-secondary">بازگشت به لیست</a>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary"><i class="fas fa-edit me-2"></i> ویرایش</a>
+        <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-arrow-right me-2"></i> بازگشت به لیست</a>
     </div>
 </div>
 
 <div class="card shadow-sm">
     <div class="card-body">
-        <div class="row">
-            <div class="col-md-4 col-lg-3 text-center">
-                <img src="@(Model.ImagePath ?? "/images/default-player.png")" class="img-fluid rounded-circle mb-3"
-                     alt="عکس @Model.Name" style="width: 180px; height: 180px; object-fit: cover; border: 4px solid #eee;">
+        <div class="row align-items-center">
+            <div class="col-md-3 text-center">
+                <img src="@(Model.ImagePath ?? "/images/default-player.png")" class="img-fluid rounded-circle p-2 border"
+                     alt="@Model.Name" style="width: 180px; height: 180px; object-fit: cover;">
             </div>
-            <div class="col-md-8 col-lg-9">
-                <h2>@Model.Name</h2>
-                <p class="lead text-muted">@Model.Position</p>
-                <hr>
+            <div class="col-md-9">
                 <dl class="row">
-                    <dt class="col-sm-3">تیم فعلی</dt>
-                    <dd class="col-sm-9">
-                        <a asp-controller="Team" asp-action="Details" asp-route-id="@Model.TeamId">
-                            @Model.Team.Name
-                        </a>
-                    </dd>
+                    <dt class="col-sm-3">نام کامل</dt>
+                    <dd class="col-sm-9">@Model.Name</dd>
+
+                    <dt class="col-sm-3">پست</dt>
+                    <dd class="col-sm-9">@Model.Position</dd>
+
+                    <dt class="col-sm-3">تیم</dt>
+                    <dd class="col-sm-9">@(Model.Team?.Name ?? "-")</dd>
 
                     <dt class="col-sm-3">تعداد گل</dt>
-                    <dd class="col-sm-9">
-                        <span class="badge bg-success fs-6">@Model.Goals</span>
-                    </dd>
+                    <dd class="col-sm-9"><span class="badge bg-success">@Model.Goals</span></dd>
 
                     <dt class="col-sm-3">پاس گل</dt>
-                    <dd class="col-sm-9">
-                        <span class="badge bg-info fs-6">@Model.Assists</span>
-                    </dd>
+                    <dd class="col-sm-9"><span class="badge bg-info">@Model.Assists</span></dd>
                 </dl>
             </div>
         </div>

@@ -1,18 +1,19 @@
-﻿@model ProLeague.Areas.Admin.Models.EditNewsViewModel
+﻿@model ProLeague.Application.ViewModels.News.EditNewsViewModel
 
 @{
     ViewData["Title"] = "ویرایش خبر";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1 class="h3 mb-3">@ViewData["Title"]</h1>
+<h1 class="h3 mb-3">@ViewData["Title"]: <span class="text-primary">@Model.Title</span></h1>
 
 <form asp-action="Edit" enctype="multipart/form-data">
+    <div asp-validation-summary="All" class="text-danger mb-3"></div>
     <input type="hidden" asp-for="Id" />
     <div class="row">
         <div class="col-lg-8">
             <div class="card shadow-sm mb-3">
-                <div class="card-header">محتوای خبر</div>
+                <div class="card-header"><h5 class="mb-0">محتوای خبر</h5></div>
                 <div class="card-body">
                     <div class="mb-3">
                         <label asp-for="Title" class="form-label"></label>
@@ -20,14 +21,14 @@
                     </div>
                     <div class="mb-3">
                         <label asp-for="Content" class="form-label"></label>
-                        <textarea asp-for="Content" class="form-control" rows="15"></textarea>
+                        <textarea asp-for="Content" class="form-control" id="contentEditor"></textarea>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-lg-4">
             <div class="card shadow-sm mb-3">
-                <div class="card-header">تنظیمات و تصاویر</div>
+                <div class="card-header"><h5 class="mb-0">تنظیمات و تصاویر</h5></div>
                 <div class="card-body">
                     <div class="form-check form-switch mb-3">
                         <input asp-for="IsFeatured" class="form-check-input" />
@@ -48,9 +49,9 @@
                     <div class="row g-2 mb-2">
                         @foreach (var image in Model.ExistingGalleryImages)
                         {
-                            <div class="col-4" id="gallery-image-@image.Id">
+                            <div class="col-4 position-relative" id="gallery-image-@image.Id">
                                 <img src="@image.ImagePath" class="img-fluid rounded" />
-                                <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1" onclick="deleteImage(@image.Id)">×</button>
+                                <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1" style="line-height: 1; padding: .2rem .4rem;" onclick="deleteImage(@image.Id)">×</button>
                             </div>
                         }
                     </div>
@@ -61,18 +62,18 @@
                 </div>
             </div>
             <div class="card shadow-sm mb-3">
-                <div class="card-header">موجودیت‌های مرتبط</div>
+                <div class="card-header"><h5 class="mb-0">موجودیت‌های مرتبط</h5></div>
                 <div class="card-body">
-                    <div class="mb-3"><label asp-for="RelatedLeagueIds" class="form-label"></label><select asp-for="RelatedLeagueIds" class="form-select" asp-items="ViewBag.Leagues" multiple></select></div>
-                    <div class="mb-3"><label asp-for="RelatedTeamIds" class="form-label"></label><select asp-for="RelatedTeamIds" class="form-select" asp-items="ViewBag.Teams" multiple></select></div>
-                    <div class="mb-3"><label asp-for="RelatedPlayerIds" class="form-label"></label><select asp-for="RelatedPlayerIds" class="form-select" asp-items="ViewBag.Players" multiple></select></div>
+                    <div class="mb-3"><label asp-for="RelatedLeagueIds" class="form-label"></label><select asp-for="RelatedLeagueIds" class="form-select select2" asp-items="ViewBag.Leagues" multiple></select></div>
+                    <div class="mb-3"><label asp-for="RelatedTeamIds" class="form-label"></label><select asp-for="RelatedTeamIds" class="form-select select2" asp-items="ViewBag.Teams" multiple></select></div>
+                    <div class="mb-3"><label asp-for="RelatedPlayerIds" class="form-label"></label><select asp-for="RelatedPlayerIds" class="form-select select2" asp-items="ViewBag.Players" multiple></select></div>
                 </div>
             </div>
         </div>
     </div>
     <div class="form-group mt-3">
-        <input type="submit" value="ذخیره تغییرات" class="btn btn-primary" />
-        <a asp-action="Index" class="btn btn-secondary">انصراف</a>
+        <button type="submit" class="btn btn-primary"><i class="fas fa-save me-2"></i> ذخیره تغییرات</button>
+        <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-times me-2"></i> انصراف</a>
     </div>
 </form>
 
@@ -80,17 +81,24 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     <script>
+        // تابع جاوااسکریپت برای حذف تصویر از گالری
         function deleteImage(imageId) {
             if (!confirm('آیا از حذف این تصویر مطمئن هستید؟')) return;
 
-            fetch('/Admin/News/DeleteGalleryImage', {
+            // استخراج توکن برای امنیت
+            const token = '@Html.AntiForgeryToken()';
+
+            fetch('/Admin/News/DeleteGalleryImage?imageId=' + imageId, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'RequestVerificationToken': '@Html.AntiForgeryToken()'
-                },
-                body: JSON.stringify({ imageId: imageId })
+                    'RequestVerificationToken': token
+                }
             })
             .then(response => response.json())
             .then(data => {
@@ -101,5 +109,22 @@
                 }
             });
         }
+
+        $(document).ready(function() {
+            // راه‌اندازی Select2
+            $('.select2').select2({
+                 placeholder: "یک یا چند مورد را انتخاب کنید",
+                 dir: "rtl"
+            });
+
+            // راه‌اندازی TinyMCE
+            tinymce.init({
+                selector: '#contentEditor',
+                directionality: 'rtl',
+                language: 'fa',
+                plugins: 'lists link image table code help wordcount',
+                toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | code | help'
+            });
+        });
     </script>
 }

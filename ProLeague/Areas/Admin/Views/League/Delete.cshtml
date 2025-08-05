@@ -5,47 +5,34 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="h3">@ViewData["Title"]</h1>
 
-<div class="alert alert-danger">
-    <h3>آیا از حذف این لیگ اطمینان دارید؟</h3>
-    <p>با حذف این لیگ، تمام اطلاعات مربوط به آن برای همیشه از دست خواهد رفت.</p>
+<div class="alert alert-danger mt-3">
+    <h4>آیا از حذف لیگ "@Model.Name" اطمینان دارید؟</h4>
+    <p>این عملیات قابل بازگشت نیست و تمام تیم‌های مرتبط با این لیگ نیز حذف خواهند شد.</p>
 </div>
 
-<div>
-    <h4>اطلاعات لیگ</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            نام
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class="col-sm-2">
-            کشور
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Country)
-        </dd>
-        <dt class="col-sm-2">
-            لوگو
-        </dt>
-        <dd class="col-sm-10">
-            @if (!string.IsNullOrEmpty(Model.ImagePath))
-            {
-                <img src="@Model.ImagePath" alt="لوگوی @Model.Name" style="max-width: 150px;" class="img-thumbnail" />
-            }
-            else
-            {
-                <span class="text-muted">بدون لوگو</span>
-            }
-        </dd>
-    </dl>
-
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="بله، حذف کن" class="btn btn-danger" />
-        <a asp-action="Index" class="btn btn-secondary">انصراف</a>
-    </form>
+<div class="card shadow-sm">
+    <div class="card-body">
+        <dl class="row align-items-center">
+            <dt class="col-sm-3">لوگو</dt>
+            <dd class="col-sm-9">
+                <img src="@(Model.ImagePath ?? "/images/default-logo.png")" alt="لوگو" style="width: 75px;">
+            </dd>
+            <dt class="col-sm-3">نام لیگ</dt>
+            <dd class="col-sm-9">@Model.Name</dd>
+            <dt class="col-sm-3">کشور</dt>
+            <dd class="col-sm-9">@Model.Country</dd>
+        </dl>
+        
+        <form asp-action="Delete" class="mt-3">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn btn-danger">
+                <i class="fas fa-trash-alt me-2"></i> بله، حذف کن
+            </button>
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="fas fa-times me-2"></i> انصراف
+            </a>
+        </form>
+    </div>
 </div>

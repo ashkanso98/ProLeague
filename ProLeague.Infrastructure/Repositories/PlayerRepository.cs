@@ -17,5 +17,12 @@ namespace ProLeague.Infrastructure.Repositories
                 .AsNoTracking()
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
+        public async Task<IEnumerable<Player>> GetAllPlayersWithTeamAsync()
+        {
+            return await _context.Players
+                .Include(p => p.Team)
+                .OrderBy(p => p.Name)
+                .ToListAsync();
+        }
     }
 }

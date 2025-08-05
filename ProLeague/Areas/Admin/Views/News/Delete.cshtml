@@ -23,7 +23,7 @@
                 }
                 else
                 {
-                    <span>بدون تصویر</span>
+                    <span class="text-muted">بدون تصویر</span>
                 }
             </dd>
 
@@ -36,8 +36,8 @@
 
         <form asp-action="Delete" class="mt-3">
             <input type="hidden" asp-for="Id" />
-            <button type="submit" class="btn btn-danger">بله، حذف کن</button>
-            <a asp-action="Index" class="btn btn-secondary">انصراف</a>
+            <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt me-2"></i> بله، حذف کن</button>
+            <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-times me-2"></i> انصراف</a>
         </form>
     </div>
 </div>

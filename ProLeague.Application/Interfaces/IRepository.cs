@@ -1,5 +1,4 @@
-﻿// ProLeague.Application/Interfaces/IRepository.cs
-namespace ProLeague.Application.Interfaces
+﻿namespace ProLeague.Application.Interfaces
 {
     public interface IRepository<T> where T : class
     {
@@ -8,5 +7,6 @@ namespace ProLeague.Application.Interfaces
         Task AddAsync(T entity);
         void Update(T entity);
         void Delete(T entity);
+        Task<int> CountAsync(); // This is the new line
     }
 }

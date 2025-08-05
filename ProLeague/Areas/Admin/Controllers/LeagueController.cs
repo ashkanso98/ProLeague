@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ProLeague.Domain.Entities;
-using ProLeague.Infrastructure.Data;
-using ProLeague.Areas.Admin.Models; // برای ViewModel ها
-using Microsoft.AspNetCore.Http; // برای IFormFile
-using System.IO; // برای کار با فایل سیستم
+using ProLeague.Application.Interfaces;
+using ProLeague.Application.ViewModels.League;
 
 namespace ProLeague.Areas.Admin.Controllers
 {
@@ -13,21 +9,35 @@ namespace ProLeague.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class LeagueController : Controller
     {
-        private readonly ApplicationDbContext _context;
-        private readonly IWebHostEnvironment _environment; // برای دسترسی به مسیر wwwroot
+        private readonly ILeagueService _leagueService;
 
-        public LeagueController(ApplicationDbContext context, IWebHostEnvironment environment)
+        public LeagueController(ILeagueService leagueService)
         {
-            _context = context;
-            _environment = environment;
+            _leagueService = leagueService;
         }
 
-        // ... سایر متدها ...
+        // GET: Admin/League
+        public async Task<IActionResult> Index()
+        {
+            var leagues = await _leagueService.GetAllLeaguesAsync();
+            return View(leagues);
+        }
+
+        // GET: Admin/League/Details/5
+        public async Task<IActionResult> Details(int id)
+        {
+            var league = await _leagueService.GetLeagueByIdAsync(id);
+            if (league == null)
+            {
+                return NotFound();
+            }
+            return View(league);
+        }
 
         // GET: Admin/League/Create
         public IActionResult Create()
         {
-            return View();
+            return View(new CreateLeagueViewModel());
         }
 
         // POST: Admin/League/Create
@@ -35,70 +45,35 @@ namespace ProLeague.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateLeagueViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                string? logoPath = null;
-                if (model.LogoFile != null && model.LogoFile.Length > 0)
-                {
-                    // 1. تعیین مسیر ذخیره‌سازی
-                    string uploadsFolder = Path.Combine(_environment.WebRootPath, "images", "league");
-                    // 2. اطمینان از وجود پوشه
-                    if (!Directory.Exists(uploadsFolder))
-                    {
-                        Directory.CreateDirectory(uploadsFolder);
-                    }
-                    // 3. ایجاد نام فایل منحصر به فرد
-                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + model.LogoFile.FileName;
-                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                return View(model);
+            }
 
-                    // 4. ذخیره فایل در سرور
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await model.LogoFile.CopyToAsync(fileStream);
-                    }
+            var result = await _leagueService.CreateLeagueAsync(model);
 
-                    // 5. ذخیره مسیر نسبی در دیتابیس
-                    logoPath = $"/images/league/{uniqueFileName}";
-                }
-
-                var league = new League
-                {
-                    Name = model.Name,
-                    Country = model.Country,
-                    ImagePath = logoPath // مسیر نسبی
-                };
-
-                _context.Add(league);
-                await _context.SaveChangesAsync();
+            if (result.Succeeded)
+            {
                 TempData["SuccessMessage"] = "لیگ با موفقیت ایجاد شد.";
-                //return RedirectToAction(nameof(Index));
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
+            }
+
+            // If there were errors from the service, add them to the model state
+            foreach (var error in result.Errors ?? Enumerable.Empty<string>())
+            {
+                ModelState.AddModelError(string.Empty, error);
             }
             return View(model);
         }
 
         // GET: Admin/League/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
+            var model = await _leagueService.GetLeagueForEditAsync(id);
+            if (model == null)
             {
                 return NotFound();
             }
-
-            var league = await _context.Leagues.FindAsync(id);
-            if (league == null)
-            {
-                return NotFound();
-            }
-
-            var model = new EditLeagueViewModel
-            {
-                Id = league.Id,
-                Name = league.Name,
-                Country = league.Country,
-                ExistingLogoPath = league.ImagePath
-            };
-
             return View(model);
         }
 
@@ -109,115 +84,37 @@ namespace ProLeague.Areas.Admin.Controllers
         {
             if (id != model.Id)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    var league = await _context.Leagues.FindAsync(id);
-                    if (league == null)
-                    {
-                        return NotFound();
-                    }
+                return View(model);
+            }
 
-                    league.Name = model.Name;
-                    league.Country = model.Country;
+            var result = await _leagueService.UpdateLeagueAsync(model);
 
-                    // بررسی آپلود فایل جدید
-                    if (model.NewLogoFile != null && model.NewLogoFile.Length > 0)
-                    {
-                        // 1. حذف فایل قدیمی (اختیاری)
-                        if (!string.IsNullOrEmpty(league.ImagePath))
-                        {
-                            string oldFilePath = Path.Combine(_environment.WebRootPath, league.ImagePath.TrimStart('/'));
-                            if (System.IO.File.Exists(oldFilePath))
-                            {
-                                System.IO.File.Delete(oldFilePath);
-                            }
-                        }
-
-                        // 2. ذخیره فایل جدید
-                        string uploadsFolder = Path.Combine(_environment.WebRootPath, "images", "league");
-                        if (!Directory.Exists(uploadsFolder))
-                        {
-                            Directory.CreateDirectory(uploadsFolder);
-                        }
-                        string uniqueFileName = Guid.NewGuid().ToString() + "_" + model.NewLogoFile.FileName;
-                        string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                        using (var fileStream = new FileStream(filePath, FileMode.Create))
-                        {
-                            await model.NewLogoFile.CopyToAsync(fileStream);
-                        }
-
-                        league.ImagePath = $"/images/league/{uniqueFileName}";
-                    }
-
-                    _context.Update(league);
-                    await _context.SaveChangesAsync();
-                    TempData["SuccessMessage"] = "لیگ با موفقیت به‌روزرسانی شد.";
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!LeagueExists(model.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+            if (result.Succeeded)
+            {
+                TempData["SuccessMessage"] = "لیگ با موفقیت به‌روزرسانی شد.";
                 return RedirectToAction(nameof(Index));
+            }
+
+            foreach (var error in result.Errors ?? Enumerable.Empty<string>())
+            {
+                ModelState.AddModelError(string.Empty, error);
             }
             return View(model);
         }
-        // GET: Admin/League
-        public async Task<IActionResult> Index()
-        {
-            // تمام لیگ‌ها را از دیتابیس دریافت کرده و به ویو ارسال می‌کند
-            var leagues = await _context.Leagues.ToListAsync();
-            return View(leagues);
-        }
-
-        // GET: Admin/League/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            // لیگ مورد نظر را بر اساس شناسه پیدا می‌کند
-            var league = await _context.Leagues
-                .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (league == null)
-            {
-                return NotFound();
-            }
-
-            return View(league);
-        }
 
         // GET: Admin/League/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            // لیگ مورد نظر را برای نمایش در صفحه تایید حذف، پیدا می‌کند
-            var league = await _context.Leagues
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var league = await _leagueService.GetLeagueByIdAsync(id);
             if (league == null)
             {
                 return NotFound();
             }
-
             return View(league);
         }
 
@@ -226,34 +123,18 @@ namespace ProLeague.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var league = await _context.Leagues.FindAsync(id);
-            if (league == null)
+            var result = await _leagueService.DeleteLeagueAsync(id);
+            if (result.Succeeded)
             {
-                // اگر لیگ قبلا حذف شده باشد، کاربر را به صفحه اصلی باز می‌گرداند
-                return RedirectToAction(nameof(Index));
+                TempData["SuccessMessage"] = "لیگ با موفقیت حذف شد.";
+            }
+            else
+            {
+                // Optionally, show an error if deletion fails
+                TempData["ErrorMessage"] = result.Errors?.FirstOrDefault() ?? "خطا در حذف لیگ.";
             }
 
-            // 1. حذف فایل لوگوی قدیمی از سرور
-            if (!string.IsNullOrEmpty(league.ImagePath))
-            {
-                // مسیر کامل فایل فیزیکی را می‌سازد
-                string oldFilePath = Path.Combine(_environment.WebRootPath, league.ImagePath.TrimStart('/'));
-                if (System.IO.File.Exists(oldFilePath))
-                {
-                    System.IO.File.Delete(oldFilePath);
-                }
-            }
-
-            // 2. حذف رکورد از دیتابیس
-            _context.Leagues.Remove(league);
-            await _context.SaveChangesAsync();
-
-            TempData["SuccessMessage"] = "لیگ با موفقیت حذف شد.";
             return RedirectToAction(nameof(Index));
-        }
-        private bool LeagueExists(int id)
-        {
-            return _context.Leagues.Any(e => e.Id == id);
         }
     }
 }

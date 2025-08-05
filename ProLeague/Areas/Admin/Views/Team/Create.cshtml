@@ -1,4 +1,4 @@
-﻿@model ProLeague.Areas.Admin.Models.CreateTeamViewModel
+﻿@model ProLeague.Application.ViewModels.Team.CreateTeamViewModel
 
 @{
     ViewData["Title"] = "ایجاد تیم جدید";
@@ -8,10 +8,12 @@
 <h1 class="h3 mb-3">@ViewData["Title"]</h1>
 
 <div class="card shadow-sm">
+    <div class="card-header">
+        <h5 class="mb-0">اطلاعات تیم</h5>
+    </div>
     <div class="card-body">
         <form asp-action="Create" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-
+            <div asp-validation-summary="All" class="text-danger mb-3"></div>
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label asp-for="Name" class="form-label"></label>
@@ -24,7 +26,6 @@
                     <span asp-validation-for="Stadium" class="text-danger"></span>
                 </div>
             </div>
-
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label asp-for="LeagueId" class="form-label"></label>
@@ -39,12 +40,14 @@
                     <span asp-validation-for="LogoFile" class="text-danger"></span>
                 </div>
             </div>
-
             <hr />
-
             <div class="form-group">
-                <input type="submit" value="ایجاد" class="btn btn-success" />
-                <a asp-action="Index" class="btn btn-secondary">انصراف</a>
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-save me-2"></i> ایجاد
+                </button>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fas fa-times me-2"></i> انصراف
+                </a>
             </div>
         </form>
     </div>

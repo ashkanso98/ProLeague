@@ -1,118 +1,87 @@
-﻿// Controllers/UserManagementController.cs
+﻿// ProLeague/Controllers/UserManagementController.cs
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using ProLeague.Domain.Entities;
+using ProLeague.Application.Interfaces;
+using ProLeague.Application.ViewModels.User;
 
 namespace ProLeague.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class UserManagementController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IUserService _userService;
 
-        public UserManagementController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public UserManagementController(IUserService userService)
         {
-            _userManager = userManager;
-            _roleManager = roleManager;
+            _userService = userService;
         }
 
-        // نمایش لیست کاربران
+        // GET: /UserManagement
         public async Task<IActionResult> Index()
         {
-            var users = _userManager.Users.ToList();
-            var userRolesViewModel = new List<UserRolesViewModel>();
-
-            foreach (var user in users)
-            {
-                var roles = await _userManager.GetRolesAsync(user);
-                userRolesViewModel.Add(new UserRolesViewModel
-                {
-                    UserId = user.Id,
-                    UserName = user.UserName,
-                    Email = user.Email,
-                    Roles = roles.ToList()
-                });
-            }
-
-            return View(userRolesViewModel);
+            var usersWithRoles = await _userService.GetAllUsersWithRolesAsync();
+            return View(usersWithRoles);
         }
 
-        // نمایش فرم مدیریت Roles یک کاربر
+        // GET: /UserManagement/ManageRoles/{userId}
         public async Task<IActionResult> ManageRoles(string userId)
         {
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
+            var model = await _userService.GetUserForManagingRolesAsync(userId);
+            if (model == null)
             {
                 return NotFound();
             }
-
-            var userRoles = await _userManager.GetRolesAsync(user);
-            var allRoles = _roleManager.Roles.Select(r => r.Name).ToList();
-
-            var model = new ManageUserRolesViewModel
-            {
-                UserId = userId,
-                UserName = user.UserName,
-                UserRoles = userRoles.ToList(),
-                AllRoles = allRoles
-            };
-
             return View(model);
         }
 
-        // به‌روزرسانی Roles کاربر
+        // POST: /UserManagement/ManageRoles
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> ManageRoles(ManageUserRolesViewModel model)
+        //{
+        //    var result = await _userService.UpdateUserRolesAsync(model.UserId, model.UserRoles.ToList());
+
+        //    if (result.Succeeded)
+        //    {
+        //        return RedirectToAction(nameof(Index));
+        //    }
+
+        //    foreach (var error in result.Errors)
+        //    {
+        //        ModelState.AddModelError(string.Empty, error);
+        //    }
+
+        //    // Repopulate the model for the view if there's an error
+        //    var repopulatedModel = await _userService.GetUserForManagingRolesAsync(model.UserId);
+        //    return View(repopulatedModel);
+        //}
+
+
+        // ProLeague/Controllers/UserManagementController.cs
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ManageRoles(ManageUserRolesViewModel model)
         {
-            var user = await _userManager.FindByIdAsync(model.UserId);
-            if (user == null)
+            // کد اشتباه قبلی:
+            // var result = await _userService.UpdateUserRolesAsync(model.UserId, model.UserRoles.ToList());
+
+            // کد صحیح:
+            var result = await _userService.UpdateUserRolesAsync(model.UserId, model.SelectedRoles);
+
+            if (result.Succeeded)
             {
-                return NotFound();
+                TempData["SuccessMessage"] = "نقش‌های کاربر با موفقیت به‌روزرسانی شد.";
+                return RedirectToAction(nameof(Index));
             }
 
-            var userRoles = await _userManager.GetRolesAsync(user);
-
-            // حذف Roles قدیمی
-            var removeResult = await _userManager.RemoveFromRolesAsync(user, userRoles);
-            if (!removeResult.Succeeded)
+            foreach (var error in result.Errors ?? new List<string>())
             {
-                ModelState.AddModelError("", "خطا در حذف Roles قدیمی");
-                return View(model);
+                ModelState.AddModelError(string.Empty, error);
             }
 
-            // اضافه کردن Roles جدید
-            if (model.SelectedRoles != null && model.SelectedRoles.Any())
-            {
-                var addResult = await _userManager.AddToRolesAsync(user, model.SelectedRoles);
-                if (!addResult.Succeeded)
-                {
-                    ModelState.AddModelError("", "خطا در اضافه کردن Roles جدید");
-                    return View(model);
-                }
-            }
-
-            return RedirectToAction(nameof(Index));
+            // در صورت بروز خطا، مدل را برای نمایش مجدد آماده می‌کنیم
+            var repopulatedModel = await _userService.GetUserForManagingRolesAsync(model.UserId);
+            return View(repopulatedModel);
         }
-    }
-
-    // ViewModels
-    public class UserRolesViewModel
-    {
-        public string UserId { get; set; }
-        public string UserName { get; set; }
-        public string Email { get; set; }
-        public List<string> Roles { get; set; } = new List<string>();
-    }
-
-    public class ManageUserRolesViewModel
-    {
-        public string UserId { get; set; }
-        public string UserName { get; set; }
-        public List<string> UserRoles { get; set; } = new List<string>();
-        public List<string> AllRoles { get; set; } = new List<string>();
-        public List<string> SelectedRoles { get; set; } = new List<string>();
     }
 }

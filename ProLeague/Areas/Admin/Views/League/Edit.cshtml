@@ -1,50 +1,57 @@
-﻿@model ProLeague.Areas.Admin.Models.EditLeagueViewModel
+﻿@model ProLeague.Application.ViewModels.League.EditLeagueViewModel
 
 @{
-    ViewData["Title"] = "ویرایش لیگ";
+    ViewData["Title"] = "ویرایش لیگ: " + Model.Name;
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="container mt-4">
-    <h2>@ViewData["Title"]</h2>
+<h1 class="h3 mb-3">@ViewData["Title"]</h1>
 
-    <form asp-action="Edit" enctype="multipart/form-data">
-        <!-- این خط بسیار مهم است -->
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="Id" />
-        <div class="form-group mb-3">
-            <label asp-for="Name" class="form-label"></label>
-            <input asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
-        </div>
-        <div class="form-group mb-3">
-            <label asp-for="Country" class="form-label"></label>
-            <input asp-for="Country" class="form-control" />
-            <span asp-validation-for="Country" class="text-danger"></span>
-        </div>
-        <div class="form-group mb-3">
-            <label class="form-label">لوگوی فعلی</label>
-            @if (!string.IsNullOrEmpty(Model.ExistingLogoPath))
-            {
-                <div>
-                    <img src="@Model.ExistingLogoPath" alt="لوگوی فعلی" style="max-width: 100px; max-height: 100px;" />
+<div class="card shadow-sm">
+    <div class="card-body">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <input type="hidden" asp-for="Id" />
+            <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Country" class="form-label"></label>
+                        <input asp-for="Country" class="form-control" />
+                        <span asp-validation-for="Country" class="text-danger"></span>
+                    </div>
                 </div>
-            }
-            else
-            {
-                <span>تصویری وجود ندارد</span>
-            }
-        </div>
-        <div class="form-group mb-3">
-            <label asp-for="NewLogoFile" class="form-label">لوگوی جدید (برای تغییر)</label>
-            <input asp-for="NewLogoFile" class="form-control" type="file" accept="image/*" />
-            <span asp-validation-for="NewLogoFile" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <input type="submit" value="ذخیره" class="btn btn-primary" />
-            <a asp-action="Index" class="btn btn-secondary">لغو</a>
-        </div>
-    </form>
+                <div class="col-md-5">
+                    <div class="text-center border p-3 rounded">
+                        <label class="form-label d-block">لوگوی فعلی</label>
+                        <img id="logoPreview" src="@(Model.ExistingLogoPath ?? "/images/default-logo.png")" alt="پیش‌نمایش لوگو"
+                             class="img-thumbnail mb-3" style="width: 150px; height: 150px; object-fit: contain;">
+                        <div class="mb-3">
+                            <label asp-for="NewLogoFile" class="form-label"></label>
+                            <input asp-for="NewLogoFile" type="file" class="form-control" accept="image/*"
+                                   onchange="document.getElementById('logoPreview').src = window.URL.createObjectURL(this.files[0])">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-4" />
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save me-2"></i> ذخیره تغییرات
+                </button>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fas fa-times me-2"></i> انصراف
+                </a>
+            </div>
+        </form>
+    </div>
 </div>
 
 @section Scripts {

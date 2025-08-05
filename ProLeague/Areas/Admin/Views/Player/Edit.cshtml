@@ -1,4 +1,4 @@
-﻿@model ProLeague.Areas.Admin.Models.EditPlayerViewModel
+﻿@model ProLeague.Application.ViewModels.Player.EditPlayerViewModel
 
 @{
     ViewData["Title"] = "ویرایش بازیکن: " + Model.Name;
@@ -10,62 +10,67 @@
 <div class="card shadow-sm">
     <div class="card-body">
         <form asp-action="Edit" enctype="multipart/form-data">
-            <div asp-validation-summary="All" class="text-danger mb-3"></div>
             <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="ExistingPhotoPath" />
+            <div asp-validation-summary="All" class="text-danger mb-3"></div>
 
             <div class="row">
                 <div class="col-lg-4">
-                    <div class="card mb-3">
-                        <div class="card-header">عکس بازیکن</div>
-                        <div class="card-body text-center">
-                            <img src="@(Model.ExistingPhotoPath ?? "/images/default-player.png")" id="photoPreview" class="rounded-circle mb-3"
-                                 alt="عکس فعلی" style="width: 150px; height: 150px; object-fit: cover;">
-                            <div class="mb-3">
-                                <label asp-for="NewPhotoFile" class="form-label"></label>
-                                <input asp-for="NewPhotoFile" type="file" class="form-control" accept="image/*" onchange="document.getElementById('photoPreview').src = window.URL.createObjectURL(this.files[0])">
-                            </div>
+                    <div class="text-center border p-3 rounded bg-light">
+                        <label class="form-label d-block">عکس بازیکن</label>
+                        <img id="photoPreview" src="@(Model.ExistingPhotoPath ?? "/images/default-player.png")" alt="پیش‌نمایش عکس"
+                             class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                        <div class="mb-3">
+                            <label asp-for="NewPhotoFile" class="form-label"></label>
+                            <input asp-for="NewPhotoFile" type="file" class="form-control" accept="image/*"
+                                   onchange="document.getElementById('photoPreview').src = window.URL.createObjectURL(this.files[0])">
                         </div>
                     </div>
                 </div>
+
                 <div class="col-lg-8">
-                    <div class="card mb-3">
-                        <div class="card-header">مشخصات و آمار</div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label asp-for="Name" class="form-label"></label>
-                                    <input asp-for="Name" class="form-control" />
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label asp-for="Position" class="form-label"></label>
-                                    <select asp-for="Position" class="form-select" asp-items="Html.GetEnumSelectList<ProLeague.Domain.Entities.Position>()"></select>
-                                </div>
-                                <div class="col-md-12 mb-3">
-                                    <label asp-for="TeamId" class="form-label"></label>
-                                    <select asp-for="TeamId" class="form-select" asp-items="ViewBag.TeamId"></select>
-                                </div>
-                            </div>
-                            <hr>
-                            <h5 class="card-title">آمار فصل</h5>
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label asp-for="Goals" class="form-label"></label>
-                                    <input asp-for="Goals" class="form-control" type="number" />
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label asp-for="Assists" class="form-label"></label>
-                                    <input asp-for="Assists" class="form-control" type="number" />
-                                </div>
-                            </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Name" class="form-label"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Position" class="form-label"></label>
+                            <select asp-for="Position" class="form-select" asp-items="Html.GetEnumSelectList<ProLeague.Domain.Entities.Position>()"></select>
+                            <span asp-validation-for="Position" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label asp-for="TeamId" class="form-label"></label>
+                            <select asp-for="TeamId" class="form-select" asp-items="ViewBag.TeamId"></select>
+                            <span asp-validation-for="TeamId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <hr>
+                    <h5 class="card-title">آمار فصل</h5>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Goals" class="form-label"></label>
+                            <input asp-for="Goals" class="form-control" type="number" />
+                            <span asp-validation-for="Goals" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Assists" class="form-label"></label>
+                            <input asp-for="Assists" class="form-control" type="number" />
+                            <span asp-validation-for="Assists" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="form-group mt-3">
-                <input type="submit" value="ذخیره تغییرات" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-secondary">انصراف</a>
+            <hr class="my-4" />
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save me-2"></i> ذخیره تغییرات
+                </button>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fas fa-times me-2"></i> انصراف
+                </a>
             </div>
         </form>
     </div>

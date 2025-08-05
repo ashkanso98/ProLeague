@@ -32,5 +32,12 @@ namespace ProLeague.Infrastructure.Repositories
         {
             _context.NewsImages.Remove(image);
         }
+        public async Task<IEnumerable<News>> GetRecentNewsAsync(int count)
+        {
+            return await _context.News
+                .OrderByDescending(n => n.PublishedDate)
+                .Take(count)
+                .ToListAsync();
+        }
     }
 }

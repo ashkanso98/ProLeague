@@ -1,25 +1,24 @@
-﻿// ProLeague.Application/Interfaces/IUnitOfWork.cs
-using ProLeague.Domain.Entities;
+﻿using ProLeague.Domain.Entities;
 
 namespace ProLeague.Application.Interfaces
 {
-    // --- تعریف اینترفیس‌های اختصاصی برای هر ریپازیتوری ---
+    // --- Specific repository interfaces ---
 
-    //public interface ILeagueRepository : IRepository<League> { }
     public interface ILeagueRepository : IRepository<League>
     {
-        Task<IEnumerable<League>> GetLeaguesWithTeamsAsync(int count); 
-        Task<League?> GetLeagueDetailsAsync(int id); // **Add this line**
+        Task<IEnumerable<League>> GetLeaguesWithTeamsAsync(int count);
+        Task<League?> GetLeagueDetailsAsync(int id);
     }
+
     public interface ITeamRepository : IRepository<Team>
     {
         Task<Team?> GetTeamDetailsAsync(int id);
     }
 
-
     public interface IPlayerRepository : IRepository<Player>
     {
-        Task<Player?> GetPlayerWithTeamDetailsAsync(int id); 
+        Task<Player?> GetPlayerWithTeamDetailsAsync(int id);
+        Task<IEnumerable<Player>> GetAllPlayersWithTeamAsync();
     }
 
     public interface INewsRepository : IRepository<News>
@@ -27,24 +26,26 @@ namespace ProLeague.Application.Interfaces
         Task<News?> GetNewsDetailsAsync(int id);
         Task<NewsImage?> GetNewsImageByIdAsync(int id);
         void DeleteNewsImage(NewsImage image);
+        Task<IEnumerable<News>> GetRecentNewsAsync(int count);
     }
 
     public interface ICommentRepository : IRepository<NewsComment>
     {
         Task<IEnumerable<NewsComment>> GetCommentsByStatusAsync(CommentStatus status);
+        Task<IEnumerable<NewsComment>> GetRecentCommentsAsync(int count);
     }
 
     public interface IMatchRepository : IRepository<Match>
     {
         Task<IEnumerable<Match>> GetMatchesByWeekAsync(int leagueId, int week);
     }
+
     public interface IUserRepository : IRepository<ApplicationUser>
     {
-        // این متد برای Include کردن تیم محبوب لازم است
         Task<ApplicationUser?> GetUserWithFavoriteTeamAsync(string id);
     }
 
-    // --- اینترفیس اصلی Unit of Work ---
+    // --- Main Unit of Work interface ---
 
     public interface IUnitOfWork : IDisposable
     {

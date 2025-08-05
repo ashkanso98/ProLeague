@@ -1,36 +1,47 @@
-﻿@model ProLeague.Areas.Admin.Models.CreateLeagueViewModel
+﻿@model ProLeague.Application.ViewModels.League.CreateLeagueViewModel
 
 @{
     ViewData["Title"] = "ایجاد لیگ جدید";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="container mt-4">
-    <h2>@ViewData["Title"]</h2>
+<h1 class="h3 mb-3">@ViewData["Title"]</h1>
 
-    <form asp-action="Create" enctype="multipart/form-data">
-        <!-- این خط بسیار مهم است -->
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group mb-3">
-            <label asp-for="Name" class="form-label"></label>
-            <input asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
-        </div>
-        <div class="form-group mb-3">
-            <label asp-for="Country" class="form-label"></label>
-            <input asp-for="Country" class="form-control" />
-            <span asp-validation-for="Country" class="text-danger"></span>
-        </div>
-        <div class="form-group mb-3">
-            <label asp-for="LogoFile" class="form-label"></label>
-            <input asp-for="LogoFile" class="form-control" type="file" accept="image/*" />
-            <span asp-validation-for="LogoFile" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <input type="submit" value="ایجاد" class="btn btn-success" />
-            <a asp-action="Index" class="btn btn-secondary">لغو</a>
-        </div>
-    </form>
+<div class="card shadow-sm">
+    <div class="card-header">
+        <h5 class="mb-0">اطلاعات لیگ</h5>
+    </div>
+    <div class="card-body">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger mb-3"></div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Name" class="form-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Country" class="form-label"></label>
+                    <input asp-for="Country" class="form-control" />
+                    <span asp-validation-for="Country" class="text-danger"></span>
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label asp-for="LogoFile" class="form-label"></label>
+                    <input asp-for="LogoFile" type="file" class="form-control" accept="image/*" />
+                    <span asp-validation-for="LogoFile" class="text-danger"></span>
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-save me-2"></i> ایجاد
+                </button>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fas fa-times me-2"></i> انصراف
+                </a>
+            </div>
+        </form>
+    </div>
 </div>
 
 @section Scripts {

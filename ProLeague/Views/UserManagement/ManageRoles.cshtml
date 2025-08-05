@@ -1,32 +1,43 @@
-﻿<!-- Views/UserManagement/ManageRoles.cshtml -->
-@using Microsoft.AspNetCore.Mvc.TagHelpers
-@model ProLeague.Controllers.ManageUserRolesViewModel
+﻿@model ProLeague.Application.ViewModels.User.ManageUserRolesViewModel
 
 @{
-    ViewData["Title"] = "مدیریت Roles";
+    ViewData["Title"] = "مدیریت نقش‌ها";
 }
 
-<div class="container mt-4">
-    <h2>مدیریت Roles برای @Model.UserName</h2>
+<h1 class="h3 mb-3">@ViewData["Title"]</h1>
 
-    <form asp-action="ManageRoles" method="post">
-        <input type="hidden" name="UserId" value="@Model.UserId" />
-        <input type="hidden" name="UserName" value="@Model.UserName" />
+<div class="card shadow-sm">
+    <div class="card-header">
+        <h5 class="mb-0">تغییر نقش برای کاربر: <span class="text-primary">@Model.UserName</span></h5>
+    </div>
+    <div class="card-body">
+        <form asp-action="ManageRoles" method="post">
+            @* استفاده از asp-for برای فیلد مخفی خواناتر است *@
+            <input type="hidden" asp-for="UserId" />
 
-        <div class="form-group">
-            <label>انتخاب Roles:</label>
-            @foreach (var role in Model.AllRoles)
-            {
-                <div class="form-check">
-                    <input type="checkbox" name="SelectedRoles" value="@role"
-                           class="form-check-input"
-                           @(Model.UserRoles.Contains(role) ? "checked" : "") />
-                    <label class="form-check-label">@role</label>
-                </div>
-            }
-        </div>
+            <div class="list-group">
+                @foreach (var role in Model.AllRoles)
+                {
+                    <label class="list-group-item d-flex justify-content-between align-items-center">
+                        @role
+                        <div class="form-check form-switch">
+                            <input type="checkbox"
+                                   name="SelectedRoles"
+                                   value="@role"
+                                   class="form-check-input"
+                                   @(Model.UserRoles.Contains(role) ? "checked" : "")
+                                   role="switch">
+                        </div>
+                    </label>
+                }
+            </div>
 
-        <button type="submit" class="btn btn-primary">به‌روزرسانی Roles</button>
-        <a asp-action="Index" class="btn btn-secondary">لغو</a>
-    </form>
+            <div class="mt-4">
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-save me-2"></i> ذخیره تغییرات
+                </button>
+                <a asp-action="Index" class="btn btn-secondary">بازگشت به لیست</a>
+            </div>
+        </form>
+    </div>
 </div>

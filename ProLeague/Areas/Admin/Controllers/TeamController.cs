@@ -1,12 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using ProLeague.Domain.Entities;
-using ProLeague.Infrastructure.Data;
-using ProLeague.Areas.Admin.Models; // استفاده از ViewModel ها
-using Microsoft.AspNetCore.Hosting; // برای کار با فایل‌ها
-using System.IO; // برای کار با فایل سیستم
+using ProLeague.Application.Interfaces;
+using ProLeague.Application.ViewModels.Team;
 
 namespace ProLeague.Areas.Admin.Controllers
 {
@@ -14,37 +10,34 @@ namespace ProLeague.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class TeamController : Controller
     {
-        private readonly ApplicationDbContext _context;
-        private readonly IWebHostEnvironment _environment; // برای دسترسی به wwwroot
+        private readonly ITeamService _teamService;
+        private readonly ILeagueService _leagueService; // Needed for the dropdown list
 
-        public TeamController(ApplicationDbContext context, IWebHostEnvironment environment)
+        public TeamController(ITeamService teamService, ILeagueService leagueService)
         {
-            _context = context;
-            _environment = environment;
+            _teamService = teamService;
+            _leagueService = leagueService;
         }
 
         // GET: Admin/Team
         public async Task<IActionResult> Index()
         {
-            var teams = await _context.Teams.Include(t => t.League).ToListAsync();
+            var teams = await _teamService.GetAllTeamsAsync();
             return View(teams);
         }
 
         // GET: Admin/Team/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null) return NotFound();
-            var team = await _context.Teams
-                .Include(t => t.League)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var team = await _teamService.GetTeamDetailsAsync(id);
             if (team == null) return NotFound();
             return View(team);
         }
 
         // GET: Admin/Team/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["LeagueId"] = new SelectList(_context.Leagues.OrderBy(l => l.Name), "Id", "Name");
+            await PopulateLeaguesDropDownList();
             return View(new CreateTeamViewModel());
         }
 
@@ -53,52 +46,31 @@ namespace ProLeague.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateTeamViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                string? logoPath = await UploadFile(model.LogoFile);
+                await PopulateLeaguesDropDownList(model.LeagueId);
+                return View(model);
+            }
 
-                var team = new Team
-                {
-                    Name = model.Name,
-                    Stadium = model.Stadium,
-                    LeagueId = model.LeagueId,
-                    ImagePath = logoPath,
-                    // آمار اولیه به صورت خودکار صفر در نظر گرفته می‌شود
-                };
-
-                _context.Add(team);
-                await _context.SaveChangesAsync();
+            var result = await _teamService.CreateTeamAsync(model);
+            if (result.Succeeded)
+            {
                 TempData["SuccessMessage"] = "تیم با موفقیت ایجاد شد.";
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["LeagueId"] = new SelectList(_context.Leagues.OrderBy(l => l.Name), "Id", "Name", model.LeagueId);
+
+            ModelState.AddModelError(string.Empty, result.Errors?.FirstOrDefault() ?? "An unknown error occurred.");
+            await PopulateLeaguesDropDownList(model.LeagueId);
             return View(model);
         }
 
         // GET: Admin/Team/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null) return NotFound();
+            var model = await _teamService.GetTeamForEditAsync(id);
+            if (model == null) return NotFound();
 
-            var team = await _context.Teams.FindAsync(id);
-            if (team == null) return NotFound();
-
-            var model = new EditTeamViewModel
-            {
-                Id = team.Id,
-                Name = team.Name,
-                Stadium = team.Stadium,
-                LeagueId = team.LeagueId,
-                ExistingLogoPath = team.ImagePath,
-                Played = team.Played,
-                Wins = team.Wins,
-                Draws = team.Draws,
-                Losses = team.Losses,
-                GoalsFor = team.GoalsFor,
-                GoalsAgainst = team.GoalsAgainst
-            };
-
-            ViewData["LeagueId"] = new SelectList(_context.Leagues.OrderBy(l => l.Name), "Id", "Name", team.LeagueId);
+            await PopulateLeaguesDropDownList(model.LeagueId);
             return View(model);
         }
 
@@ -107,56 +79,30 @@ namespace ProLeague.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, EditTeamViewModel model)
         {
-            if (id != model.Id) return NotFound();
+            if (id != model.Id) return BadRequest();
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var teamToUpdate = await _context.Teams.FindAsync(id);
-                if (teamToUpdate == null) return NotFound();
+                await PopulateLeaguesDropDownList(model.LeagueId);
+                return View(model);
+            }
 
-                if (model.NewLogoFile != null)
-                {
-                    // حذف فایل قدیمی در صورت وجود
-                    DeleteFile(teamToUpdate.ImagePath);
-                    // آپلود فایل جدید
-                    teamToUpdate.ImagePath = await UploadFile(model.NewLogoFile);
-                }
-
-                //// به‌روزرسانی سایر اطلاعات
-                //teamToUpdate.Name = model.Name;
-                //teamToUpdate.Stadium = model.Stadium;
-                //teamToUpdate.LeagueId = model.LeagueId;
-                //teamToUpdate.Played = model.Played;
-                //teamToUpdate.Wins = model.Wins;
-                //teamToUpdate.Draws = model.Draws;
-                //teamToUpdate.Losses = model.Losses;
-                //teamToUpdate.GoalsFor = model.GoalsFor;
-                //teamToUpdate.GoalsAgainst = model.GoalsAgainst;
-
-                try
-                {
-                    _context.Update(teamToUpdate);
-                    await _context.SaveChangesAsync();
-                    TempData["SuccessMessage"] = "تیم با موفقیت به‌روزرسانی شد.";
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TeamExists(model.Id)) return NotFound();
-                    else throw;
-                }
+            var result = await _teamService.UpdateTeamAsync(model);
+            if (result.Succeeded)
+            {
+                TempData["SuccessMessage"] = "تیم با موفقیت به‌روزرسانی شد.";
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["LeagueId"] = new SelectList(_context.Leagues.OrderBy(l => l.Name), "Id", "Name", model.LeagueId);
+
+            ModelState.AddModelError(string.Empty, result.Errors?.FirstOrDefault() ?? "An unknown error occurred.");
+            await PopulateLeaguesDropDownList(model.LeagueId);
             return View(model);
         }
 
         // GET: Admin/Team/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null) return NotFound();
-            var team = await _context.Teams
-                .Include(t => t.League)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var team = await _teamService.GetTeamDetailsAsync(id);
             if (team == null) return NotFound();
             return View(team);
         }
@@ -166,54 +112,23 @@ namespace ProLeague.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var team = await _context.Teams.FindAsync(id);
-            if (team != null)
+            var result = await _teamService.DeleteTeamAsync(id);
+            if (result.Succeeded)
             {
-                DeleteFile(team.ImagePath); // حذف لوگوی تیم از سرور
-                _context.Teams.Remove(team);
-                await _context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "تیم با موفقیت حذف شد.";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = result.Errors?.FirstOrDefault() ?? "خطا در حذف تیم.";
             }
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TeamExists(int id)
+        // Helper method to populate the leagues dropdown
+        private async Task PopulateLeaguesDropDownList(object? selectedLeague = null)
         {
-            return _context.Teams.Any(e => e.Id == id);
-        }
-
-        // متد کمکی برای آپلود فایل
-        private async Task<string?> UploadFile(IFormFile? file)
-        {
-            if (file == null || file.Length == 0) return null;
-
-            string uploadsFolder = Path.Combine(_environment.WebRootPath, "images", "teams");
-            if (!Directory.Exists(uploadsFolder))
-            {
-                Directory.CreateDirectory(uploadsFolder);
-            }
-
-            string uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(file.FileName);
-            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(fileStream);
-            }
-
-            return $"/images/teams/{uniqueFileName}"; // ذخیره مسیر نسبی
-        }
-
-        // متد کمکی برای حذف فایل
-        private void DeleteFile(string? relativePath)
-        {
-            if (string.IsNullOrEmpty(relativePath)) return;
-
-            string filePath = Path.Combine(_environment.WebRootPath, relativePath.TrimStart('/'));
-            if (System.IO.File.Exists(filePath))
-            {
-                System.IO.File.Delete(filePath);
-            }
+            var leagues = await _leagueService.GetAllLeaguesAsync();
+            ViewBag.LeagueId = new SelectList(leagues.OrderBy(l => l.Name), "Id", "Name", selectedLeague);
         }
     }
 }

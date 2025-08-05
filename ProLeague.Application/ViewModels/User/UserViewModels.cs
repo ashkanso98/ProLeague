@@ -15,5 +15,6 @@ namespace ProLeague.Application.ViewModels.User
         public string? UserName { get; set; }
         public List<string> AllRoles { get; set; } = new();
         public IList<string> UserRoles { get; set; } = new List<string>();
+        public List<string> SelectedRoles { get; set; } = new List<string>();
     }
 }
