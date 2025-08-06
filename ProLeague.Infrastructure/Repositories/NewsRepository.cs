@@ -12,7 +12,6 @@ namespace ProLeague.Infrastructure.Repositories
         public NewsRepository(ApplicationDbContext context) : base(context)
         {
         }
-
         public async Task<News?> GetNewsDetailsAsync(int id)
         {
             return await _context.News
@@ -20,6 +19,7 @@ namespace ProLeague.Infrastructure.Repositories
                 .Include(n => n.RelatedLeagues)
                 .Include(n => n.RelatedTeams)
                 .Include(n => n.RelatedPlayers)
+                // .AsNoTracking() // این خط حذف شد تا ردیابی تغییرات فعال بماند
                 .FirstOrDefaultAsync(n => n.Id == id);
         }
 

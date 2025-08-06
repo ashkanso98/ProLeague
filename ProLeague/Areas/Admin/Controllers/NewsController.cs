@@ -103,13 +103,26 @@ namespace ProLeague.Areas.Admin.Controllers
             return View(model);
         }
 
-        // POST: Admin/News/DeleteGalleryImage
+
+
+        // ProLeague/Areas/Admin/Controllers/NewsController.cs
+
+        // ...
         [HttpPost]
-        public async Task<IActionResult> DeleteGalleryImage(int imageId)
+        [ValidateAntiForgeryToken] // این Attribute را برای امنیت اضافه کنید
+        public async Task<IActionResult> DeleteGalleryImage([FromQuery] int imageId) // [FromQuery] را اضافه کنید
         {
             var result = await _newsService.DeleteGalleryImageAsync(imageId);
             return Json(new { success = result.Succeeded });
         }
+        //// ...
+        //// POST: Admin/News/DeleteGalleryImage
+        //[HttpPost]
+        //public async Task<IActionResult> DeleteGalleryImage(int imageId)
+        //{
+        //    var result = await _newsService.DeleteGalleryImageAsync(imageId);
+        //    return Json(new { success = result.Succeeded });
+        //}
 
         // GET: Admin/News/Delete/5
         public async Task<IActionResult> Delete(int id)

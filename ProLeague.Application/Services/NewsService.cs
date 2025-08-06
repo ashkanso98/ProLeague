@@ -73,22 +73,29 @@ namespace ProLeague.Application.Services
             await _unitOfWork.CompleteAsync();
             return Result.Success();
         }
-
         public async Task<Result> UpdateNewsAsync(EditNewsViewModel model)
         {
             var newsToUpdate = await _unitOfWork.News.GetNewsDetailsAsync(model.Id);
             if (newsToUpdate == null) return Result.Failure(new[] { "خبر یافت نشد." });
 
-            if (model.NewMainImageFile != null)
+            if (model.NewMainImageFile != null && model.NewMainImageFile.Length > 0)
             {
                 DeleteFile(newsToUpdate.MainImagePath);
                 newsToUpdate.MainImagePath = await UploadFileAsync(model.NewMainImageFile, "news/main");
             }
+
             if (model.NewGalleryFiles != null)
             {
                 foreach (var file in model.NewGalleryFiles)
                 {
-                    newsToUpdate.Images.Add(new NewsImage { ImagePath = (await UploadFileAsync(file, "news/gallery"))! });
+                    if (file != null && file.Length > 0)
+                    {
+                        var imagePath = await UploadFileAsync(file, "news/gallery");
+                        if (imagePath != null)
+                        {
+                            newsToUpdate.Images.Add(new NewsImage { ImagePath = imagePath });
+                        }
+                    }
                 }
             }
 
@@ -98,10 +105,52 @@ namespace ProLeague.Application.Services
 
             await UpdateRelatedEntities(newsToUpdate, model.RelatedLeagueIds, model.RelatedTeamIds, model.RelatedPlayerIds);
 
-            _unitOfWork.News.Update(newsToUpdate);
-            await _unitOfWork.CompleteAsync();
+            // _unitOfWork.News.Update(newsToUpdate); // <<--- این خط باید حذف شود
+
+            await _unitOfWork.CompleteAsync(); // ردیاب به صورت خودکار تمام تغییرات را ذخیره می‌کند
             return Result.Success();
         }
+        //***********
+        //public async Task<Result> UpdateNewsAsync(EditNewsViewModel model)
+        //{
+        //    var newsToUpdate = await _unitOfWork.News.GetNewsDetailsAsync(model.Id);
+        //    if (newsToUpdate == null) return Result.Failure(new[] { "خبر یافت نشد." });
+
+        //    // ۱. بررسی فایل اصلی جدید با دقت بیشتر
+        //    if (model.NewMainImageFile != null && model.NewMainImageFile.Length > 0)
+        //    {
+        //        DeleteFile(newsToUpdate.MainImagePath);
+        //        newsToUpdate.MainImagePath = await UploadFileAsync(model.NewMainImageFile, "news/main");
+        //    }
+
+        //    // ۲. بررسی فایل‌های گالری جدید با دقت بیشتر
+        //    if (model.NewGalleryFiles != null)
+        //    {
+        //        foreach (var file in model.NewGalleryFiles)
+        //        {
+        //            // این شرط بسیار مهم است و از خطای SQL جلوگیری می‌کند
+        //            if (file != null && file.Length > 0)
+        //            {
+        //                var imagePath = await UploadFileAsync(file, "news/gallery");
+        //                if (imagePath != null)
+        //                {
+        //                    newsToUpdate.Images.Add(new NewsImage { ImagePath = imagePath });
+        //                }
+        //            }
+        //        }
+        //    }
+
+        //    newsToUpdate.Title = model.Title;
+        //    newsToUpdate.Content = model.Content;
+        //    newsToUpdate.IsFeatured = model.IsFeatured;
+
+        //    await UpdateRelatedEntities(newsToUpdate, model.RelatedLeagueIds, model.RelatedTeamIds, model.RelatedPlayerIds);
+
+        //    _unitOfWork.News.Update(newsToUpdate);
+        //    await _unitOfWork.CompleteAsync();
+        //    return Result.Success();
+        //}
+
 
         public async Task<Result> DeleteNewsAsync(int id)
         {
