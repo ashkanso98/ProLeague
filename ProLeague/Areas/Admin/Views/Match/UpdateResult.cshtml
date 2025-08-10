@@ -1,0 +1,37 @@
+﻿@model ProLeague.Application.ViewModels.Match.UpdateMatchResultViewModel
+
+@{
+    ViewData["Title"] = "ثبت نتیجه مسابقه";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var match = ViewBag.Match as ProLeague.Domain.Entities.Match;
+}
+
+<h1 class="h3 mb-3">@ViewData["Title"]</h1>
+
+<div class="card shadow-sm">
+    <div class="card-header text-center">
+        <h5 class="mb-0">
+            @match.HomeTeam.Name vs @match.AwayTeam.Name
+        </h5>
+        <small class="text-muted">هفته @match.MatchWeek</small>
+    </div>
+    <div class="card-body">
+        <form asp-action="UpdateResult">
+            <input type="hidden" asp-for="MatchId" />
+            <div class="row align-items-center justify-content-center">
+                <div class="col-5">
+                    <label asp-for="HomeTeamGoals" class="form-label"></label>
+                    <input asp-for="HomeTeamGoals" class="form-control form-control-lg text-center" type="number" />
+                </div>
+                <div class="col-2 text-center fs-2">-</div>
+                <div class="col-5">
+                    <label asp-for="AwayTeamGoals" class="form-label"></label>
+                    <input asp-for="AwayTeamGoals" class="form-control form-control-lg text-center" type="number" />
+                </div>
+            </div>
+            <hr />
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save me-2"></i> ثبت نتیجه</button>
+            <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-times me-2"></i> انصراف</a>
+        </form>
+    </div>
+</div>

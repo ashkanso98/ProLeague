@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "4ghZa1gmgTw=",
+  "dgSpecHash": "yvTOdMzucCs=",
   "success": true,
   "projectFilePath": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague.Application\\ProLeague.Application.csproj",
   "expectedPackageFiles": [
@@ -23,5 +23,15 @@
     "C:\\Users\\User\\.nuget\\packages\\microsoft.extensions.options\\8.0.2\\microsoft.extensions.options.8.0.2.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\microsoft.extensions.primitives\\8.0.0\\microsoft.extensions.primitives.8.0.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1900",
+      "level": "Warning",
+      "message": "Error occurred while getting package vulnerability data: Unable to load the service index for source https://api.nuget.org/v3/index.json.",
+      "projectPath": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague.Application\\ProLeague.Application.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague.Application\\ProLeague.Application.csproj",
+      "targetGraphs": []
+    }
+  ]
 }

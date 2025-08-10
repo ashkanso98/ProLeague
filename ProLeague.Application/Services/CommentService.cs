@@ -17,12 +17,11 @@ namespace ProLeague.Application.Services
         {
             return await _unitOfWork.Comments.GetCommentsByStatusAsync(status);
         }
-
         public async Task<NewsComment?> GetCommentByIdAsync(int id)
         {
-            return await _unitOfWork.Comments.GetByIdAsync(id);
+            // تغییر به متدی که شامل Include است
+            return await _unitOfWork.Comments.GetCommentDetailsAsync(id);
         }
-
         public async Task<Result> ApproveCommentAsync(int id)
         {
             var comment = await _unitOfWork.Comments.GetByIdAsync(id);

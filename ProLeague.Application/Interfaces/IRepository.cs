@@ -8,5 +8,7 @@
         void Update(T entity);
         void Delete(T entity);
         Task<int> CountAsync(); // This is the new line
+
+        
     }
 }

@@ -347,6 +347,9 @@ namespace ProLeague.Infrastructure.Migrations
                     b.Property<int>("MatchWeek")
                         .HasColumnType("int");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AwayTeamId");

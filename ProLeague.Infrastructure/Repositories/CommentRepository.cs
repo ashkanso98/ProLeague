@@ -34,5 +34,12 @@ namespace ProLeague.Infrastructure.Repositories
                 .ToListAsync();
         }
 
+        public async Task<NewsComment?> GetCommentDetailsAsync(int id)
+        {
+            return await _context.NewsComments
+                .Include(c => c.User)
+                .Include(c => c.News)
+                .FirstOrDefaultAsync(c => c.Id == id);
+        }
     }
 }

@@ -33,18 +33,27 @@ namespace ProLeague.Application.Interfaces
     {
         Task<IEnumerable<NewsComment>> GetCommentsByStatusAsync(CommentStatus status);
         Task<IEnumerable<NewsComment>> GetRecentCommentsAsync(int count);
+        Task<NewsComment?> GetCommentDetailsAsync(int id);
     }
 
-    public interface IMatchRepository : IRepository<Match>
-    {
-        Task<IEnumerable<Match>> GetMatchesByWeekAsync(int leagueId, int week);
-    }
+    //public interface IMatchRepository : IRepository<Match>
+    //{
+    //    Task<IEnumerable<Match>> GetMatchesByWeekAsync(int leagueId, int week);
+    //}
 
     public interface IUserRepository : IRepository<ApplicationUser>
     {
         Task<ApplicationUser?> GetUserWithFavoriteTeamAsync(string id);
     }
 
+
+    public interface IMatchRepository : IRepository<Match>
+    {
+        Task<IEnumerable<Match>> GetMatchesByWeekAsync(int leagueId, int week);
+        Task<IEnumerable<Match>> GetMatchesForTeamAsync(int teamId);
+        Task<IEnumerable<Match>> GetAllMatchesWithDetailsAsync();
+        Task<Match?> GetMatchWithTeamsByIdAsync(int id);
+    }
     // --- Main Unit of Work interface ---
 
     public interface IUnitOfWork : IDisposable

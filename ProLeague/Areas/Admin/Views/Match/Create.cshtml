@@ -1,0 +1,96 @@
+﻿@model ProLeague.Application.ViewModels.Match.CreateMatchViewModel
+
+@{
+    ViewData["Title"] = "ایجاد مسابقه جدید";
+}
+
+<h1 class="h3 mb-3">@ViewData["Title"]</h1>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <form asp-action="Create">
+            <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <label asp-for="LeagueId" class="form-label"></label>
+                    <select asp-for="LeagueId" class="form-select" asp-items="ViewBag.Leagues" id="leagueSelect">
+                        <option value="">یک لیگ انتخاب کنید...</option>
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="HomeTeamId" class="form-label"></label>
+                    <select asp-for="HomeTeamId" class="form-select" id="homeTeamSelect" disabled>
+                        <option value="">ابتدا لیگ را انتخاب کنید</option>
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="AwayTeamId" class="form-label"></label>
+                    <select asp-for="AwayTeamId" class="form-select" id="awayTeamSelect" disabled>
+                        <option value="">ابتدا لیگ را انتخاب کنید</option>
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="MatchDate" class="form-label"></label>
+                    <input asp-for="MatchDate" class="form-control" />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="MatchWeek" class="form-label"></label>
+                    <input asp-for="MatchWeek" class="form-control" type="number" />
+                </div>
+            </div>
+
+            <hr />
+            <h5 class="mt-3">ثبت نتیجه اولیه (اختیاری)</h5>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="HomeTeamGoals" class="form-label"></label>
+                    <input asp-for="HomeTeamGoals" class="form-control" type="number" />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="AwayTeamGoals" class="form-label"></label>
+                    <input asp-for="AwayTeamGoals" class="form-control" type="number" />
+                </div>
+            </div>
+
+            <hr />
+            <div class="form-group">
+                <button type="submit" class="btn btn-success"><i class="fas fa-save me-2"></i> ایجاد مسابقه</button>
+                <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-times me-2"></i> انصراف</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+            $('#leagueSelect').on('change', function () {
+                const leagueId = $(this).val();
+                const homeSelect = $('#homeTeamSelect');
+                const awaySelect = $('#awayTeamSelect');
+
+                homeSelect.empty().append('<option value="">در حال بارگذاری...</option>').prop('disabled', true);
+                awaySelect.empty().append('<option value="">در حال بارگذاری...</option>').prop('disabled', true);
+
+                if (leagueId) {
+                    fetch(`/Admin/Match/GetTeamsByLeague?leagueId=${leagueId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            homeSelect.empty().append('<option value="">یک تیم انتخاب کنید</option>');
+                            awaySelect.empty().append('<option value="">یک تیم انتخاب کنید</option>');
+                            $.each(data, function (i, team) {
+                                homeSelect.append($('<option>', { value: team.id, text: team.name }));
+                                awaySelect.append($('<option>', { value: team.id, text: team.name }));
+                            });
+                            homeSelect.prop('disabled', false);
+                            awaySelect.prop('disabled', false);
+                        });
+                }
+            });
+        });
+    </script>
+}

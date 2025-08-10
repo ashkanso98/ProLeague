@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using ProLeague.Application.Interfaces;
 using ProLeague.Domain.Entities;
-using ProLeague.Infrastructure.Data;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ProLeague.Areas.Admin.Controllers
 {
@@ -12,36 +9,26 @@ namespace ProLeague.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class CommentController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ICommentService _commentService;
 
-        public CommentController(ApplicationDbContext context)
+        public CommentController(ICommentService commentService)
         {
-            _context = context;
+            _commentService = commentService;
         }
 
-        // GET: Admin/Comment
-        // نمایش لیست نظرات بر اساس وضعیت
+        // GET: Admin/Comment?status=Pending
         public async Task<IActionResult> Index(CommentStatus status = CommentStatus.Pending)
         {
             ViewBag.CurrentStatus = status;
-            var comments = await _context.NewsComments
-                .Where(c => c.Status == status)
-                .Include(c => c.User)
-                .Include(c => c.News)
-                .OrderByDescending(c => c.CreatedDate)
-                .ToListAsync();
-
+            var comments = await _commentService.GetCommentsByStatusAsync(status);
             return View(comments);
         }
 
         // GET: Admin/Comment/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null) return NotFound();
-            var comment = await _context.NewsComments
-                .Include(c => c.User)
-                .Include(c => c.News)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            // Note: Assumes GetCommentByIdAsync in the service now gets details
+            var comment = await _commentService.GetCommentByIdAsync(id);
             if (comment == null) return NotFound();
             return View(comment);
         }
@@ -51,11 +38,9 @@ namespace ProLeague.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Approve(int id)
         {
-            var comment = await _context.NewsComments.FindAsync(id);
-            if (comment != null)
+            var result = await _commentService.ApproveCommentAsync(id);
+            if (result.Succeeded)
             {
-                comment.Status = CommentStatus.Approved;
-                await _context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "نظر با موفقیت تأیید شد.";
             }
             return RedirectToAction(nameof(Index), new { status = CommentStatus.Pending });
@@ -66,23 +51,18 @@ namespace ProLeague.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Reject(int id)
         {
-            var comment = await _context.NewsComments.FindAsync(id);
-            if (comment != null)
+            var result = await _commentService.RejectCommentAsync(id);
+            if (result.Succeeded)
             {
-                comment.Status = CommentStatus.Rejected;
-                await _context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "نظر با موفقیت رد شد.";
             }
             return RedirectToAction(nameof(Index), new { status = CommentStatus.Pending });
         }
 
         // GET: Admin/Comment/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null) return NotFound();
-            var comment = await _context.NewsComments
-                .Include(c => c.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var comment = await _commentService.GetCommentByIdAsync(id);
             if (comment == null) return NotFound();
             return View(comment);
         }
@@ -92,14 +72,21 @@ namespace ProLeague.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var comment = await _context.NewsComments.FindAsync(id);
-            if (comment != null)
+            // Keep track of the status before deleting
+            var commentToDelete = await _commentService.GetCommentByIdAsync(id);
+            var statusToReturnTo = commentToDelete?.Status ?? CommentStatus.Pending;
+
+            var result = await _commentService.DeleteCommentAsync(id);
+            if (result.Succeeded)
             {
-                _context.NewsComments.Remove(comment);
-                await _context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "نظر برای همیشه حذف شد.";
             }
-            return RedirectToAction(nameof(Index), new { status = comment?.Status ?? CommentStatus.Pending });
+            else
+            {
+                TempData["ErrorMessage"] = result.Errors?.FirstOrDefault() ?? "خطا در حذف نظر.";
+            }
+
+            return RedirectToAction(nameof(Index), new { status = statusToReturnTo });
         }
     }
 }

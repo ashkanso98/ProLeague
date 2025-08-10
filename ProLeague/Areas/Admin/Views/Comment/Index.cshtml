@@ -3,11 +3,13 @@
 
 @{
     ViewData["Title"] = "مدیریت نظرات";
-    var currentStatus = (CommentStatus)ViewBag.CurrentStatus;
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var currentStatus = (CommentStatus)ViewBag.CurrentStatus;
 }
 
-<h1 class="h3 mb-3">@ViewData["Title"]</h1>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3">@ViewData["Title"]</h1>
+</div>
 
 @if (TempData["SuccessMessage"] != null)
 {
@@ -21,49 +23,60 @@
     <div class="card-header">
         <ul class="nav nav-pills card-header-pills">
             <li class="nav-item">
-                <a class="nav-link @(currentStatus == CommentStatus.Pending ? "active" : "")" asp-action="Index" asp-route-status="@CommentStatus.Pending">در انتظار تأیید</a>
+                <a class="nav-link @(currentStatus == CommentStatus.Pending ? "active" : "")" asp-action="Index" asp-route-status="@CommentStatus.Pending">
+                    <i class="fas fa-clock me-1"></i> در انتظار تأیید
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link @(currentStatus == CommentStatus.Approved ? "active" : "")" asp-action="Index" asp-route-status="@CommentStatus.Approved">تأیید شده</a>
+                <a class="nav-link @(currentStatus == CommentStatus.Approved ? "active" : "")" asp-action="Index" asp-route-status="@CommentStatus.Approved">
+                    <i class="fas fa-check-circle me-1"></i> تأیید شده
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link @(currentStatus == CommentStatus.Rejected ? "active" : "")" asp-action="Index" asp-route-status="@CommentStatus.Rejected">رد شده</a>
+                <a class="nav-link @(currentStatus == CommentStatus.Rejected ? "active" : "")" asp-action="Index" asp-route-status="@CommentStatus.Rejected">
+                    <i class="fas fa-times-circle me-1"></i> رد شده
+                </a>
             </li>
         </ul>
     </div>
-    <div class="card-body">
+    <div class="card-body p-0">
         @if (!Model.Any())
         {
-            <p class="text-center text-muted">هیچ نظری در این دسته وجود ندارد.</p>
+            <div class="p-4 text-center text-muted">هیچ نظری در این دسته وجود ندارد.</div>
         }
         else
         {
-            <ul class="list-group">
+            <ul class="list-group list-group-flush">
                 @foreach (var item in Model)
                 {
-                    <li class="list-group-item">
-                        <div class="d-flex w-100 justify-content-between">
-                            <div>
-                                <h5 class="mb-1">@item.User.UserName</h5>
-                                <small class="text-muted">در خبر: <a asp-controller="News" asp-action="Details" asp-route-id="@item.NewsId" target="_blank">@item.News.Title</a></small>
-                                <p class="mb-1 mt-2">"@item.Content"</p>
+                    <li class="list-group-item p-3">
+                        <div class="d-flex">
+                            <div class="flex-shrink-0 me-3">
+                                <i class="fas fa-user-circle fs-2 text-secondary"></i>
                             </div>
-                            <div class="text-end">
-                                <small>@item.CreatedDate.ToString("yyyy/MM/dd HH:mm")</small>
+                            <div class="flex-grow-1">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">@item.User.UserName</h6>
+                                    <small class="text-muted">@item.CreatedDate.ToString("yyyy/MM/dd HH:mm")</small>
+                                </div>
+                                <p class="mb-1">@item.Content</p>
+                                <small class="text-muted">
+                                    در خبر: <a asp-area="Admin" asp-controller="News" asp-action="Details" asp-route-id="@item.NewsId" target="_blank">@item.News.Title</a>
+                                </small>
                                 <div class="mt-2">
                                     @if (item.Status == CommentStatus.Pending)
                                     {
                                         <form asp-action="Approve" asp-route-id="@item.Id" method="post" class="d-inline">
                                             @Html.AntiForgeryToken()
-                                            <button type="submit" class="btn btn-sm btn-success">تأیید</button>
+                                            <button type="submit" class="btn btn-sm btn-outline-success"><i class="fas fa-check me-1"></i> تأیید</button>
                                         </form>
                                         <form asp-action="Reject" asp-route-id="@item.Id" method="post" class="d-inline">
                                             @Html.AntiForgeryToken()
-                                            <button type="submit" class="btn btn-sm btn-warning">رد کردن</button>
+                                            <button type="submit" class="btn btn-sm btn-outline-warning"><i class="fas fa-times me-1"></i> رد کردن</button>
                                         </form>
                                     }
-                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info">جزئیات</a>
-                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">حذف</a>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info"><i class="fas fa-info-circle me-1"></i> جزئیات</a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash-alt me-1"></i> حذف</a>
                                 </div>
                             </div>
                         </div>
@@ -71,5 +84,8 @@
                 }
             </ul>
         }
+    </div>
+    <div class="card-footer text-muted">
+        تعداد کل: @Model.Count()
     </div>
 </div>
