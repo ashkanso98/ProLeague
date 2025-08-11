@@ -40,8 +40,7 @@ namespace ProLeague.Application.Services
                 Name = team.Name,
                 Stadium = team.Stadium,
                 LeagueId = team.LeagueId,
-                ExistingLogoPath = team.ImagePath,
-                // آمار از مدل اصلی خوانده نمی‌شود چون محاسبه‌ای است
+                ExistingLogoPath = team.ImagePath
             };
         }
 
@@ -92,7 +91,42 @@ namespace ProLeague.Application.Services
             return Result.Success();
         }
 
-        private async Task<string?> UploadFileAsync(IFormFile? file, string subfolder) { /* ... پیاده سازی مشابه قبل ... */ return null; }
-        private void DeleteFile(string? relativePath) { /* ... پیاده سازی مشابه قبل ... */ }
+        private async Task<string?> UploadFileAsync(IFormFile? file, string subfolder)
+        {
+            if (file == null || file.Length == 0)
+                return null;
+
+            // مسیر فولدر ذخیره‌سازی
+            var uploadsFolder = Path.Combine(_environment.WebRootPath, "images", subfolder);
+
+            // ایجاد پوشه اگر وجود ندارد
+            if (!Directory.Exists(uploadsFolder))
+                Directory.CreateDirectory(uploadsFolder);
+
+            // نام یکتا برای فایل
+            var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+            // ذخیره فایل روی دیسک
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(fileStream);
+            }
+
+            // مسیر نسبی برای ذخیره در دیتابیس
+            return $"/images/{subfolder}/{uniqueFileName}";
+        }
+
+        private void DeleteFile(string? relativePath)
+        {
+            if (string.IsNullOrWhiteSpace(relativePath))
+                return;
+
+            // ساخت مسیر فیزیکی از مسیر نسبی
+            var fullPath = Path.Combine(_environment.WebRootPath, relativePath.TrimStart('/').Replace("/", Path.DirectorySeparatorChar.ToString()));
+
+            if (File.Exists(fullPath))
+                File.Delete(fullPath);
+        }
     }
 }

@@ -37,6 +37,23 @@
             </div>
         </div>
     }
+    @* Related Section *@
+    <h4 class="mb-3">موارد مرتبط</h4>
+    <div>
+        @foreach (var league in Model.RelatedLeagues)
+        {
+            <span class="badge bg-primary m-1">لیگ: @league.Name</span>
+        }
+        @foreach (var team in Model.RelatedTeams)
+        {
+            <span class="badge bg-success m-1">تیم: @team.Name</span>
+        }
+        @foreach (var player in Model.RelatedPlayers)
+        {
+            <span class="badge bg-info m-1">بازیکن: @player.Name</span>
+        }
+    </div>
+    
 
     <!-- Comments Section -->
     <div class="mt-5">

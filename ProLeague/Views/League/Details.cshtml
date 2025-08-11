@@ -6,7 +6,7 @@
 }
 
 <header class="d-flex align-items-center pb-3 mb-4 border-bottom">
-    <img src="@Model.ImagePath" alt="@Model.Name" style="width: 60px; height: 60px;" class="me-3" />
+    <img src="@Model.ImagePath" alt="@Model.Name" height="50px" class="me-3" />
     <h1 class="h2">@Model.Name - @Model.Country</h1>
 </header>
 
@@ -38,9 +38,9 @@
                         {
                             <li class="list-group-item d-flex justify-content-center align-items-center text-center">
                                 <span class="team-name col">@match.HomeTeam.Name</span>
-                                <img src="@match.HomeTeam.ImagePath" class="league-table-logo mx-2" />
+                                <img src="@match.HomeTeam.ImagePath" class="league-table-logo mx-2"  height="50px" />
                                 <span class="badge bg-dark fs-6">@match.HomeTeamGoals - @match.AwayTeamGoals</span>
-                                <img src="@match.AwayTeam.ImagePath" class="league-table-logo mx-2" />
+                                <img src="@match.AwayTeam.ImagePath" class="league-table-logo mx-2"  height="50px" />
                                 <span class="team-name col">@match.AwayTeam.Name</span>
                             </li>
                         }

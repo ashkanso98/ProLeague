@@ -17,27 +17,6 @@ namespace ProLeague.Application.Services
         {
             return await _unitOfWork.Matches.GetAllMatchesWithDetailsAsync();
         }
-        //public async Task<Result> CreateMatchAsync(CreateMatchViewModel model)
-        //{
-        //    if (model.HomeTeamId == model.AwayTeamId)
-        //    {
-        //        return Result.Failure(new[] { "Home and away teams cannot be the same." });
-        //    }
-
-        //    var match = new Match
-        //    {
-        //        LeagueId = model.LeagueId,
-        //        HomeTeamId = model.HomeTeamId,
-        //        AwayTeamId = model.AwayTeamId,
-        //        MatchDate = model.MatchDate,
-        //        MatchWeek = model.MatchWeek,
-        //        Status = MatchStatus.Scheduled
-        //    };
-
-        //    await _unitOfWork.Matches.AddAsync(match);
-        //    await _unitOfWork.CompleteAsync();
-        //    return Result.Success();
-        //}
         public async Task<Result> CreateMatchAsync(CreateMatchViewModel model)
         {
             if (model.HomeTeamId == model.AwayTeamId)

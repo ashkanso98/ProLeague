@@ -36,7 +36,7 @@
                     <th scope="row" class="text-center">@rank</th>
                     <td class="text-start">
                         <a asp-controller="Team" asp-action="Details" asp-route-id="@team.Id" class="text-decoration-none text-dark fw-bold">
-                            <img src="@(team.ImagePath ?? "/images/default-logo.png")" class="league-table-logo me-2" alt="@team.Name" />
+                            <img src="@(team.ImagePath ?? "/images/default-logo.png")" class="league-table-logo me-2" alt="@team.Name" height="50px" />
                             @team.Name
                         </a>
                     </td>

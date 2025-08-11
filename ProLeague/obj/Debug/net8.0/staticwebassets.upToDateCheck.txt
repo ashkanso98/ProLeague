@@ -1,11 +1,15 @@
 wwwroot\css\site.css
 wwwroot\favicon.ico
+wwwroot\images\league\45ede5a2-8543-4971-8532-d6100e706a18_LaLiga_logo_2023.svg.png
 wwwroot\images\league\55a6b9bb-a4a9-4144-bfbe-d04a192ccac1_task-management-logo.png
+wwwroot\images\league\7e720ed4-3db8-4a76-aeaa-0eb3740e9ab3_Premier_League_Logo.svg.png
+wwwroot\images\league\b3a3d9be-8f18-4c12-85eb-6cd47a51c60b_iran-league.png
 wwwroot\images\league\b91f8e28-49eb-4342-8607-8998ae9df1c8_serieA.png
 wwwroot\images\news\gallery\cdc8d569-3e11-4e8a-a45d-0c1d34c21e86_images.jpg
 wwwroot\images\news\main\fa07f8c0-3ae3-4327-8c56-35cd8340e324_Barcelona-Logo.png
 wwwroot\images\players\764535c9-2f57-4960-8cf6-37b14f976e88_images.jpg
-wwwroot\images\teams\773c3aef-6fd8-4ade-9304-e673ac573289_Barcelona-Logo.png
+wwwroot\images\teams\43bee283-c340-452f-92bd-023a3531a7ec.png
+wwwroot\images\teams\63ff4209-e433-432e-aca3-8a18796c63fd.png
 wwwroot\js\site.js
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map

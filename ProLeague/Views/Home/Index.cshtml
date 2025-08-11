@@ -54,8 +54,7 @@
         }
 
     .league-table-logo {
-        width: 24px;
-        height: 24px;
+        height: 45px;
         margin-right: 8px;
     }
 </style>
@@ -104,7 +103,7 @@
                     var league = Model.Leagues[i];
                     <li class="nav-item" role="presentation">
                         <button class="nav-link @(i == 0 ? "active" : "")" id="tab-@league.Id" data-bs-toggle="tab" data-bs-target="#content-@league.Id" type="button" role="tab">
-                            <img src="@league.ImagePath" style="width:20px; margin-right:5px;" /> @league.Name
+                            <img src="@league.ImagePath" style="margin-right:5px;" height="40px" /> @league.Name
                         </button>
                     </li>
                 }
