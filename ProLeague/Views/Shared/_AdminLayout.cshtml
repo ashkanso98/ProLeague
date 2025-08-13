@@ -6,11 +6,7 @@
     <title>@ViewData["Title"] - پنل مدیریت ProLeague</title>
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" />
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap" rel="stylesheet">
 
     <style>
@@ -31,16 +27,21 @@
             display: flex;
             width: 100%;
             min-height: 100vh;
+            align-items: stretch;
         }
 
         /* --- Sidebar Styles --- */
         .sidebar {
             width: var(--sidebar-width);
-            min-height: 100vh;
+            min-width: var(--sidebar-width);
             background: var(--sidebar-bg);
             color: white;
-            transition: all 0.3s;
+            transition: margin-right 0.3s ease-in-out;
         }
+
+            .sidebar.collapsed {
+                margin-right: calc(-1 * var(--sidebar-width));
+            }
 
         .sidebar-header {
             padding: 1.25rem;
@@ -48,17 +49,13 @@
             border-bottom: 1px solid #495057;
         }
 
-            .sidebar-header h3 {
-                color: #fff;
-                margin-bottom: 0;
-            }
-
         .sidebar .nav-link {
             padding: .8rem 1.25rem;
             color: var(--sidebar-link-color);
             display: flex;
             align-items: center;
             border-right: 3px solid transparent;
+            transition: background-color 0.2s;
         }
 
             .sidebar .nav-link i {
@@ -75,6 +72,7 @@
                 color: white;
                 font-weight: 500;
                 border-right-color: #0d6efd;
+                background: var(--sidebar-active-bg);
             }
 
         /* --- Main Content Styles --- */
@@ -82,6 +80,12 @@
             flex-grow: 1;
             padding: 1.5rem;
             width: calc(100% - var(--sidebar-width));
+            transition: width 0.3s ease-in-out, margin-right 0.3s ease-in-out;
+        }
+
+        .sidebar.collapsed + .main-content {
+            width: 100%;
+            margin-right: 0;
         }
 
         .top-navbar {
@@ -91,77 +95,81 @@
             box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
         }
 
-        .footer {
-            background: #fff;
-            padding: 1rem;
-            margin-top: auto;
-            border-radius: .5rem;
+        /* =================================== */
+        /* --- Responsive Styles for Mobile --- */
+        /* =================================== */
+        @@media (max-width: 992px) {
+            .sidebar {
+                position: fixed;
+                top: 0;
+                right: 0;
+                height: 100vh;
+                z-index: 1050;
+                margin-right: calc(-1 * var(--sidebar-width)); /* Initially hidden */
+            }
+
+                .sidebar.active {
+                    margin-right: 0; /* Shown when active */
+                }
+
+            .main-content {
+                width: 100%;
+                margin-right: 0;
+            }
+            /* Overlay for when mobile menu is open */
+            .overlay {
+                display: none;
+                position: fixed;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 1040;
+                top: 0;
+                left: 0;
+            }
+
+                .overlay.active {
+                    display: block;
+                }
         }
+
     </style>
 </head>
 
 @functions {
-        // متد کمکی برای تشخیص صفحه فعال در منو
         public string? IsActive(string controller)
         {
-                var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
-                return (controller == currentController) ? "active" : null;
+                return (ViewContext.RouteData.Values["controller"]?.ToString() == controller) ? "active" : null;
         }
 }
 
 <body>
     <div class="wrapper">
-        <nav class="sidebar">
+        <nav class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <h3><i class="fas fa-shield-alt me-2"></i> ProLeague</h3>
             </div>
 
             <ul class="nav flex-column p-2">
-                <li class="nav-item">
-                    <a class="nav-link @IsActive("Home")" asp-area="Admin" asp-controller="Home" asp-action="Index">
-                        <i class="fas fa-tachometer-alt"></i> داشبورد
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link @IsActive("League")" asp-area="Admin" asp-controller="League" asp-action="Index">
-                        <i class="fas fa-trophy"></i> مدیریت لیگ‌ها
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link @IsActive("Team")" asp-area="Admin" asp-controller="Team" asp-action="Index">
-                        <i class="fas fa-users"></i> مدیریت تیم‌ها
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link @IsActive("Player")" asp-area="Admin" asp-controller="Player" asp-action="Index">
-                        <i class="fas fa-user-friends"></i> مدیریت بازیکنان
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link @IsActive("Match")" asp-area="Admin" asp-controller="Match" asp-action="Index">
-                        <i class="fas fa-futbol"></i> مدیریت مسابقات
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link @IsActive("News")" asp-area="Admin" asp-controller="News" asp-action="Index">
-                        <i class="far fa-newspaper"></i> مدیریت اخبار
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link @IsActive("Comment")" asp-area="Admin" asp-controller="Comment" asp-action="Index">
-                        <i class="far fa-comments"></i> مدیریت نظرات
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index" target="_blank">
-                        <i class="fas fa-globe"></i> مشاهده سایت
-                    </a>
-                </li>
+                <li class="nav-item"><a class="nav-link @IsActive("Home")" asp-area="Admin" asp-controller="Home" asp-action="Index"><i class="fas fa-tachometer-alt"></i> داشبورد</a></li>
+                <li class="nav-item"><a class="nav-link @IsActive("League")" asp-area="Admin" asp-controller="League" asp-action="Index"><i class="fas fa-trophy"></i> مدیریت لیگ‌ها</a></li>
+                <li class="nav-item"><a class="nav-link @IsActive("Team")" asp-area="Admin" asp-controller="Team" asp-action="Index"><i class="fas fa-users"></i> مدیریت تیم‌ها</a></li>
+                <li class="nav-item"><a class="nav-link @IsActive("Player")" asp-area="Admin" asp-controller="Player" asp-action="Index"><i class="fas fa-user-friends"></i> مدیریت بازیکنان</a></li>
+                <li class="nav-item"><a class="nav-link @IsActive("Match")" asp-area="Admin" asp-controller="Match" asp-action="Index"><i class="fas fa-futbol"></i> مدیریت مسابقات</a></li>
+                <li class="nav-item"><a class="nav-link @IsActive("News")" asp-area="Admin" asp-controller="News" asp-action="Index"><i class="far fa-newspaper"></i> مدیریت اخبار</a></li>
+                <li class="nav-item"><a class="nav-link @IsActive("Comment")" asp-area="Admin" asp-controller="Comment" asp-action="Index"><i class="far fa-comments"></i> مدیریت نظرات</a></li>
+                <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index" target="_blank"><i class="fas fa-globe"></i> مشاهده سایت</a></li>
             </ul>
         </nav>
 
+        <div class="overlay" id="overlay"></div>
+
         <div class="main-content d-flex flex-column">
-            <header class="top-navbar d-flex justify-content-end align-items-center mb-4">
+            <header class="top-navbar d-flex justify-content-between align-items-center mb-4">
+                <button class="btn btn-light" type="button" id="sidebarCollapse">
+                    <i class="fas fa-bars"></i>
+                </button>
+
                 <div class="dropdown">
                     <button class="btn btn-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-user me-2"></i> @User.Identity?.Name
@@ -170,10 +178,8 @@
                         <li><a class="dropdown-item" href="#">پروفایل</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
-                            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post">
-                                <button type="submit" class="dropdown-item text-danger">
-                                    <i class="fas fa-sign-out-alt me-2"></i> خروج
-                                </button>
+                            <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post">
+                                <button type="submit" class="dropdown-item text-danger"><i class="fas fa-sign-out-alt me-2"></i> خروج</button>
                             </form>
                         </li>
                     </ul>
@@ -184,10 +190,8 @@
                 @RenderBody()
             </main>
 
-            <footer class="footer text-muted mt-4">
-                <div class="container-fluid text-center">
-                    &copy; 2025 - ProLeague Admin Panel
-                </div>
+            <footer class="footer text-muted mt-4 bg-white p-3 rounded text-center">
+                &copy; @DateTime.Now.Year - ProLeague Admin Panel
             </footer>
         </div>
     </div>
@@ -195,6 +199,32 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Function to toggle the sidebar
+            function toggleSidebar() {
+                // For mobile, we use a different class to show/hide
+                if (window.innerWidth <= 992) {
+                    $('#sidebar').toggleClass('active');
+                    $('#overlay').toggleClass('active');
+                } else {
+                    // For desktop, we collapse it
+                    $('#sidebar').toggleClass('collapsed');
+                }
+            }
+
+            // When the toggle button is clicked
+            $('#sidebarCollapse').on('click', function () {
+                toggleSidebar();
+            });
+
+            // When the overlay is clicked (for mobile)
+            $('#overlay').on('click', function () {
+                toggleSidebar();
+            });
+        });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

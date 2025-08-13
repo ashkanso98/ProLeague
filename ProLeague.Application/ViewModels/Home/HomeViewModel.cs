@@ -8,5 +8,10 @@ namespace ProLeague.Application.ViewModels.Home
         public List<Domain.Entities.News> LatestNews { get; set; } = new();
         public Domain.Entities.News? FeaturedNews { get; set; } // فقط یک خبر ویژه اصلی
         public List<Domain.Entities.League> Leagues { get; set; } = new();
+        // پراپرتی جدید برای لیگ پین‌شده
+        public Domain.Entities.League? PinnedLeague { get; set; }
+
+        // تغییر نام این پراپرتی برای وضوح بیشتر
+        public List<Domain.Entities.League> TopLeagues { get; set; } = new();
     }
 }

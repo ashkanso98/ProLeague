@@ -1,5 +1,6 @@
 ﻿// ProLeague.Application/ViewModels/News/NewsViewModels.cs
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ProLeague.Domain.Entities;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -34,6 +35,14 @@ namespace ProLeague.Application.ViewModels.News
 
         [Display(Name = "بازیکنان مرتبط")]
         public List<int>? RelatedPlayerIds { get; set; } = new();
+    }
+    public class NewsIndexViewModel
+    {
+        public PaginatedList<Domain.Entities.News> NewsList { get; set; }
+        public SelectList Leagues { get; set; }
+        public SelectList Teams { get; set; }
+        public int? CurrentLeagueId { get; set; }
+        public int? CurrentTeamId { get; set; }
     }
 
     public class EditNewsViewModel

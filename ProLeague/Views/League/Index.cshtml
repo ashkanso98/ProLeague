@@ -1,0 +1,64 @@
+﻿@model IEnumerable<ProLeague.Domain.Entities.League>
+
+@{
+    ViewData["Title"] = "لیست تمام لیگ‌ها";
+}
+
+<style>
+    .league-card {
+        transition: transform .2s ease-in-out, box-shadow .2s ease-in-out;
+        border: none;
+        border-radius: .75rem;
+    }
+
+        .league-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;
+        }
+
+    .league-card-img-top {
+        padding: 1.5rem;
+        background-color: #f8f9fa;
+        height: 180px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .league-card-img-top img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+        }
+</style>
+
+<div class="container my-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold">لیگ‌های برتر</h1>
+        <p class="lead text-muted">آخرین نتایج، جداول و اخبار لیگ‌های معتبر را دنبال کنید.</p>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @foreach (var league in Model)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm league-card">
+                    <div class="league-card-img-top">
+                        <img src="@(league.ImagePath ?? "/images/default-logo.png")" alt="@league.Name">
+                    </div>
+                    <div class="card-body text-center">
+                        <h5 class="card-title fw-bold">@league.Name</h5>
+                        <p class="card-text text-muted">@league.Country</p>
+                    </div>
+                    <div class="card-footer bg-transparent text-center border-top-0 pb-3">
+                        <span class="badge bg-secondary mb-3">@league.Teams.Count() تیم</span>
+                        <br />
+                        <a asp-controller="League" asp-action="Details" asp-route-id="@league.Id" class="btn btn-primary stretched-link">
+                            <i class="fas fa-eye me-2"></i> مشاهده جزئیات
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

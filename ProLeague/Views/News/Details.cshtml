@@ -1,98 +1,103 @@
-﻿<!-- FootballNews.Web/Views/News/Details.cshtml -->
-@model News
+﻿@model ProLeague.Domain.Entities.News
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using ProLeague.Domain.Entities
 @inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
 
 @{
     ViewData["Title"] = Model.Title;
+    // Filter for approved comments right at the start
+    var approvedComments = Model.Comments.Where(c => c.Status == CommentStatus.Approved).OrderByDescending(c => c.CreatedDate);
 }
 
-<div class="container mt-4">
-    <h1>@Model.Title</h1>
-    <p class="text-muted">@Model.PublishedDate.ToString("MMM dd, yyyy HH:mm")</p>
-
-    @if (!string.IsNullOrEmpty(Model.MainImagePath))
-    {
-        <img src="@Model.MainImagePath" class="img-fluid mb-3" alt="@Model.Title">
+<style>
+    /* Custom styles for the article page */
+    .news-content {
+        line-height: 1.8;
+        font-size: 1.1rem;
+        white-space: pre-wrap; /* This is the magic line that respects line breaks */
     }
 
-    <div class="content">
-        @Html.Raw(Model.Content) <!-- Assuming content is HTML safe or sanitized -->
-    </div>
+    .comment-card {
+        border: none;
+        border-bottom: 1px solid #eee;
+    }
 
-    @if (Model.Images != null && Model.Images.Any())
-    {
-        <div class="mt-4">
-            <h4>Gallery</h4>
-            <div class="row">
-                @foreach (var img in Model.Images)
-                {
-                    <div class="col-md-4 mb-3">
-                        <img src="@img.ImagePath" class="img-thumbnail" alt="News Image">
+        .comment-card:last-child {
+            border-bottom: none;
+        }
+
+    .comment-avatar {
+        font-size: 2.5rem;
+        color: #adb5bd;
+    }
+</style>
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <article>
+                <header class="mb-4">
+                    <h1 class="fw-bolder mb-1 display-5">@Model.Title</h1>
+                    <div class="text-muted fst-italic mb-2">
+                        منتشر شده در تاریخ @Model.PublishedDate.ToString("yyyy/MM/dd")
                     </div>
+                </header>
+
+                @if (!string.IsNullOrEmpty(Model.MainImagePath))
+                {
+                    <figure class="mb-4">
+                        <img class="img-fluid rounded" src="@Model.MainImagePath" alt="@Model.Title" />
+                    </figure>
                 }
-            </div>
-        </div>
-    }
-    @* Related Section *@
-    <h4 class="mb-3">موارد مرتبط</h4>
-    <div>
-        @foreach (var league in Model.RelatedLeagues)
-        {
-            <span class="badge bg-primary m-1">لیگ: @league.Name</span>
-        }
-        @foreach (var team in Model.RelatedTeams)
-        {
-            <span class="badge bg-success m-1">تیم: @team.Name</span>
-        }
-        @foreach (var player in Model.RelatedPlayers)
-        {
-            <span class="badge bg-info m-1">بازیکن: @player.Name</span>
-        }
-    </div>
-    
 
-    <!-- Comments Section -->
-    <div class="mt-5">
-        <h3>Comments</h3>
-        @if (SignInManager.IsSignedIn(User))
-        {
-            <form asp-action="AddComment" method="post" class="mb-4">
-                <input type="hidden" name="newsId" value="@Model.Id" />
-                <div class="mb-3">
-                    <label for="commentContent" class="form-label">Add a comment:</label>
-                    <textarea class="form-control" id="commentContent" name="content" rows="3" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Post Comment</button>
-            </form>
-        }
-        else
-        {
-            <p><a asp-area="Identity" asp-page="/Account/Login">Login</a> to post a comment.</p>
-        }
+                <section class="mb-5 news-content">
+                    @Model.Content
+                </section>
+            </article>
 
-        @if (Model.Comments != null && Model.Comments.Any())
-        {
-            @foreach (var comment in Model.Comments.OrderByDescending(c => c.CreatedDate))
-            {
-                <div class="card mb-2">
+            <section class="mb-5">
+                <div class="card bg-light">
                     <div class="card-body">
-                        <h6 class="card-subtitle mb-2 text-muted">@comment.User.UserName <small>(@comment.CreatedDate.ToString("MMM dd, yyyy HH:mm"))</small></h6>
-                        <p class="card-text">@comment.Content</p>
-                        @if (User.IsInRole("Admin"))
+                        @if (SignInManager.IsSignedIn(User))
                         {
-                            <a asp-action="DeleteComment" asp-route-id="@comment.Id" class="btn btn-danger btn-sm">Delete</a>
+                            <form asp-action="AddComment" method="post" class="mb-4">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="newsId" value="@Model.Id" />
+                                <textarea class="form-control" name="content" rows="3" placeholder="نظر خود را بنویسید..."></textarea>
+                                <button class="btn btn-primary mt-2" type="submit">ارسال نظر</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <p class="text-center">
+                                <a asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Context.Request.Path">برای ثبت نظر وارد شوید</a>
+                            </p>
+                        }
+
+                        @if (approvedComments.Any())
+                        {
+                            foreach (var comment in approvedComments)
+                            {
+                                <div class="d-flex mb-4">
+                                    <div class="flex-shrink-0 me-3">
+                                        <i class="fas fa-user-circle comment-avatar"></i>
+                                    </div>
+                                    <div class="w-100">
+                                        <div class="fw-bold">@comment.User.UserName</div>
+                                        @comment.Content
+                                        <div class="text-muted" style="font-size: 0.8rem;">@comment.CreatedDate.ToString("g")</div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p class="text-center text-muted">هنوز نظری برای این خبر ثبت نشده است.</p>
                         }
                     </div>
                 </div>
-            }
-        }
-        else
-        {
-            <p>No comments yet.</p>
-        }
+            </section>
+        </div>
     </div>
 </div>

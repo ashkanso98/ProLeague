@@ -18,6 +18,10 @@ namespace ProLeague.Application.Services
             _unitOfWork = unitOfWork;
             _environment = environment;
         }
+        public async Task<IEnumerable<League>> GetAllLeaguesWithTeamsAsync()
+        {
+            return await _unitOfWork.Leagues.GetAllLeaguesWithTeamsAsync();
+        }
         public async Task<League?> GetLeagueDetailsAsync(int id)
         {
             return await _unitOfWork.Leagues.GetLeagueDetailsAsync(id);

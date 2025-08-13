@@ -1,4 +1,4 @@
-﻿using ProLeague.Domain.Entities;
+﻿    using ProLeague.Domain.Entities;
 
 namespace ProLeague.Application.Interfaces
 {
@@ -8,6 +8,9 @@ namespace ProLeague.Application.Interfaces
     {
         Task<IEnumerable<League>> GetLeaguesWithTeamsAsync(int count);
         Task<League?> GetLeagueDetailsAsync(int id);
+        Task<List<League>> GetHomepageLeaguesAsync(int count, int pinnedLeagueId);
+        Task<List<League>> GetTopLeaguesAsync(int count, int excludeId);
+        Task<List<League>> GetAllLeaguesWithTeamsAsync();
     }
 
     public interface ITeamRepository : IRepository<Team>
@@ -27,6 +30,8 @@ namespace ProLeague.Application.Interfaces
         Task<NewsImage?> GetNewsImageByIdAsync(int id);
         void DeleteNewsImage(NewsImage image);
         Task<IEnumerable<News>> GetRecentNewsAsync(int count);
+        Task<PaginatedList<News>> GetPaginatedFilteredNewsAsync(int? leagueId, int? teamId, int pageIndex, int pageSize);
+
     }
 
     public interface ICommentRepository : IRepository<NewsComment>

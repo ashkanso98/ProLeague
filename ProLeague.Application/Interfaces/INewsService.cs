@@ -13,5 +13,7 @@ namespace ProLeague.Application.Interfaces
         Task<Result> UpdateNewsAsync(EditNewsViewModel model);
         Task<Result> DeleteNewsAsync(int id);
         Task<Result> DeleteGalleryImageAsync(int imageId);
+        Task<NewsIndexViewModel> GetNewsIndexViewModelAsync(int? leagueId, int? teamId, int pageIndex);
+
     }
 }

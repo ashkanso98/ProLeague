@@ -12,7 +12,8 @@ namespace ProLeague.Application.Interfaces
         Task<Result> CreateLeagueAsync(CreateLeagueViewModel model);
         Task<Result> UpdateLeagueAsync(EditLeagueViewModel model);
         Task<Result> DeleteLeagueAsync(int id);
-        Task<League?> GetLeagueDetailsAsync(int id); // متد جدید
-      
+        Task<League?> GetLeagueDetailsAsync(int id); 
+        Task<IEnumerable<League>> GetAllLeaguesWithTeamsAsync();
+
     }
 }

@@ -14,7 +14,21 @@ namespace ProLeague.Infrastructure.Repositories
         public LeagueRepository(ApplicationDbContext context) : base(context)
         {
         }
-
+        public async Task<List<League>> GetAllLeaguesWithTeamsAsync()
+        {
+            return await _context.Leagues
+                .Include(l => l.Teams)
+                .OrderBy(l => l.Name)
+                .ToListAsync();
+        }
+        public async Task<List<League>> GetTopLeaguesAsync(int count, int excludeId)
+        {
+            return await _context.Leagues
+                .Where(l => l.Id != excludeId) // لیگ پین‌شده را نادیده بگیر
+                .Include(l => l.Teams)
+                .Take(count)
+                .ToListAsync();
+        }
         public async Task<IEnumerable<League>> GetLeaguesWithTeamsAsync(int count)
         {
             return await _context.Leagues
@@ -48,6 +62,31 @@ namespace ProLeague.Infrastructure.Repositories
 
                 // لیگ مورد نظر را بر اساس شناسه پیدا کن
                 .FirstOrDefaultAsync(l => l.Id == id);
+        }
+        public async Task<List<League>> GetHomepageLeaguesAsync(int count, int pinnedLeagueId)
+        {
+            // 1. Fetch the top 'count' leagues, making sure to exclude the pinned one for now.
+            var topLeagues = await _context.Leagues
+                .Where(l => l.Id != pinnedLeagueId)
+                .Include(l => l.Teams)
+                .Take(count)
+                .ToListAsync();
+
+            // 2. Fetch the pinned league separately to ensure it's included.
+            var pinnedLeague = await _context.Leagues
+                .Where(l => l.Id == pinnedLeagueId)
+                .Include(l => l.Teams)
+                .FirstOrDefaultAsync();
+
+            // 3. Add the pinned league to the beginning of the list if it exists.
+            if (pinnedLeague != null)
+            {
+                // Ensure we don't add duplicates if the pinned league was somehow in the top list
+                topLeagues.RemoveAll(l => l.Id == pinnedLeagueId);
+                topLeagues.Insert(0, pinnedLeague);
+            }
+
+            return topLeagues;
         }
     }
 }

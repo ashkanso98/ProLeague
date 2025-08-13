@@ -9,7 +9,12 @@ public class LeagueController : Controller
     {
         _leagueService = leagueService;
     }
-
+    // GET: /League
+    public async Task<IActionResult> Index()
+    {
+        var leagues = await _leagueService.GetAllLeaguesWithTeamsAsync();
+        return View(leagues);
+    }
     public async Task<IActionResult> Details(int id)
     {
         // از متد جدید استفاده می‌کنیم

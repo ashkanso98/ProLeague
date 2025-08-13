@@ -96,11 +96,18 @@
         </nav>
     </header>
 
-    <div class="main-container">
+@* <div class="main-container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
-    </div>
+    </div> *@
+<div class="main-container">
+    <main role="main" class="py-4">
+        <div class="container">
+            @RenderBody()
+        </div>
+    </main>
+</div>
 
     <footer class="footer pt-5 pb-4">
         <div class="container text-center text-md-start">

@@ -3,28 +3,40 @@
   "WorkspaceRootPath": "C:\\Users\\User\\source\\repos\\ProLeague\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|c:\\users\\user\\source\\repos\\proleague\\proleague\\views\\news\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|solutionrelative:proleague\\views\\news\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|c:\\users\\user\\source\\repos\\proleague\\proleague\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|solutionrelative:proleague\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|c:\\users\\user\\source\\repos\\proleague\\proleague\\areas\\admin\\views\\news\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|solutionrelative:proleague\\areas\\admin\\views\\news\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|c:\\users\\user\\source\\repos\\proleague\\proleague\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|solutionrelative:proleague\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|c:\\users\\user\\source\\repos\\proleague\\proleague\\views\\league\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|solutionrelative:proleague\\views\\league\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|c:\\users\\user\\source\\repos\\proleague\\proleague\\views\\news\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|solutionrelative:proleague\\views\\news\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A3DD8D19-C4A2-4F37-80F7-BB785635CC15}|ProLeague.Infrastructure\\ProLeague.Infrastructure.csproj|c:\\users\\user\\source\\repos\\proleague\\proleague.infrastructure\\repositories\\commentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A3DD8D19-C4A2-4F37-80F7-BB785635CC15}|ProLeague.Infrastructure\\ProLeague.Infrastructure.csproj|solutionrelative:proleague.infrastructure\\repositories\\commentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|c:\\users\\user\\source\\repos\\proleague\\proleague\\controllers\\newscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|solutionrelative:proleague\\controllers\\newscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|c:\\users\\user\\source\\repos\\proleague\\proleague\\areas\\admin\\controllers\\teamcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|solutionrelative:proleague\\areas\\admin\\controllers\\teamcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{BBA48CEB-8275-485F-86AE-F1B408687A84}|ProLeague.Application\\ProLeague.Application.csproj|c:\\users\\user\\source\\repos\\proleague\\proleague.application\\services\\newsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BBA48CEB-8275-485F-86AE-F1B408687A84}|ProLeague.Application\\ProLeague.Application.csproj|solutionrelative:proleague.application\\services\\newsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|c:\\users\\user\\source\\repos\\proleague\\proleague\\areas\\admin\\views\\team\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|solutionrelative:proleague\\areas\\admin\\views\\team\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{BBA48CEB-8275-485F-86AE-F1B408687A84}|ProLeague.Application\\ProLeague.Application.csproj|c:\\users\\user\\source\\repos\\proleague\\proleague.application\\interfaces\\inewsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BBA48CEB-8275-485F-86AE-F1B408687A84}|ProLeague.Application\\ProLeague.Application.csproj|solutionrelative:proleague.application\\interfaces\\inewsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A3DD8D19-C4A2-4F37-80F7-BB785635CC15}|ProLeague.Infrastructure\\ProLeague.Infrastructure.csproj|c:\\users\\user\\source\\repos\\proleague\\proleague.infrastructure\\repositories\\newsrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A3DD8D19-C4A2-4F37-80F7-BB785635CC15}|ProLeague.Infrastructure\\ProLeague.Infrastructure.csproj|solutionrelative:proleague.infrastructure\\repositories\\newsrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BBA48CEB-8275-485F-86AE-F1B408687A84}|ProLeague.Application\\ProLeague.Application.csproj|c:\\users\\user\\source\\repos\\proleague\\proleague.application\\interfaces\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BBA48CEB-8275-485F-86AE-F1B408687A84}|ProLeague.Application\\ProLeague.Application.csproj|solutionrelative:proleague.application\\interfaces\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BBA48CEB-8275-485F-86AE-F1B408687A84}|ProLeague.Application\\ProLeague.Application.csproj|c:\\users\\user\\source\\repos\\proleague\\proleague.application\\viewmodels\\news\\newsviewmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BBA48CEB-8275-485F-86AE-F1B408687A84}|ProLeague.Application\\ProLeague.Application.csproj|solutionrelative:proleague.application\\viewmodels\\news\\newsviewmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -43,77 +55,119 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Details.cshtml",
-              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Views\\News\\Details.cshtml",
-              "RelativeDocumentMoniker": "ProLeague\\Views\\News\\Details.cshtml",
-              "ToolTip": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Views\\News\\Details.cshtml",
-              "RelativeToolTip": "ProLeague\\Views\\News\\Details.cshtml",
-              "ViewState": "AgIAABEAAAAAAAAAAAAmwDYAAAAKAAAAAAAAAA==",
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "ProLeague\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "ProLeague\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAADkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-08-10T23:11:24.11Z",
+              "WhenOpened": "2025-08-12T23:00:06.362Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Details.cshtml",
-              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Areas\\Admin\\Views\\News\\Details.cshtml",
-              "RelativeDocumentMoniker": "ProLeague\\Areas\\Admin\\Views\\News\\Details.cshtml",
-              "ToolTip": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Areas\\Admin\\Views\\News\\Details.cshtml",
-              "RelativeToolTip": "ProLeague\\Areas\\Admin\\Views\\News\\Details.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADwAAAA9AAAAAAAAAA==",
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "ProLeague\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "ProLeague\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAFEAAAAAAAAAAAAAAG0AAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-08-10T23:10:54.098Z",
+              "WhenOpened": "2025-08-12T22:56:02.731Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Details.cshtml",
-              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Views\\League\\Details.cshtml",
-              "RelativeDocumentMoniker": "ProLeague\\Views\\League\\Details.cshtml",
-              "ToolTip": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Views\\League\\Details.cshtml",
-              "RelativeToolTip": "ProLeague\\Views\\League\\Details.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAmwAkAAAA0AAAAAAAAAA==",
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Views\\News\\Index.cshtml",
+              "RelativeDocumentMoniker": "ProLeague\\Views\\News\\Index.cshtml",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Views\\News\\Index.cshtml",
+              "RelativeToolTip": "ProLeague\\Views\\News\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGEAAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-08-10T19:23:13.834Z",
+              "WhenOpened": "2025-08-12T22:29:28.383Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "CommentRepository.cs",
-              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague.Infrastructure\\Repositories\\CommentRepository.cs",
-              "RelativeDocumentMoniker": "ProLeague.Infrastructure\\Repositories\\CommentRepository.cs",
-              "ToolTip": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague.Infrastructure\\Repositories\\CommentRepository.cs",
-              "RelativeToolTip": "ProLeague.Infrastructure\\Repositories\\CommentRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "NewsController.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Controllers\\NewsController.cs",
+              "RelativeDocumentMoniker": "ProLeague\\Controllers\\NewsController.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Controllers\\NewsController.cs",
+              "RelativeToolTip": "ProLeague\\Controllers\\NewsController.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABkAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-10T19:23:05.618Z"
+              "WhenOpened": "2025-08-12T22:28:56.781Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "TeamController.cs",
-              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Areas\\Admin\\Controllers\\TeamController.cs",
-              "RelativeDocumentMoniker": "ProLeague\\Areas\\Admin\\Controllers\\TeamController.cs",
-              "ToolTip": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Areas\\Admin\\Controllers\\TeamController.cs",
-              "RelativeToolTip": "ProLeague\\Areas\\Admin\\Controllers\\TeamController.cs",
-              "ViewState": "AgIAAHIAAAAAAAAAAAAIwEsAAAAAAAAAAAAAAA==",
+              "Title": "NewsService.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague.Application\\Services\\NewsService.cs",
+              "RelativeDocumentMoniker": "ProLeague.Application\\Services\\NewsService.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague.Application\\Services\\NewsService.cs",
+              "RelativeToolTip": "ProLeague.Application\\Services\\NewsService.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAswCgAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-10T19:21:17.344Z"
+              "WhenOpened": "2025-08-12T22:28:28.356Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Areas\\Admin\\Views\\Team\\Index.cshtml",
-              "RelativeDocumentMoniker": "ProLeague\\Areas\\Admin\\Views\\Team\\Index.cshtml",
-              "ToolTip": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Areas\\Admin\\Views\\Team\\Index.cshtml",
-              "RelativeToolTip": "ProLeague\\Areas\\Admin\\Views\\Team\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-08-10T19:20:52.499Z"
+              "Title": "INewsService.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague.Application\\Interfaces\\INewsService.cs",
+              "RelativeDocumentMoniker": "ProLeague.Application\\Interfaces\\INewsService.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague.Application\\Interfaces\\INewsService.cs",
+              "RelativeToolTip": "ProLeague.Application\\Interfaces\\INewsService.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAIAywBAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-12T22:28:04.669Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "NewsRepository.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague.Infrastructure\\Repositories\\NewsRepository.cs",
+              "RelativeDocumentMoniker": "ProLeague.Infrastructure\\Repositories\\NewsRepository.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague.Infrastructure\\Repositories\\NewsRepository.cs",
+              "RelativeToolTip": "ProLeague.Infrastructure\\Repositories\\NewsRepository.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAwwCsAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-12T22:27:38.174Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "IUnitOfWork.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague.Application\\Interfaces\\IUnitOfWork.cs",
+              "RelativeDocumentMoniker": "ProLeague.Application\\Interfaces\\IUnitOfWork.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague.Application\\Interfaces\\IUnitOfWork.cs",
+              "RelativeToolTip": "ProLeague.Application\\Interfaces\\IUnitOfWork.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAwwCEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-12T22:27:08.086Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "NewsViewModels.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague.Application\\ViewModels\\News\\NewsViewModels.cs",
+              "RelativeDocumentMoniker": "ProLeague.Application\\ViewModels\\News\\NewsViewModels.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague.Application\\ViewModels\\News\\NewsViewModels.cs",
+              "RelativeToolTip": "ProLeague.Application\\ViewModels\\News\\NewsViewModels.cs",
+              "ViewState": "AgIAACIAAAAAAAAAAAAwwC0AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-12T22:26:04.037Z",
+              "EditorCaption": ""
             }
           ]
         }

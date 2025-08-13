@@ -19,7 +19,11 @@ namespace ProLeague.Controllers
             _commentService = commentService;
             _userManager = userManager;
         }
-
+        public async Task<IActionResult> Index(int? leagueId, int? teamId, int? pageNumber)
+        {
+            var viewModel = await _newsService.GetNewsIndexViewModelAsync(leagueId, teamId, pageNumber ?? 1);
+            return View(viewModel);
+        }
         // GET: News/Details/5
         public async Task<IActionResult> Details(int id)
         {

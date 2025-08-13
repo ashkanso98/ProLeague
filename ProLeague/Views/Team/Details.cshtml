@@ -30,9 +30,12 @@
                 <div class="d-flex flex-wrap gap-3">
                     <span class="badge bg-primary fs-6">بازی: @Model.Played</span>
                     <span class="badge bg-success fs-6">برد: @Model.Wins</span>
-                    <span class="badge bg-warning fs-6">مساوی: @Model.Draws</span>
+                    <span class="badge bg-warning text-dark fs-6">مساوی: @Model.Draws</span>
                     <span class="badge bg-danger fs-6">باخت: @Model.Losses</span>
                     <span class="badge bg-info fs-6">امتیاز: @Model.Points</span>
+                    <span class="badge bg-dark fs-6">
+                        <i class="fas fa-heart me-1"></i> هواداران: @Model.FanCount
+                    </span>
                 </div>
             </div>
         </div>
