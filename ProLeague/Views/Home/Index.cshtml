@@ -15,17 +15,17 @@
 }
 
 <style>
-    /* استایل‌های سفارشی برای زیباسازی - بهتر است این کدها به فایل site.css منتقل شوند */
+    /* استایل‌های سفارشی برای ریسپانسیو */
     .hero-section {
         position: relative;
-        height: 50vh;
+        height: 40vh;
         background-size: cover;
         background-position: center;
         border-radius: 0.5rem;
         color: white;
         display: flex;
         align-items: flex-end;
-        padding: 2rem;
+        padding: 1.5rem;
     }
 
         .hero-section::before {
@@ -42,8 +42,18 @@
     .hero-content {
         position: relative;
         z-index: 1;
+        max-width: 90%;
     }
 
+        .hero-content h1 {
+            font-size: 1.5rem;
+        }
+
+        .hero-content p {
+            font-size: 0.9rem;
+        }
+
+    /* اخبار */
     .news-card {
         transition: transform .2s ease-in-out, box-shadow .2s ease-in-out;
     }
@@ -53,27 +63,64 @@
             box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;
         }
 
-    .league-table-logo {
-        height: 45px;
-        margin-right: 8px;
+    /* جدول لیگ در موبایل */
+    .league-table-wrapper {
+        overflow-x: auto;
+    }
+
+        .league-table-wrapper table {
+            min-width: 500px;
+        }
+
+    /* تب لیگ‌ها اسکرول افقی در موبایل */
+    .nav-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+        .nav-tabs .nav-link {
+            flex: 0 0 auto;
+        }
+
+    /* بهبود فاصله در موبایل */
+    @@media (max-width: 576px) {
+        .hero-section
+
+    {
+        height: 30vh;
+        padding: 1rem;
+    }
+
+    .hero-content h1 {
+        font-size: 1.2rem;
+    }
+
+    .hero-content p {
+        font-size: 0.8rem;
+    }
+
+    .news-card img {
+        height: 160px !important;
+    }
+
     }
 </style>
 
 @if (Model.FeaturedNews != null)
 {
-    <section class="hero-section mb-5 shadow" style="background-image: url('@(Model.FeaturedNews.MainImagePath ?? "/images/default-news.png")');">
+    <section class="hero-section mb-4 shadow" style="background-image: url('@(Model.FeaturedNews.MainImagePath ?? "/images/default-news.png")');">
         <div class="hero-content">
-            <h1 class="display-4 fw-bold">@Model.FeaturedNews.Title</h1>
-            <p class="lead">@Truncate(Model.FeaturedNews.Content, 150)</p>
-            <a asp-controller="News" asp-action="Details" asp-route-id="@Model.FeaturedNews.Id" class="btn btn-primary btn-lg">ادامه مطلب &raquo;</a>
+            <h1 class="fw-bold">@Model.FeaturedNews.Title</h1>
+            <p>@Truncate(Model.FeaturedNews.Content, 120)</p>
+            <a asp-controller="News" asp-action="Details" asp-route-id="@Model.FeaturedNews.Id" class="btn btn-primary btn-sm">ادامه مطلب &raquo;</a>
         </div>
     </section>
 }
 
-
 <section class="latest-news mb-5">
-    <h2 class="pb-2 border-bottom mb-4">آخرین اخبار</h2>
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <h2 class="pb-2 border-bottom mb-3">آخرین اخبار</h2>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
         @foreach (var news in Model.LatestNews)
         {
             <div class="col">
@@ -83,9 +130,9 @@
                         <h5 class="card-title">@news.Title</h5>
                         <p class="card-text text-muted">@Truncate(news.Content, 80)</p>
                     </div>
-                    <div class="card-footer bg-transparent border-top-0">
+                    <div class="card-footer bg-transparent border-top-0 d-flex justify-content-between align-items-center">
                         <a asp-controller="News" asp-action="Details" asp-route-id="@news.Id" class="stretched-link">بیشتر بخوانید</a>
-                        <small class="text-muted float-end">@news.PublishedDate.ToShortDateString()</small>
+                        <small class="text-muted">@news.PublishedDate.ToShortDateString()</small>
                     </div>
                 </div>
             </div>
@@ -93,31 +140,24 @@
     </div>
 </section>
 
-
-
-
-
-
-
 @if (Model.PinnedLeague != null)
 {
     <section class="pinned-league-section mb-5">
         <div class="d-flex align-items-center pb-2 border-bottom mb-3">
-            <img src="@Model.PinnedLeague.ImagePath" style="height: 40px;" class="me-3" />
-            <h2 class="mb-0"> @Model.PinnedLeague.Name</h2>
+            <img src="@Model.PinnedLeague.ImagePath" style="height: 35px;" class="me-2" />
+            <h2 class="mb-0 fs-5">@Model.PinnedLeague.Name</h2>
         </div>
         <div class="card shadow-sm">
-            <div class="card-body">
+            <div class="card-body league-table-wrapper">
                 <partial name="_LeagueTablePartial" model="Model.PinnedLeague.Teams" />
-                <a asp-controller="League" asp-action="Details" asp-route-id="@Model.PinnedLeague.Id" class="btn btn-outline-primary mt-3">مشاهده جزئیات کامل لیگ</a>
+                <a asp-controller="League" asp-action="Details" asp-route-id="@Model.PinnedLeague.Id" class="btn btn-outline-primary btn-sm mt-3">جزئیات کامل لیگ</a>
             </div>
         </div>
     </section>
 }
 
-
 <section class="leagues-section">
-    <h2 class="pb-2 border-bottom mb-4">سایر لیگ‌ها</h2>
+    <h2 class="pb-2 border-bottom mb-3">سایر لیگ‌ها</h2>
     <div class="row">
         <div class="col-12">
             <ul class="nav nav-tabs" id="leagueTabs" role="tablist">
@@ -136,9 +176,9 @@
                 {
                     var league = Model.TopLeagues[i];
                     <div class="tab-pane fade @(i == 0 ? "show active" : "")" id="content-@league.Id" role="tabpanel">
-                        <div class="p-3 border border-top-0">
+                        <div class="p-3 border border-top-0 league-table-wrapper">
                             <partial name="_LeagueTablePartial" model="league.Teams" />
-                            <a asp-controller="League" asp-action="Details" asp-route-id="@league.Id" class="btn btn-outline-primary mt-3">مشاهده جزئیات کامل لیگ</a>
+                            <a asp-controller="League" asp-action="Details" asp-route-id="@league.Id" class="btn btn-outline-primary btn-sm mt-3">جزئیات کامل لیگ</a>
                         </div>
                     </div>
                 }
@@ -146,40 +186,3 @@
         </div>
     </div>
 </section>
-
-
-
-
-
-@* 
-<section class="leagues-section">
-    <h2 class="pb-2 border-bottom mb-4">لیگ‌ها و نتایج</h2>
-    <div class="row">
-        <div class="col-12">
-            <ul class="nav nav-tabs" id="leagueTabs" role="tablist">
-                @for (var i = 0; i < Model.Leagues.Count; i++)
-                {
-                    var league = Model.Leagues[i];
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link @(i == 0 ? "active" : "")" id="tab-@league.Id" data-bs-toggle="tab" data-bs-target="#content-@league.Id" type="button" role="tab">
-                            <img src="@league.ImagePath" style="margin-right:5px;" height="40px" /> @league.Name
-                        </button>
-                    </li>
-                }
-            </ul>
-            <div class="tab-content" id="leagueTabsContent">
-                @for (var i = 0; i < Model.Leagues.Count; i++)
-                {
-                    var league = Model.Leagues[i];
-                    <div class="tab-pane fade @(i == 0 ? "show active" : "")" id="content-@league.Id" role="tabpanel">
-                        <div class="p-3 border border-top-0">
-                            <h4 class="mb-3">جدول رده‌بندی</h4>
-                            <partial name="_LeagueTablePartial" model="league.Teams" />
-                            <a asp-controller="League" asp-action="Details" asp-route-id="@league.Id" class="btn btn-outline-primary mt-3">مشاهده جزئیات کامل لیگ</a>
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
-</section> *@

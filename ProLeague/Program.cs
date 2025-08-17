@@ -1,11 +1,13 @@
 ﻿// ProLeague/Program.cs
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using ProLeague.Application.Interfaces;
 using ProLeague.Application.Services;
 using ProLeague.Domain.Entities;
 using ProLeague.Infrastructure.Data;
 using ProLeague.Infrastructure.Repositories;
+using ProLeague.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,8 +42,9 @@ builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IMatchService, MatchService>();
 builder.Services.AddScoped<IHomeService, HomeService>(); 
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IAdminDashboardService, AdminDashboardService>(); // Add this line
+builder.Services.AddScoped<IAdminDashboardService, AdminDashboardService>();
 
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 // سرویس‌های وب
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages(); // برای صفحات Identity
