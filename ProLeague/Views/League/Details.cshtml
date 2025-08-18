@@ -6,11 +6,11 @@
 }
 
 <header class="d-flex align-items-center pb-3 mb-4 border-bottom">
-    <img src="@Model.ImagePath" alt="@Model.Name" height="50px" class="me-3" />
+    <img src="@(Model.ImagePath ?? "/images/default-logo.png")" alt="@Model.Name" height="50px" class="me-3" />
     <h1 class="h2">@Model.Name - @Model.Country</h1>
 </header>
 
-<div class="container">
+<div class="container-fluid">
     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="pills-table-tab" data-bs-toggle="pill" data-bs-target="#pills-table" type="button">جدول لیگ</button>
@@ -23,7 +23,7 @@
     <div class="tab-content" id="pills-tabContent">
         <div class="tab-pane fade show active" id="pills-table" role="tabpanel">
             <h3 class="mb-3">جدول کامل</h3>
-            <partial name="_LeagueTablePartial" model="Model.Teams" />
+            <partial name="_LeagueTablePartial" model="Model.TeamEntries" />
         </div>
         <div class="tab-pane fade" id="pills-fixtures" role="tabpanel">
             <h3 class="mb-3">نتایج بر اساس هفته</h3>
@@ -37,11 +37,11 @@
                         @foreach (var match in weekGroup.OrderBy(m => m.MatchDate))
                         {
                             <li class="list-group-item d-flex justify-content-center align-items-center text-center">
-                                <span class="team-name col">@match.HomeTeam.Name</span>
-                                <img src="@match.HomeTeam.ImagePath" class="league-table-logo mx-2"  height="50px" />
-                                <span class="badge bg-dark fs-6">@match.HomeTeamGoals - @match.AwayTeamGoals</span>
-                                <img src="@match.AwayTeam.ImagePath" class="league-table-logo mx-2"  height="50px" />
-                                <span class="team-name col">@match.AwayTeam.Name</span>
+                                <span class="team-name col text-end">@match.HomeTeam.Name</span>
+                                <img src="@(match.HomeTeam.ImagePath ?? "/images/default-logo.png")" class="league-table-logo mx-2" height="24px" />
+                                <span class="badge bg-dark fs-6 mx-3">@match.HomeTeamGoals - @match.AwayTeamGoals</span>
+                                <img src="@(match.AwayTeam.ImagePath ?? "/images/default-logo.png")" class="league-table-logo mx-2" height="24px" />
+                                <span class="team-name col text-start">@match.AwayTeam.Name</span>
                             </li>
                         }
                     </ul>

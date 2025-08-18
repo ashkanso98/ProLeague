@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = $"پروفایل تیم: {Model.Name}";
 }
+
 <style>
     .card-link {
         text-decoration: none;
@@ -18,6 +19,7 @@
             box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;
         }
 </style>
+
 <div class="card shadow-sm mb-4">
     <div class="card-body p-4">
         <div class="row align-items-center">
@@ -26,23 +28,63 @@
             </div>
             <div class="col-md-10">
                 <h1 class="display-5">@Model.Name</h1>
-                <p class="lead text-muted">@Model.League.Name | ورزشگاه: @(Model.Stadium ?? "-")</p>
-                <div class="d-flex flex-wrap gap-3">
-                    <span class="badge bg-primary fs-6">بازی: @Model.Played</span>
-                    <span class="badge bg-success fs-6">برد: @Model.Wins</span>
-                    <span class="badge bg-warning text-dark fs-6">مساوی: @Model.Draws</span>
-                    <span class="badge bg-danger fs-6">باخت: @Model.Losses</span>
-                    <span class="badge bg-info fs-6">امتیاز: @Model.Points</span>
-                    <span class="badge bg-dark fs-6">
-                        <i class="fas fa-heart me-1"></i> هواداران: @Model.FanCount
-                    </span>
+                <div class="mb-3">
+                    @foreach (var entry in Model.LeagueEntries)
+                    {
+                        <span class="badge bg-primary fs-6 me-1">@entry.League.Name</span>
+                    }
                 </div>
+                <p class="lead text-muted">ورزشگاه: @(Model.Stadium ?? "-")</p>
+                <span class="badge bg-dark fs-6">
+                    <i class="fas fa-heart me-1"></i> هواداران: @Model.FanCount
+                </span>
             </div>
         </div>
     </div>
 </div>
 
-<ul class="nav nav-tabs" id="teamTab" role="tablist">
+<h3 class="mb-3">عملکرد در لیگ‌ها</h3>
+<div class="row">
+    @foreach (var entry in Model.LeagueEntries)
+    {
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">آمار در @entry.League.Name</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-bordered text-center">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>امتیاز</th>
+                                    <th>بازی</th>
+                                    <th>برد</th>
+                                    <th>مساوی</th>
+                                    <th>باخت</th>
+                                    <th>تفاضل</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="fs-5 fw-bold">@entry.Points</td>
+                                    <td>@entry.Played</td>
+                                    <td>@entry.Wins</td>
+                                    <td>@entry.Draws</td>
+                                    <td>@entry.Losses</td>
+                                    <td class="fw-bold @(entry.GoalDifference >= 0 ? "text-success" : "text-danger")">@entry.GoalDifference</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+<ul class="nav nav-tabs mt-4" id="teamTab" role="tablist">
     <li class="nav-item" role="presentation">
         <button class="nav-link active" id="players-tab" data-bs-toggle="tab" data-bs-target="#players" type="button">بازیکنان</button>
     </li>

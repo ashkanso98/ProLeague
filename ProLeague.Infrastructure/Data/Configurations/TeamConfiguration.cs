@@ -2,18 +2,17 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ProLeague.Domain.Entities;
 
-namespace ProLeague.Infrastructure.Data.Configurations;
-
-public class TeamConfiguration : IEntityTypeConfiguration<Team>
+namespace ProLeague.Infrastructure.Data.Configurations
 {
-    public void Configure(EntityTypeBuilder<Team> builder)
+    public class TeamConfiguration : IEntityTypeConfiguration<Team>
     {
-        builder.HasKey(t => t.Id);
-        builder.Property(t => t.Name).IsRequired().HasMaxLength(100);
+        public void Configure(EntityTypeBuilder<Team> builder)
+        {
+            builder.HasKey(t => t.Id);
+            builder.Property(t => t.Name).IsRequired().HasMaxLength(100);
 
-        builder.HasOne(t => t.League)
-            .WithMany(l => l.Teams)
-            .HasForeignKey(t => t.LeagueId)
-            .OnDelete(DeleteBehavior.Cascade); // حذف یک لیگ، تیم‌هایش را حذف می‌کند
+            // The one-to-many relationship with League is removed
+            // because the relationship is now many-to-many via the LeagueEntry entity.
+        }
     }
 }

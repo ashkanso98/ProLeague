@@ -118,11 +118,17 @@ namespace ProLeague.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // API Endpoint for dynamic dropdowns
+        //// API Endpoint for dynamic dropdowns
+        //[HttpGet]
+        //public async Task<JsonResult> GetTeamsByLeague(int leagueId)
+        //{
+        //    var teams = (await _teamService.GetAllTeamsAsync()).Where(t => t.LeagueId == leagueId);
+        //    return Json(teams.Select(t => new { id = t.Id, name = t.Name }));
+        //}
         [HttpGet]
         public async Task<JsonResult> GetTeamsByLeague(int leagueId)
         {
-            var teams = (await _teamService.GetAllTeamsAsync()).Where(t => t.LeagueId == leagueId);
+            var teams = await _teamService.GetTeamsByLeagueIdAsync(leagueId);
             return Json(teams.Select(t => new { id = t.Id, name = t.Name }));
         }
     }

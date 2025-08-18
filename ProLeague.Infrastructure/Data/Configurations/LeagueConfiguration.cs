@@ -2,14 +2,15 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ProLeague.Domain.Entities;
 
-namespace ProLeague.Infrastructure.Data.Configurations;
-
-public class LeagueConfiguration : IEntityTypeConfiguration<League>
+namespace ProLeague.Infrastructure.Data.Configurations
 {
-    public void Configure(EntityTypeBuilder<League> builder)
+    public class LeagueConfiguration : IEntityTypeConfiguration<League>
     {
-        builder.HasKey(l => l.Id);
-        builder.Property(l => l.Name).IsRequired().HasMaxLength(100);
-        builder.Property(l => l.Country).HasMaxLength(50);
+        public void Configure(EntityTypeBuilder<League> builder)
+        {
+            builder.HasKey(l => l.Id);
+            builder.Property(l => l.Name).IsRequired().HasMaxLength(100);
+            builder.Property(l => l.Country).HasMaxLength(50);
+        }
     }
 }

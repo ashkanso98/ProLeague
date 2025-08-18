@@ -1,5 +1,4 @@
-﻿// ProLeague.Domain/Entities/League.cs
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ProLeague.Domain.Entities
 {
@@ -16,10 +15,13 @@ namespace ProLeague.Domain.Entities
 
         public string? ImagePath { get; set; }
 
-        public ICollection<Team> Teams { get; set; } = new List<Team>();
-        public ICollection<News> News { get; set; } = new List<News>();
+        // --- REMOVED ---
+        // public ICollection<Team> Teams { get; set; } = new List<Team>();
 
-        // --- پراپرتی جدید ---
+        // --- ADDED ---
+        public ICollection<LeagueEntry> TeamEntries { get; set; } = new List<LeagueEntry>();
+
+        public ICollection<News> News { get; set; } = new List<News>();
         public ICollection<Match> Matches { get; set; } = new List<Match>();
     }
 }

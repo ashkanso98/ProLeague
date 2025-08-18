@@ -5,7 +5,7 @@
 }
 
 @functions {
-    // متد کمکی برای خلاصه‌سازی متن
+    // Helper function to truncate text
     public static string Truncate(string text, int length)
     {
         if (string.IsNullOrEmpty(text) || text.Length <= length)
@@ -15,6 +15,7 @@
 }
 
 <style>
+
     /* استایل‌های سفارشی برای ریسپانسیو */
     .hero-section {
         position: relative;
@@ -52,7 +53,6 @@
         .hero-content p {
             font-size: 0.9rem;
         }
-
     /* اخبار */
     .news-card {
         transition: transform .2s ease-in-out, box-shadow .2s ease-in-out;
@@ -62,18 +62,16 @@
             transform: translateY(-5px);
             box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;
         }
-
     /* جدول لیگ در موبایل */
-    .league-table-wrapper {
+    /* .league-table-wrapper {
         overflow-x: auto;
     }
 
         .league-table-wrapper table {
             min-width: 500px;
-        }
-
+        } */
     /* تب لیگ‌ها اسکرول افقی در موبایل */
-    .nav-tabs {
+    /* .nav-tabs {
         flex-wrap: nowrap;
         overflow-x: auto;
         white-space: nowrap;
@@ -81,29 +79,25 @@
 
         .nav-tabs .nav-link {
             flex: 0 0 auto;
-        }
-
+        } */
     /* بهبود فاصله در موبایل */
     @@media (max-width: 576px) {
-        .hero-section
+        .hero-section {
+            height: 30vh;
+            padding: 1rem;
+        }
 
-    {
-        height: 30vh;
-        padding: 1rem;
-    }
+        .hero-content h1 {
+            font-size: 1.2rem;
+        }
 
-    .hero-content h1 {
-        font-size: 1.2rem;
-    }
+        .hero-content p {
+            font-size: 0.8rem;
+        }
 
-    .hero-content p {
-        font-size: 0.8rem;
-    }
-
-    .news-card img {
-        height: 160px !important;
-    }
-
+        .news-card img {
+            height: 160px !important;
+        }
     }
 </style>
 
@@ -149,7 +143,7 @@
         </div>
         <div class="card shadow-sm">
             <div class="card-body league-table-wrapper">
-                <partial name="_LeagueTablePartial" model="Model.PinnedLeague.Teams" />
+                <partial name="_LeagueTablePartial" model="Model.PinnedLeague.TeamEntries" />
                 <a asp-controller="League" asp-action="Details" asp-route-id="@Model.PinnedLeague.Id" class="btn btn-outline-primary btn-sm mt-3">جزئیات کامل لیگ</a>
             </div>
         </div>
@@ -177,7 +171,7 @@
                     var league = Model.TopLeagues[i];
                     <div class="tab-pane fade @(i == 0 ? "show active" : "")" id="content-@league.Id" role="tabpanel">
                         <div class="p-3 border border-top-0 league-table-wrapper">
-                            <partial name="_LeagueTablePartial" model="league.Teams" />
+                            <partial name="_LeagueTablePartial" model="league.TeamEntries" />
                             <a asp-controller="League" asp-action="Details" asp-route-id="@league.Id" class="btn btn-outline-primary btn-sm mt-3">جزئیات کامل لیگ</a>
                         </div>
                     </div>

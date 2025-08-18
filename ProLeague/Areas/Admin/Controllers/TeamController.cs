@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ProLeague.Application.Interfaces;
 using ProLeague.Application.ViewModels.Team;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ProLeague.Areas.Admin.Controllers
 {
@@ -11,7 +13,7 @@ namespace ProLeague.Areas.Admin.Controllers
     public class TeamController : Controller
     {
         private readonly ITeamService _teamService;
-        private readonly ILeagueService _leagueService; // Needed for the dropdown list
+        private readonly ILeagueService _leagueService;
 
         public TeamController(ITeamService teamService, ILeagueService leagueService)
         {
@@ -22,6 +24,7 @@ namespace ProLeague.Areas.Admin.Controllers
         // GET: Admin/Team
         public async Task<IActionResult> Index()
         {
+            // This method needs to be updated in the repository to include LeagueEntries.League
             var teams = await _teamService.GetAllTeamsAsync();
             return View(teams);
         }
@@ -48,19 +51,19 @@ namespace ProLeague.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
-                await PopulateLeaguesDropDownList(model.LeagueId);
+                await PopulateLeaguesDropDownList(model.LeagueIds);
                 return View(model);
             }
 
             var result = await _teamService.CreateTeamAsync(model);
             if (result.Succeeded)
             {
-                TempData["SuccessMessage"] = "تیم با موفقیت ایجاد شد.";
+                TempData["SuccessMessage"] = "Team created successfully.";
                 return RedirectToAction(nameof(Index));
             }
 
             ModelState.AddModelError(string.Empty, result.Errors?.FirstOrDefault() ?? "An unknown error occurred.");
-            await PopulateLeaguesDropDownList(model.LeagueId);
+            await PopulateLeaguesDropDownList(model.LeagueIds);
             return View(model);
         }
 
@@ -70,7 +73,7 @@ namespace ProLeague.Areas.Admin.Controllers
             var model = await _teamService.GetTeamForEditAsync(id);
             if (model == null) return NotFound();
 
-            await PopulateLeaguesDropDownList(model.LeagueId);
+            await PopulateLeaguesDropDownList(model.LeagueIds);
             return View(model);
         }
 
@@ -83,19 +86,19 @@ namespace ProLeague.Areas.Admin.Controllers
 
             if (!ModelState.IsValid)
             {
-                await PopulateLeaguesDropDownList(model.LeagueId);
+                await PopulateLeaguesDropDownList(model.LeagueIds);
                 return View(model);
             }
 
             var result = await _teamService.UpdateTeamAsync(model);
             if (result.Succeeded)
             {
-                TempData["SuccessMessage"] = "تیم با موفقیت به‌روزرسانی شد.";
+                TempData["SuccessMessage"] = "Team updated successfully.";
                 return RedirectToAction(nameof(Index));
             }
 
             ModelState.AddModelError(string.Empty, result.Errors?.FirstOrDefault() ?? "An unknown error occurred.");
-            await PopulateLeaguesDropDownList(model.LeagueId);
+            await PopulateLeaguesDropDownList(model.LeagueIds);
             return View(model);
         }
 
@@ -115,20 +118,21 @@ namespace ProLeague.Areas.Admin.Controllers
             var result = await _teamService.DeleteTeamAsync(id);
             if (result.Succeeded)
             {
-                TempData["SuccessMessage"] = "تیم با موفقیت حذف شد.";
+                TempData["SuccessMessage"] = "Team deleted successfully.";
             }
             else
             {
-                TempData["ErrorMessage"] = result.Errors?.FirstOrDefault() ?? "خطا در حذف تیم.";
+                TempData["ErrorMessage"] = result.Errors?.FirstOrDefault() ?? "Error deleting team.";
             }
             return RedirectToAction(nameof(Index));
         }
 
         // Helper method to populate the leagues dropdown
-        private async Task PopulateLeaguesDropDownList(object? selectedLeague = null)
+        private async Task PopulateLeaguesDropDownList(object? selectedLeagues = null)
         {
             var leagues = await _leagueService.GetAllLeaguesAsync();
-            ViewBag.LeagueId = new SelectList(leagues.OrderBy(l => l.Name), "Id", "Name", selectedLeague);
+            // Use MultiSelectList for many-to-many relationships
+            ViewBag.Leagues = new MultiSelectList(leagues.OrderBy(l => l.Name), "Id", "Name", selectedLeagues as System.Collections.IEnumerable);
         }
     }
 }

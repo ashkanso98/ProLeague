@@ -1,5 +1,5 @@
-﻿// ProLeague.Application/ViewModels/Team/TeamViewModels.cs
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ProLeague.Application.ViewModels.Team
@@ -15,9 +15,10 @@ namespace ProLeague.Application.ViewModels.Team
         [Display(Name = "ورزشگاه")]
         public string? Stadium { get; set; }
 
-        [Required(ErrorMessage = "انتخاب لیگ اجباری است.")]
-        [Display(Name = "لیگ")]
-        public int LeagueId { get; set; }
+        // --- CHANGED ---
+        [Required(ErrorMessage = "حداقل انتخاب یک لیگ اجباری است.")]
+        [Display(Name = "لیگ‌ها")]
+        public List<int> LeagueIds { get; set; } = new List<int>();
 
         [Display(Name = "لوگوی تیم")]
         public IFormFile? LogoFile { get; set; }
@@ -36,16 +37,15 @@ namespace ProLeague.Application.ViewModels.Team
         [Display(Name = "ورزشگاه")]
         public string? Stadium { get; set; }
 
-        [Required(ErrorMessage = "انتخاب لیگ اجباری است.")]
-        [Display(Name = "لیگ")]
-        public int LeagueId { get; set; }
+        // --- CHANGED ---
+        [Required(ErrorMessage = "حداقل انتخاب یک لیگ اجباری است.")]
+        [Display(Name = "لیگ‌ها")]
+        public List<int> LeagueIds { get; set; } = new List<int>();
 
         [Display(Name = "لوگوی فعلی")]
         public string? ExistingLogoPath { get; set; }
 
         [Display(Name = "انتخاب لوگوی جدید")]
         public IFormFile? NewLogoFile { get; set; }
-
-        // توجه: فیلدهای آمار (برد، باخت و...) حذف شده‌اند چون دیگر به صورت دستی ویرایش نمی‌شوند.
     }
 }

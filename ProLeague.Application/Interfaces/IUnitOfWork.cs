@@ -16,6 +16,8 @@ namespace ProLeague.Application.Interfaces
     public interface ITeamRepository : IRepository<Team>
     {
         Task<Team?> GetTeamDetailsAsync(int id);
+        Task<Team?> GetTeamWithLeaguesAsync(int id); 
+        Task<IEnumerable<Team>> GetTeamsByLeagueIdAsync(int leagueId);
     }
 
     public interface IPlayerRepository : IRepository<Player>

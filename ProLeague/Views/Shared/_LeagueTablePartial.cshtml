@@ -1,10 +1,11 @@
-﻿@model IEnumerable<ProLeague.Domain.Entities.Team>
+﻿@model IEnumerable<ProLeague.Domain.Entities.LeagueEntry>
 
 @{
-    var sortedTeams = Model
-        .OrderByDescending(t => t.Points)
-        .ThenByDescending(t => t.GoalDifference)
-        .ThenByDescending(t => t.GoalsFor)
+    // Sort the league entries based on their stats
+    var sortedEntries = Model
+        .OrderByDescending(e => e.Points)
+        .ThenByDescending(e => e.GoalDifference)
+        .ThenByDescending(e => e.GoalsFor)
         .ToList();
 }
 
@@ -88,7 +89,7 @@
         }
     }
 </style>
-
+@* 
 <!-- Desktop version -->
 <div class="d-none d-md-block">
     <div class="table-responsive">
@@ -172,4 +173,86 @@
             </a>
         }
     </div>
+</div> *@
+
+<div class="d-none d-md-block">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-light text-center">
+                <tr>
+                    <th scope="col" style="width:5%;">رده</th>
+                    <th scope="col" class="text-start" style="width:35%;">نام تیم</th>
+                    <th scope="col" title="Played">بازی</th>
+                    <th scope="col" title="Wins">برد</th>
+                    <th scope="col" title="Draws">مساوری</th>
+                    <th scope="col" title="Losses">باخت</th>
+                    <th scope="col" title="Goals For">گل زده</th>
+                    <th scope="col" title="Goals Against">گل خورده</th>
+                    <th scope="col" title="Goal Difference">تفاضل گل</th>
+                    <th scope="col" title="Points">امتیاز</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < sortedEntries.Count; i++)
+                {
+                    var entry = sortedEntries[i];
+                    var rank = i + 1;
+                    string rowClass = rank <= 4 ? "table-success" : "";
+
+                    <tr class="@rowClass">
+                        <th scope="row" class="text-center">@rank</th>
+                        <td class="text-start">
+                            <a asp-controller="Team" asp-action="Details" asp-route-id="@entry.TeamId" class="text-decoration-none text-dark fw-bold d-flex align-items-center">
+                                <img src="@(entry.Team.ImagePath ?? "/images/default-logo.png")" class="me-2 league-table-logo" alt="@entry.Team.Name" />
+                                <span>@entry.Team.Name</span>
+                            </a>
+                        </td>
+                        <td class="text-center">@entry.Played</td>
+                        <td class="text-center">@entry.Wins</td>
+                        <td class="text-center">@entry.Draws</td>
+                        <td class="text-center">@entry.Losses</td>
+                        <td class="text-center">@entry.GoalsFor</td>
+                        <td class="text-center">@entry.GoalsAgainst</td>
+                        <td class="text-center">@entry.GoalDifference</td>
+                        <td class="text-center fw-bold">@entry.Points</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="d-md-none">
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Team</th>
+                <th scope="col" class="text-center">بازی</th>
+                @* <th scope="col" class="text-center">GD</th> *@
+                <th scope="col" class="text-center">امتیاز</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < sortedEntries.Count; i++)
+            {
+                var entry = sortedEntries[i];
+                var rank = i + 1;
+                string rowClass = rank <= 4 ? "table-success" : "";
+
+                <tr class="@rowClass">
+                    <th scope="row">@rank</th>
+                    <td>
+                        <a asp-controller="Team" asp-action="Details" asp-route-id="@entry.TeamId" class="text-decoration-none text-dark d-flex align-items-center">
+                            <img src="@(entry.Team.ImagePath ?? "/images/default-logo.png")" class="me-2 league-table-logo" alt="@entry.Team.Name" />
+                            <span class="fw-bold">@entry.Team.Name</span>
+                        </a>
+                    </td>
+                    <td class="text-center">@entry.Played</td>
+                    @* <td class="text-center">@entry.GoalDifference</td> *@
+                    <td class="text-center fw-bold">@entry.Points</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

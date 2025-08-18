@@ -18,23 +18,20 @@
                     <div class="mb-3">
                         <label asp-for="Name" class="form-label"></label>
                         <input asp-for="Name" class="form-control" />
-                        <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
                         <label asp-for="Stadium" class="form-label"></label>
                         <input asp-for="Stadium" class="form-control" />
-                        <span asp-validation-for="Stadium" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
-                        <label asp-for="LeagueId" class="form-label"></label>
-                        <select asp-for="LeagueId" class="form-select" asp-items="ViewBag.LeagueId"></select>
-                        <span asp-validation-for="LeagueId" class="text-danger"></span>
+                        <label asp-for="LeagueIds" class="form-label"></label>
+                        <select asp-for="LeagueIds" class="form-select select2" asp-items="ViewBag.Leagues" multiple></select>
                     </div>
                 </div>
                 <div class="col-md-5">
                     <div class="text-center border p-3 rounded bg-light">
-                        <label class="form-label d-block">لوگوی فعلی</label>
-                        <img id="logoPreview" src="@(Model.ExistingLogoPath ?? "/images/default-logo.png")" alt="پیش‌نمایش لوگو"
+                        <label class="form-label d-block">لوگو</label>
+                        <img id="logoPreview" src="@(Model.ExistingLogoPath ?? "/images/default-logo.png")" alt="Preview"
                              class="img-thumbnail mb-3" style="width: 150px; height: 150px; object-fit: contain;">
                         <div class="mb-3">
                             <label asp-for="NewLogoFile" class="form-label"></label>
@@ -46,15 +43,8 @@
             </div>
 
             <hr class="my-4" />
-
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-save me-2"></i> ذخیره تغییرات
-                </button>
-                <a asp-action="Index" class="btn btn-secondary">
-                    <i class="fas fa-times me-2"></i> انصراف
-                </a>
-            </div>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save me-2"></i> ذخیره تغییرات</button>
+            <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-times me-2"></i> انصراف</a>
         </form>
     </div>
 </div>
@@ -63,4 +53,14 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2({
+                 placeholder: "یک یا چند لیگ را انتخاب کنید",
+                 dir: "rtl"
+            });
+        });
+    </script>
 }

@@ -14,14 +14,11 @@ namespace ProLeague.Infrastructure.Repositories
         {
         }
 
-        // --- This is the method you asked for, now complete ---
         public async Task<IEnumerable<League>> GetLeaguesWithTeamsAsync(int count)
         {
             return await _context.Leagues
-                .Include(l => l.Teams)
-                    .ThenInclude(t => t.HomeMatches)
-                .Include(l => l.Teams)
-                    .ThenInclude(t => t.AwayMatches)
+                // Include the join entity, then the Team through it
+                .Include(l => l.TeamEntries).ThenInclude(le => le.Team)
                 .Take(count)
                 .ToListAsync();
         }
@@ -29,8 +26,7 @@ namespace ProLeague.Infrastructure.Repositories
         public async Task<List<League>> GetAllLeaguesWithTeamsAsync()
         {
             return await _context.Leagues
-                .Include(l => l.Teams).ThenInclude(t => t.HomeMatches)
-                .Include(l => l.Teams).ThenInclude(t => t.AwayMatches)
+                .Include(l => l.TeamEntries).ThenInclude(le => le.Team)
                 .OrderBy(l => l.Name)
                 .ToListAsync();
         }
@@ -39,8 +35,7 @@ namespace ProLeague.Infrastructure.Repositories
         {
             return await _context.Leagues
                 .Where(l => l.Id != excludeId)
-                .Include(l => l.Teams).ThenInclude(t => t.HomeMatches)
-                .Include(l => l.Teams).ThenInclude(t => t.AwayMatches)
+                .Include(l => l.TeamEntries).ThenInclude(le => le.Team)
                 .Take(count)
                 .ToListAsync();
         }
@@ -48,41 +43,42 @@ namespace ProLeague.Infrastructure.Repositories
         public async Task<League?> GetLeagueDetailsAsync(int id)
         {
             return await _context.Leagues
-                .Include(l => l.Teams)
-                    .ThenInclude(t => t.HomeMatches)
-                .Include(l => l.Teams)
-                    .ThenInclude(t => t.AwayMatches)
-                .Include(l => l.Matches)
-                    .ThenInclude(m => m.HomeTeam)
-                .Include(l => l.Matches)
-                    .ThenInclude(m => m.AwayTeam)
+                // Include the TeamEntries and then the actual Team for each entry
+                .Include(l => l.TeamEntries).ThenInclude(le => le.Team)
+                // Also load the matches for each team entry to calculate stats
+                .Include(l => l.TeamEntries).ThenInclude(le => le.Team.HomeMatches)
+                .Include(l => l.TeamEntries).ThenInclude(le => le.Team.AwayMatches)
+                // Load the league's overall matches and their teams
+                .Include(l => l.Matches).ThenInclude(m => m.HomeTeam)
+                .Include(l => l.Matches).ThenInclude(m => m.AwayTeam)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(l => l.Id == id);
         }
 
         public async Task<List<League>> GetHomepageLeaguesAsync(int count, int pinnedLeagueId)
         {
-            var topLeagues = await _context.Leagues
-                .Where(l => l.Id != pinnedLeagueId)
-                .Include(l => l.Teams).ThenInclude(t => t.HomeMatches)
-                .Include(l => l.Teams).ThenInclude(t => t.AwayMatches)
-                .OrderByDescending(l => l.Id)
-                .Take(count)
-                .ToListAsync();
+            // This method needs to be updated to handle the new structure as well.
+            // For now, let's simplify it to get the pinned league and top others.
+            // A more complex query might be needed later.
 
             var pinnedLeague = await _context.Leagues
                 .Where(l => l.Id == pinnedLeagueId)
-                .Include(l => l.Teams).ThenInclude(t => t.HomeMatches)
-                .Include(l => l.Teams).ThenInclude(t => t.AwayMatches)
+                .Include(l => l.TeamEntries).ThenInclude(le => le.Team)
                 .FirstOrDefaultAsync();
+
+            var topLeagues = await _context.Leagues
+                .Where(l => l.Id != pinnedLeagueId)
+                .Include(l => l.TeamEntries).ThenInclude(le => le.Team)
+                .OrderByDescending(l => l.Id) // Just an example order
+                .Take(count)
+                .ToListAsync();
 
             if (pinnedLeague != null)
             {
-                topLeagues.RemoveAll(l => l.Id == pinnedLeagueId);
                 topLeagues.Insert(0, pinnedLeague);
             }
 
-            return topLeagues;
+            return topLeagues.DistinctBy(l => l.Id).ToList();
         }
     }
 }

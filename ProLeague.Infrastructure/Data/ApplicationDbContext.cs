@@ -21,6 +21,7 @@ namespace ProLeague.Infrastructure.Data
         public DbSet<NewsImage> NewsImages { get; set; }
         public DbSet<NewsComment> NewsComments { get; set; }
         public DbSet<Match> Matches { get; set; } // DbSet جدید
+        public DbSet<LeagueEntry> LeagueEntries { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

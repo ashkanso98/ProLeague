@@ -9,17 +9,28 @@ namespace ProLeague.Infrastructure.Repositories
 {
     public class TeamRepository : Repository<Team>, ITeamRepository
     {
-        public TeamRepository(ApplicationDbContext context) : base(context)
-        {
-        }
+        public TeamRepository(ApplicationDbContext context) : base(context) { }
 
         public async Task<Team?> GetTeamDetailsAsync(int id)
         {
+            // This method is for the public details page
             return await _context.Teams
-                .Include(t => t.League)
+                .Include(t => t.LeagueEntries).ThenInclude(le => le.League)
                 .Include(t => t.Players)
-                .Include(t => t.HomeMatches)
-                .Include(t => t.AwayMatches)
+                .FirstOrDefaultAsync(t => t.Id == id);
+        }
+        public async Task<IEnumerable<Team>> GetTeamsByLeagueIdAsync(int leagueId)
+        {
+            return await _context.Teams
+                .Where(t => t.LeagueEntries.Any(le => le.LeagueId == leagueId))
+                .OrderBy(t => t.Name)
+                .ToListAsync();
+        }
+        // New method implementation
+        public async Task<Team?> GetTeamWithLeaguesAsync(int id)
+        {
+            return await _context.Teams
+                .Include(t => t.LeagueEntries) // Include the join entity
                 .FirstOrDefaultAsync(t => t.Id == id);
         }
     }

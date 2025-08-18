@@ -51,7 +51,7 @@
                         <p class="card-text text-muted">@league.Country</p>
                     </div>
                     <div class="card-footer bg-transparent text-center border-top-0 pb-3">
-                        <span class="badge bg-secondary mb-3">@league.Teams.Count() تیم</span>
+                        <span class="badge bg-secondary mb-3">@league.TeamEntries.Count() تیم</span>
                         <br />
                         <a asp-controller="League" asp-action="Details" asp-route-id="@league.Id" class="btn btn-primary stretched-link">
                             <i class="fas fa-eye me-2"></i> مشاهده جزئیات

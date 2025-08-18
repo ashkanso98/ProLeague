@@ -3,16 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\User\\source\\repos\\ProLeague\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|c:\\users\\user\\source\\repos\\proleague\\proleague\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|solutionrelative:proleague\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|c:\\users\\user\\source\\repos\\proleague\\proleague\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|solutionrelative:proleague\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A3DD8D19-C4A2-4F37-80F7-BB785635CC15}|ProLeague.Infrastructure\\ProLeague.Infrastructure.csproj|c:\\users\\user\\source\\repos\\proleague\\proleague.infrastructure\\services\\emailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A3DD8D19-C4A2-4F37-80F7-BB785635CC15}|ProLeague.Infrastructure\\ProLeague.Infrastructure.csproj|solutionrelative:proleague.infrastructure\\services\\emailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|c:\\users\\user\\source\\repos\\proleague\\proleague\\views\\shared\\_leaguetablepartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|solutionrelative:proleague\\views\\shared\\_leaguetablepartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|c:\\users\\user\\source\\repos\\proleague\\proleague\\views\\league\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|solutionrelative:proleague\\views\\league\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,41 +26,28 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Program.cs",
-              "RelativeDocumentMoniker": "ProLeague\\Program.cs",
-              "ToolTip": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Program.cs",
-              "RelativeToolTip": "ProLeague\\Program.cs",
-              "ViewState": "AgIAACUAAAAAAAAAAAAswC4AAAA7AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-16T23:59:33.441Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "EmailSender.cs",
-              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague.Infrastructure\\Services\\EmailSender.cs",
-              "RelativeDocumentMoniker": "ProLeague.Infrastructure\\Services\\EmailSender.cs",
-              "ToolTip": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague.Infrastructure\\Services\\EmailSender.cs",
-              "RelativeToolTip": "ProLeague.Infrastructure\\Services\\EmailSender.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-16T23:59:02.964Z",
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Views\\League\\Details.cshtml",
+              "RelativeDocumentMoniker": "ProLeague\\Views\\League\\Details.cshtml",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Views\\League\\Details.cshtml",
+              "RelativeToolTip": "ProLeague\\Views\\League\\Details.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-08-17T22:30:46.608Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "_LeagueTablePartial.cshtml",
-              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Views\\Shared\\_LeagueTablePartial.cshtml",
-              "RelativeDocumentMoniker": "ProLeague\\Views\\Shared\\_LeagueTablePartial.cshtml",
-              "ToolTip": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Views\\Shared\\_LeagueTablePartial.cshtml",
-              "RelativeToolTip": "ProLeague\\Views\\Shared\\_LeagueTablePartial.cshtml",
-              "ViewState": "AgIAAH4AAAAAAAAAAAAAAJIAAABNAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "ProLeague\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "ProLeague\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAC4AAAAAAAAAAADwv0AAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-08-16T23:46:40.879Z",
+              "WhenOpened": "2025-08-17T22:30:42.96Z",
               "EditorCaption": ""
             }
           ]
