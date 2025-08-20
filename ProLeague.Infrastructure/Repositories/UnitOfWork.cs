@@ -15,6 +15,7 @@ namespace ProLeague.Infrastructure.Repositories
         public INewsRepository News { get; private set; }
         public ICommentRepository Comments { get; private set; }
         public IMatchRepository Matches { get; private set; }
+        public ILeagueEntryRepository LeagueEntries { get; private set; }
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -26,6 +27,7 @@ namespace ProLeague.Infrastructure.Repositories
             Comments = new CommentRepository(_context);
             Matches = new MatchRepository(_context);
             Users = new UserRepository(_context);
+            LeagueEntries = new LeagueEntryRepository(_context);
         }
 
         public async Task<int> CompleteAsync()

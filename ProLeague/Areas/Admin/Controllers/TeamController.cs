@@ -20,12 +20,9 @@ namespace ProLeague.Areas.Admin.Controllers
             _teamService = teamService;
             _leagueService = leagueService;
         }
-
-        // GET: Admin/Team
         public async Task<IActionResult> Index()
         {
-            // This method needs to be updated in the repository to include LeagueEntries.League
-            var teams = await _teamService.GetAllTeamsAsync();
+            var teams = await _teamService.GetAllTeamsWithLeaguesAsync(); // Use the new method
             return View(teams);
         }
 

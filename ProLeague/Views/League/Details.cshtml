@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = $"جزئیات لیگ: {Model.Name}";
     var matchesByWeek = Model.Matches.GroupBy(m => m.MatchWeek).OrderBy(g => g.Key);
+    var selectedWeek = ViewData["SelectedWeek"] as int?;
 }
 
 <header class="d-flex align-items-center pb-3 mb-4 border-bottom">
@@ -25,27 +26,57 @@
             <h3 class="mb-3">جدول کامل</h3>
             <partial name="_LeagueTablePartial" model="Model.TeamEntries" />
         </div>
+
         <div class="tab-pane fade" id="pills-fixtures" role="tabpanel">
-            <h3 class="mb-3">نتایج بر اساس هفته</h3>
-            @foreach (var weekGroup in matchesByWeek)
-            {
-                <div class="card mb-3">
-                    <div class="card-header">
-                        هفته @weekGroup.Key
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        @foreach (var match in weekGroup.OrderBy(m => m.MatchDate))
-                        {
-                            <li class="list-group-item d-flex justify-content-center align-items-center text-center">
-                                <span class="team-name col text-end">@match.HomeTeam.Name</span>
-                                <img src="@(match.HomeTeam.ImagePath ?? "/images/default-logo.png")" class="league-table-logo mx-2" height="24px" />
-                                <span class="badge bg-dark fs-6 mx-3">@match.HomeTeamGoals - @match.AwayTeamGoals</span>
-                                <img src="@(match.AwayTeam.ImagePath ?? "/images/default-logo.png")" class="league-table-logo mx-2" height="24px" />
-                                <span class="team-name col text-start">@match.AwayTeam.Name</span>
-                            </li>
-                        }
-                    </ul>
+
+            <form asp-action="Details" method="get" class="row g-3 align-items-end mb-4 bg-light p-3 rounded">
+                <input type="hidden" name="id" value="@Model.Id" />
+                <div class="col-md-4">
+                    <label for="weekSelector" class="form-label fw-bold">انتخاب هفته:</label>
+                    <select name="week" class="form-select" asp-items="@(ViewData["AvailableWeeks"] as SelectList)" asp-for="@selectedWeek" onchange="this.form.submit()"></select>
                 </div>
+            </form>
+
+            @if (selectedWeek.HasValue)
+            {
+                var weekGroup = matchesByWeek.FirstOrDefault(g => g.Key == selectedWeek.Value);
+                if (weekGroup != null)
+                {
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">هفته @weekGroup.Key</h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            @foreach (var match in weekGroup.OrderBy(m => m.MatchDate))
+                            {
+                                <li class="list-group-item d-flex justify-content-center align-items-center text-center">
+                                    <span class="team-name col text-end">@match.HomeTeam.Name</span>
+                                    <img src="@(match.HomeTeam.ImagePath ?? "/images/default-logo.png")" class="league-table-logo mx-2" height="24px" />
+
+                                    @if (match.IsFinished)
+                                    {
+                                        <span class="badge bg-dark fs-6 mx-3">@match.HomeTeamGoals - @match.AwayTeamGoals</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary fs-6 mx-3">@match.MatchDate.ToString("HH:mm")</span>
+                                    }
+
+                                    <img src="@(match.AwayTeam.ImagePath ?? "/images/default-logo.png")" class="league-table-logo mx-2" height="24px" />
+                                    <span class="team-name col text-start">@match.AwayTeam.Name</span>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-info">مسابقه‌ای برای هفته انتخابی یافت نشد.</div>
+                }
+            }
+            else
+            {
+                <div class="alert alert-warning">هنوز هیچ مسابقه‌ای برای این لیگ ثبت نشده است.</div>
             }
         </div>
     </div>

@@ -19,6 +19,14 @@ namespace ProLeague.Infrastructure.Repositories
                 .Include(t => t.Players)
                 .FirstOrDefaultAsync(t => t.Id == id);
         }
+        public async Task<IEnumerable<Team>> GetAllTeamsWithLeaguesAsync()
+        {
+            return await _context.Teams
+                .Include(t => t.LeagueEntries)
+                .ThenInclude(le => le.League)
+                .OrderBy(t => t.Name)
+                .ToListAsync();
+        }
         public async Task<IEnumerable<Team>> GetTeamsByLeagueIdAsync(int leagueId)
         {
             return await _context.Teams

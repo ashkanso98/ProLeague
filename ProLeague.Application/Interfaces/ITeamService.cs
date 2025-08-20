@@ -13,5 +13,6 @@ namespace ProLeague.Application.Interfaces
         Task<Result> UpdateTeamAsync(EditTeamViewModel model);
         Task<Result> DeleteTeamAsync(int id);
         Task<IEnumerable<Team>> GetTeamsByLeagueIdAsync(int leagueId);
+        Task<IEnumerable<Team>> GetAllTeamsWithLeaguesAsync();
     }
 }

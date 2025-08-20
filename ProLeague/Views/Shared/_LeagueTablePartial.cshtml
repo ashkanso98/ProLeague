@@ -36,7 +36,7 @@
         }
 
         .league-table-mobile-row:nth-child(even) {
-            background-color: #f2f2f2;
+            background-color: ;
         }
 
     .league-table-mobile-team {
@@ -45,7 +45,6 @@
         flex: 1;
         min-width: 0;
     }
-
     .league-table-mobile-stats {
         display: flex;
         justify-content: flex-end;
@@ -89,92 +88,6 @@
         }
     }
 </style>
-@* 
-<!-- Desktop version -->
-<div class="d-none d-md-block">
-    <div class="table-responsive">
-        <table class="table table-hover table-striped align-middle text-center">
-            <thead class="table-light">
-                <tr>
-                    <th scope="col" style="width:5%;">#</th>
-                    <th scope="col" class="text-start" style="width:35%;">تیم</th>
-                    <th scope="col" title="تعداد بازی">تعداد بازی</th>
-                    <th scope="col" title="برد">برد</th>
-                    <th scope="col" title="مساوی">مساوی</th>
-                    <th scope="col" title="باخت">باخت</th>
-                    <th scope="col" title="تفاضل گل">تفاضل گل</th>
-                    <th scope="col" title="امتیاز">امتیاز</th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (int i = 0; i < sortedTeams.Count; i++)
-                {
-                    var team = sortedTeams[i];
-                    var rank = i + 1;
-
-                    <tr>
-                        <th scope="row">@rank</th>
-                        <td class="text-start">
-                            <a asp-controller="Team" asp-action="Details" asp-route-id="@team.Id"
-                               class="text-decoration-none text-dark fw-bold d-flex align-items-center">
-                                <img src="@(team.ImagePath ?? "/images/default-logo.png")"
-                                     class="me-2" alt="@team.Name" height="50" />
-                                <span>@team.Name</span>
-                            </a>
-                        </td>
-                        <td>@team.Played</td>
-                        <td>@team.Wins</td>
-                        <td>@team.Draws</td>
-                        <td>@team.Losses</td>
-                        <td>@team.GoalDifference</td>
-                        <td class="fw-bold">@team.Points</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<!-- Mobile version -->
-<div class="d-md-none">
-    <div class="rounded border mb-4">
-        <!-- Header row -->
-        <div class="league-table-mobile-header">
-            <div class="league-table-mobile-team">
-                <span style="width:28px; margin-right:10px;">#</span>
-                <span>تیم</span>
-            </div>
-            <div class="league-table-mobile-stats">
-                <div class="league-table-mobile-stat" title="تعداد بازی">بازی</div>
-                <div class="league-table-mobile-stat" title="امتیاز">امتیاز</div>
-            </div>
-        </div>
-
-        <!-- Team rows -->
-        @for (int i = 0; i < sortedTeams.Count; i++)
-        {
-            var team = sortedTeams[i];
-            var rank = i + 1;
-
-            <a asp-controller="Team" asp-action="Details" asp-route-id="@team.Id"
-               class="text-decoration-none text-dark">
-                <div class="league-table-mobile-row">
-                    <div class="league-table-mobile-team">
-                        <div class="mobile-rank-badge">@rank</div>
-                        <img src="@(team.ImagePath ?? "/images/default-logo.png")"
-                             class="league-table-logo me-2" alt="@team.Name" />
-                        <div class="team-name fw-bold">@team.Name</div>
-                    </div>
-                    <div class="league-table-mobile-stats">
-                        <div class="league-table-mobile-stat">@team.Played</div>
-                        <div class="league-table-mobile-stat text-primary fw-bold">@team.Points</div>
-                    </div>
-                </div>
-            </a>
-        }
-    </div>
-</div> *@
-
 <div class="d-none d-md-block">
     <div class="table-responsive">
         <table class="table table-hover align-middle">
@@ -197,7 +110,7 @@
                 {
                     var entry = sortedEntries[i];
                     var rank = i + 1;
-                    string rowClass = rank <= 4 ? "table-success" : "";
+                    string rowClass = rank <= 1 ? "table-success" : "";
 
                     <tr class="@rowClass">
                         <th scope="row" class="text-center">@rank</th>
@@ -229,7 +142,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Team</th>
                 <th scope="col" class="text-center">بازی</th>
-                @* <th scope="col" class="text-center">GD</th> *@
+                 @* <th scope="col" class="text-center">GD</th>  *@
                 <th scope="col" class="text-center">امتیاز</th>
             </tr>
         </thead>
@@ -249,10 +162,12 @@
                         </a>
                     </td>
                     <td class="text-center">@entry.Played</td>
-                    @* <td class="text-center">@entry.GoalDifference</td> *@
+                    @* @* <td class="text-center">@entry.GoalDifference</td> *@
                     <td class="text-center fw-bold">@entry.Points</td>
                 </tr>
             }
         </tbody>
     </table>
-</div>
+</div> 
+
+              

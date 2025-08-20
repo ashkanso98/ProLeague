@@ -12,12 +12,16 @@ namespace ProLeague.Application.Interfaces
         Task<List<League>> GetTopLeaguesAsync(int count, int excludeId);
         Task<List<League>> GetAllLeaguesWithTeamsAsync();
     }
-
+    public interface ILeagueEntryRepository : IRepository<LeagueEntry>
+    {
+        Task<LeagueEntry?> FindAsync(int teamId, int leagueId);
+    }
     public interface ITeamRepository : IRepository<Team>
     {
         Task<Team?> GetTeamDetailsAsync(int id);
         Task<Team?> GetTeamWithLeaguesAsync(int id); 
         Task<IEnumerable<Team>> GetTeamsByLeagueIdAsync(int leagueId);
+        Task<IEnumerable<Team>> GetAllTeamsWithLeaguesAsync();
     }
 
     public interface IPlayerRepository : IRepository<Player>
@@ -72,7 +76,7 @@ namespace ProLeague.Application.Interfaces
         ICommentRepository Comments { get; }
         IMatchRepository Matches { get; }
         IUserRepository Users { get; }
-
+        ILeagueEntryRepository LeagueEntries { get; }
         Task<int> CompleteAsync();
     }
 }
