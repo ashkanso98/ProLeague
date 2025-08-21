@@ -42,7 +42,7 @@ namespace ProLeague.Application.Services
             {
                 using var scope = _scopeFactory.CreateScope();
                 var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
-                return await unitOfWork.News.GetRecentNewsAsync(9);
+                return await unitOfWork.News.GetRecentNewsAsync(3);
             });
 
             // Wait for all parallel tasks to complete

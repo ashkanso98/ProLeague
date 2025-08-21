@@ -1,7 +1,12 @@
 ﻿@model ProLeague.Domain.Entities.Team
+@using ProLeague.Domain.Entities
 
 @{
     ViewData["Title"] = $"پروفایل تیم: {Model.Name}";
+    // Combine home and away matches, sort by date, and take the last 10
+    var lastTenMatches = Model.HomeMatches.Concat(Model.AwayMatches)
+                                          .OrderByDescending(m => m.MatchDate)
+                                          .Take(10);
 }
 
 <style>
@@ -43,14 +48,14 @@
     </div>
 </div>
 
-<h3 class="mb-3">عملکرد در لیگ‌ها</h3>
+<h3 class="mb-3"> نتایج در لیگ </h3>
 <div class="row">
     @foreach (var entry in Model.LeagueEntries)
     {
         <div class="col-lg-6 mb-4">
             <div class="card shadow-sm h-100">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">آمار در @entry.League.Name</h5>
+                    <h5 class="card-title mb-0"> نتایج در  @entry.League.Name</h5>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -83,18 +88,59 @@
     }
 </div>
 
-
 <ul class="nav nav-tabs mt-4" id="teamTab" role="tablist">
     <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="players-tab" data-bs-toggle="tab" data-bs-target="#players" type="button">بازیکنان</button>
+        <button class="nav-link active" id="matches-tab" data-bs-toggle="tab" data-bs-target="#matches" type="button">مسابقات</button>
     </li>
     <li class="nav-item" role="presentation">
-        <button class="nav-link" id="matches-tab" data-bs-toggle="tab" data-bs-target="#matches" type="button">مسابقات</button>
+        <button class="nav-link" id="players-tab" data-bs-toggle="tab" data-bs-target="#players" type="button">بازیکنان</button>
     </li>
 </ul>
 <div class="tab-content border border-top-0 p-3" id="teamTabContent">
-    <div class="tab-pane fade show active" id="players" role="tabpanel">
-        <h4 class="mb-3">لیست بازیکنان</h4>
+    <div class="tab-pane fade show active" id="matches" role="tabpanel">
+        <h4 class="mb-3">نتایج 10 مسابقه آخر </h4>
+        @if (!lastTenMatches.Any())
+        {
+            <p class="text-muted">No matches have been registered for this team yet.</p>
+        }
+        else
+        {
+            <ul class="list-group list-group-flush">
+                @foreach (var match in lastTenMatches)
+                {
+                    var opponent = match.HomeTeamId == Model.Id ? match.AwayTeam : match.HomeTeam;
+                    var isHomeMatch = match.HomeTeamId == Model.Id;
+
+                    <li class="list-group-item">
+                        <div class="row align-items-center">
+                            <div class="col-md-2 text-muted small">@match.MatchDate.ToString("yyyy/MM/dd")</div>
+                            <div class="col-md-8 d-flex justify-content-center align-items-center text-center">
+                                <span class="team-name col text-end fw-bold">@(isHomeMatch? Model.Name: opponent.Name)</span>
+                                <img src="@(isHomeMatch? Model.ImagePath ?? "/images/default-logo.png" : opponent.ImagePath ?? "/images/default-logo.png")" class="mx-2" height="24px" />
+
+                                @if (match.Status == MatchStatus.Finished)
+                                {
+                                    <span class="badge bg-dark fs-6 mx-3">@match.HomeTeamGoals - @match.AwayTeamGoals</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary fs-6 mx-3">vs</span>
+                                }
+
+                                <img src="@(isHomeMatch? opponent.ImagePath ?? "/images/default-logo.png" : Model.ImagePath ?? "/images/default-logo.png")" class="mx-2" height="24px" />
+                                <span class="team-name col text-start fw-bold">@(isHomeMatch? opponent.Name: Model.Name)</span>
+                            </div>
+                            <div class="col-md-2 text-center">
+                                <span class="badge @(isHomeMatch ? "bg-info" : "bg-light text-dark")">@(isHomeMatch ? "خانه" : "خارج از خانه")</span>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+    <div class="tab-pane fade" id="players" role="tabpanel">
+        <h4 class="mb-3"> بازیکنان</h4>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
             @foreach (var player in Model.Players)
             {
@@ -111,9 +157,5 @@
                 </div>
             }
         </div>
-    </div>
-    <div class="tab-pane fade" id="matches" role="tabpanel">
-        <h4 class="mb-3">نتایج و بازی‌های پیش‌رو</h4>
-        <p class="text-muted">لیست کامل مسابقات این تیم در اینجا نمایش داده خواهد شد.</p>
     </div>
 </div>

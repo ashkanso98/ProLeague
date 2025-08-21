@@ -1,0 +1,107 @@
+﻿@model ProLeague.Application.ViewModels.ContactViewModel
+
+@{
+    ViewData["Title"] = "تماس با ما";
+}
+
+<style>
+    .contact-card {
+        border: none;
+        border-radius: 1rem;
+    }
+    .contact-info-section {
+        background: linear-gradient(45deg, #0052D4, #4364F7, #6FB1FC);
+        color: white;
+        padding: 3rem;
+        border-radius: 1rem;
+    }
+    .contact-info-section h3 {
+        font-weight: 700;
+    }
+    .contact-info-section a {
+        color: white;
+        text-decoration: none;
+    }
+    .contact-info-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+    .contact-info-item i {
+        font-size: 1.5rem;
+        width: 40px;
+    }
+</style>
+
+<div class="container my-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold">@ViewData["Title"]</h1>
+        <p class="lead text-muted">ما همیشه برای شنیدن نظرات، پیشنهادات و سوالات شما آماده‌ایم.</p>
+    </div>
+
+    <div class="card shadow-lg contact-card">
+        <div class="row g-0">
+            <div class="col-lg-5 contact-info-section">
+                <h3>اطلاعات تماس</h3>
+                <p>از طریق راه‌های زیر می‌توانید با ما در ارتباط باشید یا فرم مقابل را پر کنید.</p>
+                
+                <div class="contact-info-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>آدرس دفتر مرکزی</span>
+                </div>
+                <div class="contact-info-item">
+                    <i class="fas fa-phone"></i>
+                    <a href="tel:+982112345678" dir="ltr">+۹۸ (۲۱) ۱۲۳۴ ۵۶۷۸</a>
+                </div>
+                <div class="contact-info-item">
+                    <i class="fas fa-envelope"></i>
+                    <a href="mailto:info@proleague.com">info@proleague.com</a>
+                </div>
+
+                <div class="mt-4">
+                    <a href="#" class="fs-4 me-3"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="fs-4 me-3"><i class="fab fa-telegram"></i></a>
+                    <a href="#" class="fs-4"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="card-body p-5">
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+                    }
+                    
+                    <form asp-action="Contact" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Name" class="form-label"></label>
+                                <input asp-for="Name" class="form-control" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Email" class="form-label"></label>
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Subject" class="form-label"></label>
+                            <input asp-for="Subject" class="form-control" />
+                            <span asp-validation-for="Subject" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Message" class="form-label"></label>
+                            <textarea asp-for="Message" class="form-control" rows="5"></textarea>
+                            <span asp-validation-for="Message" class="text-danger"></span>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-paper-plane me-2"></i> ارسال پیام
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

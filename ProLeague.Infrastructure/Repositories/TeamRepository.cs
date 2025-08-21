@@ -11,12 +11,22 @@ namespace ProLeague.Infrastructure.Repositories
     {
         public TeamRepository(ApplicationDbContext context) : base(context) { }
 
+       
         public async Task<Team?> GetTeamDetailsAsync(int id)
         {
-            // This method is for the public details page
             return await _context.Teams
-                .Include(t => t.LeagueEntries).ThenInclude(le => le.League)
+                // Load the leagues the team is in
+                .Include(t => t.LeagueEntries)
+                .ThenInclude(le => le.League)
+                // Load the players of the team
                 .Include(t => t.Players)
+                // Load the matches where this team was the home team
+                .Include(t => t.HomeMatches)
+                .ThenInclude(m => m.AwayTeam) // For each home match, get the opponent
+                // Load the matches where this team was the away team
+                .Include(t => t.AwayMatches)
+                .ThenInclude(m => m.HomeTeam) // For each away match, get the opponent
+                .AsNoTracking()
                 .FirstOrDefaultAsync(t => t.Id == id);
         }
         public async Task<IEnumerable<Team>> GetAllTeamsWithLeaguesAsync()

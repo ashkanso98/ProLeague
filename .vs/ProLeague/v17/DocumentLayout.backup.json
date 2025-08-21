@@ -3,12 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\User\\source\\repos\\ProLeague\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|c:\\users\\user\\source\\repos\\proleague\\proleague\\controllers\\leaguecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|solutionrelative:proleague\\controllers\\leaguecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|c:\\users\\user\\source\\repos\\proleague\\proleague\\views\\league\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|solutionrelative:proleague\\views\\league\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|c:\\users\\user\\source\\repos\\proleague\\proleague\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{40400022-D825-434E-9FF4-3DDC258048DD}|ProLeague\\ProLeague.csproj|solutionrelative:proleague\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -26,28 +22,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Details.cshtml",
-              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Views\\League\\Details.cshtml",
-              "RelativeDocumentMoniker": "ProLeague\\Views\\League\\Details.cshtml",
-              "ToolTip": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Views\\League\\Details.cshtml",
-              "RelativeToolTip": "ProLeague\\Views\\League\\Details.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFIAAAAGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-08-20T00:07:18.334Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "LeagueController.cs",
-              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Controllers\\LeagueController.cs",
-              "RelativeDocumentMoniker": "ProLeague\\Controllers\\LeagueController.cs",
-              "ToolTip": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Controllers\\LeagueController.cs",
-              "RelativeToolTip": "ProLeague\\Controllers\\LeagueController.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAQwBsAAAAHAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-20T00:05:44.814Z",
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "ProLeague\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\ProLeague\\ProLeague\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "ProLeague\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAIIAAAAAAAAAAADwv6AAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-08-21T18:03:58.06Z",
               "EditorCaption": ""
             }
           ]

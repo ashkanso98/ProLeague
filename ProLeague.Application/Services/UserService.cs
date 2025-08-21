@@ -31,6 +31,7 @@ namespace ProLeague.Application.Services
                 {
                     UserId = user.Id,
                     UserName = user.UserName,
+                    DisplayName = user.DisplayName,
                     Email = user.Email,
                     Roles = await _userManager.GetRolesAsync(user)
                 });
@@ -81,15 +82,6 @@ namespace ProLeague.Application.Services
 
             return Result.Success();
         }
-
-        //public async Task<ApplicationUser?> GetUserWithFavoriteTeamAsync(string userId)
-        //{
-        //    // UserManager از Include پشتیبانی نمی‌کند، پس کاربر را با DbContext می‌خوانیم
-        //    return await _unitOfWork.Users.Users // فرض: IUnitOfWork یک پراپرتی برای Users دارد
-        //        .Include(u => u.FavoriteTeam)
-        //        .FirstOrDefaultAsync(u => u.Id == userId);
-        //}
-        // ProLeague.Application/Services/UserService.cs
         public async Task<ApplicationUser?> GetUserWithFavoriteTeamAsync(string userId)
         {
             return await _unitOfWork.Users.GetUserWithFavoriteTeamAsync(userId);

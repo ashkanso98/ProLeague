@@ -1,6 +1,7 @@
 ﻿// ProLeague/Controllers/HomeController.cs
 using Microsoft.AspNetCore.Mvc;
 using ProLeague.Application.Interfaces;
+using ProLeague.Application.ViewModels;
 
 namespace ProLeague.Controllers
 {
@@ -29,6 +30,28 @@ namespace ProLeague.Controllers
         {
             // ... منطق نمایش خطا
             return View();
+        }
+
+        public IActionResult Contact()
+        {
+            return View();
+        }
+
+        // POST: /Home/Contact
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Contact(ContactViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // In a real application, you would send an email here using a service.
+                // For now, we'll just show a success message.
+
+                TempData["SuccessMessage"] = "پیام شما با موفقیت ارسال شد. سپاسگزاریم!";
+                return RedirectToAction("Contact");
+            }
+
+            return View(model);
         }
     }
 }
