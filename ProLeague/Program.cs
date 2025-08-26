@@ -22,16 +22,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // تنظیمات Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
-    options.SignIn.RequireConfirmedAccount = false;
-    options.Password.RequireDigit = true;
-    options.Password.RequireLowercase = true;
+    options.SignIn.RequireConfirmedAccount = true;
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
     options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequireUppercase = true;
-    options.Password.RequiredLength = 6;
+    options.Password.RequireUppercase = false;
+    options.Password.RequiredLength = 1;
 })
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 // ثبت UnitOfWork و تمام سرویس‌های لایه Application
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ILeagueService, LeagueService>();
@@ -44,6 +45,7 @@ builder.Services.AddScoped<IHomeService, HomeService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAdminDashboardService, AdminDashboardService>();
 
+//builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 // سرویس‌های وب
 builder.Services.AddControllersWithViews();

@@ -112,29 +112,6 @@
     </section>
 }
 
-@* <section class="latest-news mb-5">
-    <h2 class="pb-2 border-bottom mb-3">آخرین اخبار</h2>
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
-        @foreach (var news in Model.LatestNews)
-        {
-            <div class="col">
-                <div class="card h-100 shadow-sm news-card">
-                    <img src="@(news.MainImagePath ?? "/images/default-news.png")" class="card-img-top" alt="@news.Title" style="height: 200px; object-fit: cover;">
-                    <div class="card-body">
-                        <h5 class="card-title">@news.Title</h5>
-                        <p class="card-text text-muted">@Truncate(news.Content, 80)</p>
-                    </div>
-                    <div class="card-footer bg-transparent border-top-0 d-flex justify-content-between align-items-center">
-                        <a asp-controller="News" asp-action="Details" asp-route-id="@news.Id" class="stretched-link">بیشتر بخوانید</a>
-                        <small class="text-muted">@news.PublishedDate.ToShortDateString()</small>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
-</section> *@
-
-
 <section class="latest-news mb-5">
     <div class="d-flex justify-content-between align-items-center pb-2 border-bottom mb-3">
         <h2 class="mb-0">آخرین اخبار</h2>

@@ -83,7 +83,7 @@ namespace ProLeague.Areas.Identity.Pages.Account
 
 
 
-            
+
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 3)]
             [Display(Name = "نام نمایشی")]
@@ -140,8 +140,25 @@ namespace ProLeague.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    await _emailSender.SendEmailAsync(
+                        Input.Email,
+                        "تأیید ایمیل شما در سایت ProLeague",
+                        $@"
+        <div style='font-family:Tahoma, Arial, sans-serif; font-size:14px; color:#333; line-height:1.8;'>
+            <h2 style='color:#0066cc;'>خوش آمدید به ProLeague</h2>
+            <p>کاربر عزیز،</p>
+            <p>از ثبت‌نام شما در سایت <strong>ProLeague</strong> متشکریم. برای فعال‌سازی حساب کاربری خود لطفاً روی دکمه زیر کلیک کنید:</p>
+            <p style='margin:20px 0;'>
+                <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'
+                   style='background-color:#0066cc; color:#fff; padding:10px 20px; text-decoration:none; border-radius:5px;'>
+                    تأیید حساب کاربری
+                </a>
+            </p>
+            <p>اگر شما در سایت ما ثبت‌نام نکرده‌اید، این ایمیل را نادیده بگیرید.</p>
+            <hr />
+            <p style='font-size:12px; color:#777;'>این ایمیل به صورت خودکار ارسال شده است؛ لطفاً به آن پاسخ ندهید.</p>
+        </div>
+    ");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

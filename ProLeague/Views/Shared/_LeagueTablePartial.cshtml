@@ -151,7 +151,7 @@
             {
                 var entry = sortedEntries[i];
                 var rank = i + 1;
-                string rowClass = rank <= 4 ? "table-success" : "";
+                string rowClass = rank <= 1 ? "table-success" : "";
 
                 <tr class="@rowClass">
                     <th scope="row">@rank</th>
@@ -163,7 +163,7 @@
                     </td>
                     <td class="text-center">@entry.Played</td>
                     @* @* <td class="text-center">@entry.GoalDifference</td> *@
-                    <td class="text-center fw-bold">@entry.Points</td>
+                    <td class="text-center fw-bold" style="color:blue">@entry.Points</td>
                 </tr>
             }
         </tbody>

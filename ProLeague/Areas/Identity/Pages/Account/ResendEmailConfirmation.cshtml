@@ -1,23 +1,43 @@
 ﻿@page
 @model ResendEmailConfirmationModel
 @{
-    ViewData["Title"] = "Resend email confirmation";
+    ViewData["Title"] = "ارسال مجدد ایمیل تایید";
 }
 
-<h1>@ViewData["Title"]</h1>
-<h2>Enter your email.</h2>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="All" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Input.Email" class="form-label"></label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
+<style>
+    /* These styles are identical to the Login/Register pages for consistency */
+    .auth-card { border: none; border-radius: 1rem; }
+    .auth-card-header { border-top-left-radius: 1rem; border-top-right-radius: 1rem; }
+    .auth-card-body { padding: 2rem 2.5rem; }
+    .input-group-text { background-color: #e9ecef; border: 1px solid #ced4da; }
+</style>
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6 col-xl-5">
+            <div class="card shadow-lg auth-card">
+                <div class="card-header text-center p-4 auth-card-header">
+                    <h2 class="h3 fw-bold mb-0">@ViewData["Title"]</h2>
+                </div>
+                <div class="card-body auth-card-body">
+                    <p class="text-muted text-center mb-4">ایمیل خود را وارد کنید تا لینک تایید برای شما مجدداً ارسال شود.</p>
+                    <form method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                            <div class="form-floating flex-grow-1">
+                                <input asp-for="Input.Email" class="form-control" aria-required="true" placeholder="ایمیل" />
+                                <label asp-for="Input.Email" class="form-label"></label>
+                            </div>
+                        </div>
+                        <span asp-validation-for="Input.Email" class="text-danger small"></span>
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">ارسال مجدد</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <button type="submit" class="w-100 btn btn-lg btn-primary">Resend</button>
-        </form>
+        </div>
     </div>
 </div>
 

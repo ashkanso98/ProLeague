@@ -1,23 +1,60 @@
 ﻿@page
 @model RegisterConfirmationModel
 @{
-    ViewData["Title"] = "Register confirmation";
+    ViewData["Title"] = "تایید ثبت‌نام";
 }
 
-<h1>@ViewData["Title"]</h1>
-@{
-    if (@Model.DisplayConfirmAccountLink)
-    {
-<p>
-    This app does not currently have a real email sender registered, see <a href="https://aka.ms/aspaccountconf">these docs</a> for how to configure a real email sender.
-    Normally this would be emailed: <a id="confirm-link" href="@Model.EmailConfirmationUrl">Click here to confirm your account</a>
-</p>
+<style>
+    /* These styles are identical to the Login/Register pages for consistency */
+    .auth-card {
+        border: none;
+        border-radius: 1rem;
     }
-    else
-    {
-<p>
-        Please check your email to confirm your account.
-</p>
-    }
-}
 
+    .auth-card-header {
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+    }
+
+    .auth-card-body {
+        padding: 2rem 2.5rem;
+    }
+</style>
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6 col-xl-5">
+            <div class="card shadow-lg auth-card">
+                <div class="card-header text-center p-4 auth-card-header">
+                    <h2 class="h3 fw-bold mb-0">ثبت‌نام شما کامل شد!</h2>
+                </div>
+                <div class="card-body auth-card-body text-center">
+
+                    <i class="fas fa-envelope-circle-check display-1 text-success mb-4"></i>
+
+                    @if (@Model.DisplayConfirmAccountLink)
+                    {
+                        <div class="alert alert-info">
+                            <p>این برنامه در حال حاضر ارسال کننده واقعی ایمیل ندارد.</p>
+                            <p>در حالت عادی این لینک باید ایمیل شود:</p>
+                            <a id="confirm-link" class="btn btn-primary" href="@Model.EmailConfirmationUrl">برای تایید حساب خود اینجا کلیک کنید</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="lead">
+                            یک ایمیل حاوی لینک فعال‌سازی به آدرس شما ارسال شد.
+                        </p>
+                        <p class="text-muted">
+                            لطفاً صندوق ورودی (و پوشه اسپم) خود را بررسی کنید.
+                        </p>
+                    }
+
+                    <div class="d-grid mt-4">
+                        <a asp-controller="Home" asp-action="Index" asp-area="" class="btn btn-outline-secondary">بازگشت به صفحه اصلی</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
