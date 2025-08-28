@@ -1,41 +1,62 @@
 ﻿@page
 @model EmailModel
 @{
-    ViewData["Title"] = "Manage Email";
+    ViewData["Title"] = "مدیریت ایمیل";
     ViewData["ActivePage"] = ManageNavPages.Email;
 }
 
-<h3>@ViewData["Title"]</h3>
-<partial name="_StatusMessage" for="StatusMessage" />
+<h3 class="mb-3">@ViewData["Title"]</h3>
+
 <div class="row">
-    <div class="col-md-6">
-        <form id="email-form" method="post">
-            <div asp-validation-summary="All" class="text-danger" role="alert"></div>
-            @if (Model.IsEmailConfirmed)
-            {
-                <div class="form-floating mb-3 input-group">
-                    <input asp-for="Email" class="form-control" placeholder="Please enter your email." disabled />
-                        <div class="input-group-append">
-                            <span class="h-100 input-group-text text-success font-weight-bold">✓</span>
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <partial name="_StatusMessage" for="StatusMessage" />
+                <form id="email-form" method="post">
+                    <div asp-validation-summary="All" class="text-danger small" role="alert"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label fw-bold"></label>
+                        <div class="input-group">
+                            <input asp-for="Email" class="form-control" placeholder="ایمیل شما" disabled />
+                            @if (Model.IsEmailConfirmed)
+                            {
+                                <span class="input-group-text bg-success text-white" title="تایید شده"><i class="fas fa-check-circle"></i></span>
+                            }
+                            else
+                            {
+                                <span class="input-group-text bg-warning text-dark" title="تایید نشده"><i class="fas fa-exclamation-circle"></i></span>
+                            }
                         </div>
-                    <label asp-for="Email" class="form-label"></label>
-                </div>
-            }
-            else
-            {
-                <div class="form-floating mb-3">
-                    <input asp-for="Email" class="form-control" placeholder="Please enter your email." disabled />
-                    <label asp-for="Email" class="form-label"></label>
-                    <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-link">Send verification email</button>
-                </div>
-            }
-            <div class="form-floating mb-3">
-                <input asp-for="Input.NewEmail" class="form-control" autocomplete="email" aria-required="true" placeholder="Please enter new email." />
-                <label asp-for="Input.NewEmail" class="form-label"></label>
-                <span asp-validation-for="Input.NewEmail" class="text-danger"></span>
+                    </div>
+
+                    @if (!Model.IsEmailConfirmed)
+                    {
+                        <div class="mb-4">
+                            <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-sm btn-outline-secondary">
+                                ارسال مجدد ایمیل تایید
+                            </button>
+                        </div>
+                    }
+
+                    <hr />
+                    <h5 class="mt-4 mb-3">تغییر آدرس ایمیل</h5>
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        <div class="form-floating flex-grow-1">
+                            <input asp-for="Input.NewEmail" class="form-control" autocomplete="email" aria-required="true" placeholder="ایمیل جدید" />
+                            <label asp-for="Input.NewEmail" class="form-label"></label>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Input.NewEmail" class="text-danger small"></span>
+
+                    <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="btn btn-primary mt-3">
+                        <i class="fas fa-save me-2"></i> تغییر ایمیل
+                    </button>
+                </form>
             </div>
-            <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="w-100 btn btn-lg btn-primary">Change email</button>
-        </form>
+        </div>
     </div>
 </div>
 

@@ -1,8 +1,52 @@
 ﻿@page
 @model ConfirmEmailModel
 @{
-    ViewData["Title"] = "Confirm email";
+    ViewData["Title"] = "تایید ایمیل";
 }
 
-<h1>@ViewData["Title"]</h1>
-<partial name="_StatusMessage" model="Model.StatusMessage" />
+<style>
+    /* These styles are identical to the Login/Register pages for consistency */
+    .auth-card {
+        border: none;
+        border-radius: 1rem;
+    }
+
+    .auth-card-header {
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+    }
+
+    .auth-card-body {
+        padding: 2rem 2.5rem;
+    }
+</style>
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6 col-xl-5">
+            <div class="card shadow-lg auth-card">
+                <div class="card-header text-center p-4 auth-card-header">
+                    <h2 class="h3 fw-bold mb-0">@ViewData["Title"]</h2>
+                </div>
+                <div class="card-body auth-card-body text-center">
+
+                    @if (Model.StatusMessage != null)
+                    {
+                        var isError = Model.StatusMessage.ToLower().Contains("error");
+                        var iconClass = isError ? "fa-circle-xmark text-danger" : "fa-circle-check text-success";
+
+                        <i class="fas @iconClass display-1 mb-4"></i>
+
+                        <p class="lead">
+                            @Model.StatusMessage
+                        </p>
+                    }
+
+                    <div class="d-grid mt-4">
+                        <a asp-page="./Login" class="btn btn-primary">ورود به حساب کاربری</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
