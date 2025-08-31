@@ -24,12 +24,12 @@ namespace ProLeague.Application.ViewModels.Match
         [Display(Name = "Match Week")]
         [Range(1, 50, ErrorMessage = "Match week must be between 1 and 50.")]
         public int MatchWeek { get; set; }
-        [Required(ErrorMessage = "Home team goals are required.")]
+        //[Required(ErrorMessage = "Home team goals are required.")]
         [Display(Name = "Home Team Goals")]
         [Range(0, 100, ErrorMessage = "Goals must be between 0 and 100.")]
         public int? HomeTeamGoals { get; set; }
 
-        [Required(ErrorMessage = "Away team goals are required.")]
+        //[Required(ErrorMessage = "Away team goals are required.")]
         [Display(Name = "Away Team Goals")]
         [Range(0, 100, ErrorMessage = "Goals must be between 0 and 100.")]
         public int? AwayTeamGoals { get; set; }
@@ -40,12 +40,12 @@ namespace ProLeague.Application.ViewModels.Match
         [Required]
         public int MatchId { get; set; }
 
-        [Required(ErrorMessage = "Home team goals are required.")]
+        //[Required(ErrorMessage = "Home team goals are required.")]
         [Display(Name = "Home Team Goals")]
         [Range(0, 100, ErrorMessage = "Goals must be between 0 and 100.")]
         public int? HomeTeamGoals { get; set; }
 
-        [Required(ErrorMessage = "Away team goals are required.")]
+        //[Required(ErrorMessage = "Away team goals are required.")]
         [Display(Name = "Away Team Goals")]
         [Range(0, 100, ErrorMessage = "Goals must be between 0 and 100.")]
         public int? AwayTeamGoals { get; set; }

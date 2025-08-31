@@ -19,10 +19,13 @@ namespace ProLeague.Domain.Entities
         public int Losses { get; set; }
         public int GoalsFor { get; set; }
         public int GoalsAgainst { get; set; }
-
+        public ICollection<PointDeduction> Deductions { get; set; } = new List<PointDeduction>();
         [NotMapped]
         public int GoalDifference => GoalsFor - GoalsAgainst;
+        //[NotMapped]
+        //public int Points => (Wins * 3) + Draws;
+
         [NotMapped]
-        public int Points => (Wins * 3) + Draws;
+        public int Points => (Wins * 3) + Draws - (Deductions?.Sum(d => d.Points) ?? 0);
     }
 }

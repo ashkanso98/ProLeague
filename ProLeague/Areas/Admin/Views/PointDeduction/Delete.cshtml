@@ -1,0 +1,37 @@
+﻿@model ProLeague.Domain.Entities.PointDeduction
+
+@{
+    ViewData["Title"] = "حذف کسر امتیاز";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="h3">@ViewData["Title"]</h1>
+
+<div class="alert alert-danger mt-3">
+    <h4>آیا از حذف این مورد اطمینان دارید؟</h4>
+    <p>با حذف این مورد، امتیازات به جدول لیگ بازگردانده خواهد شد.</p>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">لیگ</dt>
+            <dd class="col-sm-9">@Model.LeagueEntry.League.Name</dd>
+
+            <dt class="col-sm-3">تیم</dt>
+            <dd class="col-sm-9">@Model.LeagueEntry.Team.Name</dd>
+
+            <dt class="col-sm-3">امتیاز کسر شده</dt>
+            <dd class="col-sm-9">@Model.Points</dd>
+
+            <dt class="col-sm-3">دلیل</dt>
+            <dd class="col-sm-9">@Model.Reason</dd>
+        </dl>
+
+        <form asp-action="Delete" class="mt-3">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt me-2"></i> بله، حذف کن</button>
+            <a asp-action="Index" asp-route-leagueId="@Model.LeagueId" class="btn btn-secondary"><i class="fas fa-times me-2"></i> انصراف</a>
+        </form>
+    </div>
+</div>

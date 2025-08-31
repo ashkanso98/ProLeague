@@ -499,6 +499,38 @@ namespace ProLeague.Infrastructure.Migrations
                     b.ToTable("Players");
                 });
 
+            modelBuilder.Entity("ProLeague.Domain.Entities.PointDeduction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateApplied")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("LeagueId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Points")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("TeamId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TeamId", "LeagueId");
+
+                    b.ToTable("PointDeductions");
+                });
+
             modelBuilder.Entity("ProLeague.Domain.Entities.Team", b =>
                 {
                     b.Property<int>("Id")
@@ -719,11 +751,27 @@ namespace ProLeague.Infrastructure.Migrations
                     b.Navigation("Team");
                 });
 
+            modelBuilder.Entity("ProLeague.Domain.Entities.PointDeduction", b =>
+                {
+                    b.HasOne("ProLeague.Domain.Entities.LeagueEntry", "LeagueEntry")
+                        .WithMany("Deductions")
+                        .HasForeignKey("TeamId", "LeagueId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("LeagueEntry");
+                });
+
             modelBuilder.Entity("ProLeague.Domain.Entities.League", b =>
                 {
                     b.Navigation("Matches");
 
                     b.Navigation("TeamEntries");
+                });
+
+            modelBuilder.Entity("ProLeague.Domain.Entities.LeagueEntry", b =>
+                {
+                    b.Navigation("Deductions");
                 });
 
             modelBuilder.Entity("ProLeague.Domain.Entities.News", b =>

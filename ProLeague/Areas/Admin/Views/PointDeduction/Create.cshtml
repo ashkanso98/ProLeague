@@ -1,0 +1,44 @@
+﻿@model ProLeague.Application.ViewModels.Admin.CreatePointDeductionViewModel
+
+@{
+    ViewData["Title"] = "ثبت کسر امتیاز جدید";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="h3 mb-3">@ViewData["Title"] برای لیگ: <span class="text-primary">@ViewBag.LeagueName</span></h1>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <form asp-action="Create">
+            <input type="hidden" asp-for="LeagueId" />
+            <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="TeamId" class="form-label"></label>
+                    <select asp-for="TeamId" class="form-select" asp-items="ViewBag.Teams">
+                        <option value="">یک تیم را انتخاب کنید...</option>
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Points" class="form-label"></label>
+                    <input asp-for="Points" class="form-control" type="number" />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Reason" class="form-label"></label>
+                <textarea asp-for="Reason" class="form-control" rows="3"></textarea>
+            </div>
+
+            <hr />
+            <button type="submit" class="btn btn-success"><i class="fas fa-save me-2"></i> ثبت</button>
+            <a asp-action="Index" asp-route-leagueId="@Model.LeagueId" class="btn btn-secondary"><i class="fas fa-times me-2"></i> انصراف</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -46,6 +46,7 @@ namespace ProLeague.Infrastructure.Repositories
                 // Include the TeamEntries and then the actual Team for each entry
                 .Include(l => l.TeamEntries).ThenInclude(le => le.Team)
                 // Also load the matches for each team entry to calculate stats
+                .Include(l => l.TeamEntries).ThenInclude(le => le.Deductions)
                 .Include(l => l.TeamEntries).ThenInclude(le => le.Team.HomeMatches)
                 .Include(l => l.TeamEntries).ThenInclude(le => le.Team.AwayMatches)
                 // Load the league's overall matches and their teams

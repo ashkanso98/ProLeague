@@ -44,6 +44,7 @@ builder.Services.AddScoped<IMatchService, MatchService>();
 builder.Services.AddScoped<IHomeService, HomeService>(); 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAdminDashboardService, AdminDashboardService>();
+builder.Services.AddScoped<IPointDeductionService, PointDeductionService>();
 
 //builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();

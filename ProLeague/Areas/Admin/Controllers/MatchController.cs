@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ProLeague.Application.Interfaces;
+using ProLeague.Application.ViewModels.Admin;
 using ProLeague.Application.ViewModels.Match;
 
 namespace ProLeague.Areas.Admin.Controllers
@@ -22,10 +23,75 @@ namespace ProLeague.Areas.Admin.Controllers
         }
 
         // GET: Admin/Match
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+        //{
+        //    var matches = await _matchService.GetAllMatchesWithDetailsAsync(); // متد جدید
+        //    return View(matches);
+        //}
+        //public async Task<IActionResult> Index(int? leagueId, int? week)
+        //{
+        //    var allMatches = await _matchService.GetAllMatchesWithDetailsAsync();
+        //    var allLeagues = await _leagueService.GetAllLeaguesAsync();
+
+        //    var matchesToShow = allMatches;
+        //    var availableWeeks = Enumerable.Empty<int>();
+
+        //    if (leagueId.HasValue)
+        //    {
+        //        matchesToShow = matchesToShow.Where(m => m.LeagueId == leagueId.Value);
+        //        availableWeeks = matchesToShow.Select(m => m.MatchWeek).Distinct().OrderBy(w => w);
+        //    }
+
+        //    if (week.HasValue)
+        //    {
+        //        matchesToShow = matchesToShow.Where(m => m.MatchWeek == week.Value);
+        //    }
+
+        //    var model = new MatchIndexViewModel
+        //    {
+        //        Matches = matchesToShow.ToList(),
+        //        Leagues = new SelectList(allLeagues, "Id", "Name", leagueId),
+        //        Weeks = new SelectList(availableWeeks, week),
+        //        SelectedLeagueId = leagueId,
+        //        SelectedWeek = week
+        //    };
+
+        //    return View(model);
+        //}
+        public async Task<IActionResult> Index(int? leagueId, int? week)
         {
-            var matches = await _matchService.GetAllMatchesWithDetailsAsync(); // متد جدید
-            return View(matches);
+            var allMatches = await _matchService.GetAllMatchesWithDetailsAsync();
+            var allLeagues = await _leagueService.GetAllLeaguesAsync();
+
+            IEnumerable<ProLeague.Domain.Entities.Match> matchesToShow;
+            var availableWeeks = Enumerable.Empty<int>();
+
+            if (leagueId.HasValue)
+            {
+                matchesToShow = allMatches.Where(m => m.LeagueId == leagueId.Value);
+                availableWeeks = matchesToShow.Select(m => m.MatchWeek).Distinct().OrderBy(w => w);
+
+                if (week.HasValue)
+                {
+                    matchesToShow = matchesToShow.Where(m => m.MatchWeek == week.Value);
+                }
+            }
+            else
+            {
+                // **NEW LOGIC**: If no league is selected, show the last 10 matches by date
+                matchesToShow = allMatches.OrderByDescending(m => m.MatchDate).Take(10);
+            }
+
+            var model = new MatchIndexViewModel
+            {
+                Matches = matchesToShow.ToList(),
+                Leagues = new SelectList(allLeagues, "Id", "Name", leagueId),
+                Weeks = new SelectList(availableWeeks, week),
+                SelectedLeagueId = leagueId,
+                SelectedWeek = week
+            };
+
+            return View(model);
         }
 
         // GET: Admin/Match/Create

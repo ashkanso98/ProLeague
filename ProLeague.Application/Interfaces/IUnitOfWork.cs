@@ -23,6 +23,11 @@ namespace ProLeague.Application.Interfaces
         Task<IEnumerable<Team>> GetTeamsByLeagueIdAsync(int leagueId);
         Task<IEnumerable<Team>> GetAllTeamsWithLeaguesAsync();
     }
+    public interface IPointDeductionRepository : IRepository<PointDeduction>
+    {
+        Task<IEnumerable<PointDeduction>> GetDeductionsByLeagueAsync(int leagueId);
+        Task<PointDeduction?> GetDeductionDetailsAsync(int id);
+    }
 
     public interface IPlayerRepository : IRepository<Player>
     {
@@ -77,6 +82,7 @@ namespace ProLeague.Application.Interfaces
         IMatchRepository Matches { get; }
         IUserRepository Users { get; }
         ILeagueEntryRepository LeagueEntries { get; }
+        IPointDeductionRepository PointDeductions { get; }
         Task<int> CompleteAsync();
     }
 }
