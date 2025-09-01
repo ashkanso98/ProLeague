@@ -21,43 +21,6 @@ namespace ProLeague.Areas.Admin.Controllers
             _leagueService = leagueService;
             _teamService = teamService;
         }
-
-        // GET: Admin/Match
-        //public async Task<IActionResult> Index()
-        //{
-        //    var matches = await _matchService.GetAllMatchesWithDetailsAsync(); // متد جدید
-        //    return View(matches);
-        //}
-        //public async Task<IActionResult> Index(int? leagueId, int? week)
-        //{
-        //    var allMatches = await _matchService.GetAllMatchesWithDetailsAsync();
-        //    var allLeagues = await _leagueService.GetAllLeaguesAsync();
-
-        //    var matchesToShow = allMatches;
-        //    var availableWeeks = Enumerable.Empty<int>();
-
-        //    if (leagueId.HasValue)
-        //    {
-        //        matchesToShow = matchesToShow.Where(m => m.LeagueId == leagueId.Value);
-        //        availableWeeks = matchesToShow.Select(m => m.MatchWeek).Distinct().OrderBy(w => w);
-        //    }
-
-        //    if (week.HasValue)
-        //    {
-        //        matchesToShow = matchesToShow.Where(m => m.MatchWeek == week.Value);
-        //    }
-
-        //    var model = new MatchIndexViewModel
-        //    {
-        //        Matches = matchesToShow.ToList(),
-        //        Leagues = new SelectList(allLeagues, "Id", "Name", leagueId),
-        //        Weeks = new SelectList(availableWeeks, week),
-        //        SelectedLeagueId = leagueId,
-        //        SelectedWeek = week
-        //    };
-
-        //    return View(model);
-        //}
         public async Task<IActionResult> Index(int? leagueId, int? week)
         {
             var allMatches = await _matchService.GetAllMatchesWithDetailsAsync();
@@ -74,6 +37,10 @@ namespace ProLeague.Areas.Admin.Controllers
                 if (week.HasValue)
                 {
                     matchesToShow = matchesToShow.Where(m => m.MatchWeek == week.Value);
+                }
+                else
+                {
+                    matchesToShow = allMatches.OrderByDescending(m => m.MatchDate).Take(10);
                 }
             }
             else
@@ -184,13 +151,6 @@ namespace ProLeague.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        //// API Endpoint for dynamic dropdowns
-        //[HttpGet]
-        //public async Task<JsonResult> GetTeamsByLeague(int leagueId)
-        //{
-        //    var teams = (await _teamService.GetAllTeamsAsync()).Where(t => t.LeagueId == leagueId);
-        //    return Json(teams.Select(t => new { id = t.Id, name = t.Name }));
-        //}
         [HttpGet]
         public async Task<JsonResult> GetTeamsByLeague(int leagueId)
         {
