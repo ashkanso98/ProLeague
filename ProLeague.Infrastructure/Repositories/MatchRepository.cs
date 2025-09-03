@@ -23,6 +23,45 @@ public class MatchRepository : Repository<Match>, IMatchRepository
             .OrderBy(m => m.MatchDate)
             .ToListAsync();
     }
+    //public async Task<IEnumerable<Match>> GetUpcomingMatchesAsync(DateTime endDate)
+    //{
+    //    var startDate = DateTime.UtcNow;
+    //    return await _context.Matches
+    //        .Where(m =>
+    //            m.Status == MatchStatus.Scheduled &&
+    //            m.MatchDate >= startDate &&
+    //            m.MatchDate <= endDate &&
+    //            // --- THIS IS THE NEW FILTER ---
+    //            (m.HomeTeam.IsImportant || m.AwayTeam.IsImportant)
+    //        )
+    //        .Include(m => m.HomeTeam)
+    //        .Include(m => m.AwayTeam)
+    //        .Include(m => m.League)
+    //        .OrderBy(m => m.MatchDate)
+    //        .ToListAsync();
+    //}
+    public async Task<IEnumerable<Match>> GetUpcomingMatchesAsync(DateTime endDate)
+    {
+
+        var startDate = DateTime.UtcNow;
+        return await _context.Matches
+            .Where(m =>
+                // Condition 1: The match must be "Scheduled"
+                m.Status == MatchStatus.Scheduled &&
+                // Condition 2: The match date must be in the future...
+                m.MatchDate >= startDate &&
+                // Condition 3: ...and within the next 7 days.
+                m.MatchDate <= endDate &&
+                // Condition 4: EITHER the home team OR the away team must be important.
+                (m.HomeTeam.IsImportant || m.AwayTeam.IsImportant)
+            )
+            .Include(m => m.HomeTeam)
+            .Include(m => m.AwayTeam)
+            .Include(m => m.League)
+            .OrderBy(m => m.MatchDate)
+            .ToListAsync();
+    }
+  
     public async Task<IEnumerable<Match>> GetAllMatchesWithDetailsAsync()
     {
         return await _context.Matches

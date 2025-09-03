@@ -14,6 +14,8 @@ namespace ProLeague.Domain.Entities
         public string? ImagePath { get; set; }
         public int FanCount { get; set; }
 
+        public bool IsImportant { get; set; } = false;
+
         // --- REMOVED ---
         // public int LeagueId { get; set; }
         // public League League { get; set; } = null!;

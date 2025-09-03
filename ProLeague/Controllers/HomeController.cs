@@ -1,13 +1,17 @@
 ﻿// ProLeague/Controllers/HomeController.cs
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProLeague.Application.Interfaces;
 using ProLeague.Application.ViewModels;
+using ProLeague.Infrastructure.Data;
 
 namespace ProLeague.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IHomeService _homeService;
+
+
 
         public HomeController(IHomeService homeService)
         {
@@ -18,7 +22,10 @@ namespace ProLeague.Controllers
         {
             var viewModel = await _homeService.GetHomeViewModelAsync();
             return View(viewModel);
+
         }
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

@@ -13,5 +13,6 @@ namespace ProLeague.Application.ViewModels.Home
 
         // تغییر نام این پراپرتی برای وضوح بیشتر
         public List<Domain.Entities.League> TopLeagues { get; set; } = new();
+        public IEnumerable<Domain.Entities.Match> UpcomingMatches { get; set; } = new List<Domain.Entities.Match>();
     }
 }

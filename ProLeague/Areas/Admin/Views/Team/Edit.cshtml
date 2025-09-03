@@ -23,6 +23,10 @@
                         <label asp-for="Stadium" class="form-label"></label>
                         <input asp-for="Stadium" class="form-control" />
                     </div>
+                    <div class="form-check form-switch mt-3">
+                        <input class="form-check-input" type="checkbox" role="switch" asp-for="IsImportant">
+                        <label class="form-check-label" asp-for="IsImportant"></label>
+                    </div>
                     <div class="mb-3">
                         <label asp-for="LeagueIds" class="form-label"></label>
                         <select asp-for="LeagueIds" class="form-select select2" asp-items="ViewBag.Leagues" multiple></select>

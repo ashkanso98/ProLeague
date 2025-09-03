@@ -22,6 +22,8 @@ namespace ProLeague.Application.ViewModels.Team
 
         [Display(Name = "لوگوی تیم")]
         public IFormFile? LogoFile { get; set; }
+        [Display(Name = "تیم مهم")]
+        public bool IsImportant { get; set; }
     }
 
     public class EditTeamViewModel
@@ -47,5 +49,7 @@ namespace ProLeague.Application.ViewModels.Team
 
         [Display(Name = "انتخاب لوگوی جدید")]
         public IFormFile? NewLogoFile { get; set; }
+        [Display(Name = "تیم مهم")]
+        public bool IsImportant { get; set; }
     }
 }

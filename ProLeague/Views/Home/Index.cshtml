@@ -4,6 +4,16 @@
     ViewData["Title"] = "صفحه اصلی";
 }
 
+@* @functions {
+    // Helper function to truncate text
+    public static string Truncate(string text, int length)
+    {
+        if (string.IsNullOrEmpty(text) || text.Length <= length)
+            return text;
+        return text.Substring(0, length) + "...";
+    }
+} *@
+
 @functions {
     // Helper function to truncate text
     public static string Truncate(string text, int length)
@@ -13,7 +23,6 @@
         return text.Substring(0, length) + "...";
     }
 }
-
 <style>
 
     /* استایل‌های سفارشی برای ریسپانسیو */
@@ -137,6 +146,44 @@
     </div>
 </section>
 
+
+@if (Model.UpcomingMatches.Any())
+{
+    <section class="upcoming-matches-section mb-5">
+        <h2 class="pb-2 border-bottom mb-3">مسابقات مهم ۷ روز آینده</h2>
+
+        @foreach (var leagueGroup in Model.UpcomingMatches.GroupBy(m => m.League))
+        {
+            <div class="card shadow-sm mb-4">
+                <div class="card-header d-flex align-items-center">
+                    <img src="@(leagueGroup.Key.ImagePath ?? "/images/default-logo.png")" style="height: 24px;" class="me-2" />
+                    <h5 class="mb-0">@leagueGroup.Key.Name</h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    @foreach (var match in leagueGroup.OrderBy(m => m.MatchDate))
+                    {
+                        <li class="list-group-item">
+                            <div class="row align-items-center">
+                                <div class="col-md-3 text-muted small">
+                                    @match.MatchDate.ToString("dddd, dd MMMM - HH:mm")
+                                </div>
+                                <div class="col-md-9 d-flex justify-content-center align-items-center text-center">
+                                    <span class="team-name col text-end fw-bold">@match.HomeTeam.Name</span>
+                                    <img src="@(match.HomeTeam.ImagePath ?? "/images/default-logo.png")" class="mx-2" height="24px" />
+
+                                    <span class="badge bg-secondary fs-6 mx-3">vs</span>
+
+                                    <img src="@(match.AwayTeam.ImagePath ?? "/images/default-logo.png")" class="mx-2" height="24px" />
+                                    <span class="team-name col text-start fw-bold">@match.AwayTeam.Name</span>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+    </section>
+}
 @if (Model.PinnedLeague != null)
 {
     <section class="pinned-league-section mb-5">

@@ -48,6 +48,7 @@ namespace ProLeague.Application.Services
                 Name = team.Name,
                 Stadium = team.Stadium,
                 ExistingLogoPath = team.ImagePath,
+                IsImportant = team.IsImportant,
                 // Map the list of league IDs from the join entity
                 LeagueIds = team.LeagueEntries.Select(le => le.LeagueId).ToList()
             };
@@ -60,7 +61,8 @@ namespace ProLeague.Application.Services
             {
                 Name = model.Name,
                 Stadium = model.Stadium,
-                ImagePath = logoPath
+                ImagePath = logoPath,
+                IsImportant = model.IsImportant
             };
 
             // Create a LeagueEntry for each selected league
@@ -90,6 +92,7 @@ namespace ProLeague.Application.Services
 
             teamToUpdate.Name = model.Name;
             teamToUpdate.Stadium = model.Stadium;
+            teamToUpdate.IsImportant = model.IsImportant;
 
             // Update the many-to-many relationship
             // 1. Clear the existing league entries

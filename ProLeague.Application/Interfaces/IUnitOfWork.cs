@@ -69,6 +69,7 @@ namespace ProLeague.Application.Interfaces
         Task<IEnumerable<Match>> GetMatchesForTeamAsync(int teamId);
         Task<IEnumerable<Match>> GetAllMatchesWithDetailsAsync();
         Task<Match?> GetMatchWithTeamsByIdAsync(int id);
+        Task<IEnumerable<Match>> GetUpcomingMatchesAsync(DateTime endDate);
     }
     // --- Main Unit of Work interface ---
 
