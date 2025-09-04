@@ -1,5 +1,4 @@
 wwwroot\css\site.css
-wwwroot\favicon.ico
 wwwroot\images\league\6fc499fe-412a-4f6a-9ac0-ed5730b85320_Bundesliga_logo_(2017).svg.png
 wwwroot\images\news\gallery\cdc8d569-3e11-4e8a-a45d-0c1d34c21e86_images.jpg
 wwwroot\images\news\main\fa07f8c0-3ae3-4327-8c56-35cd8340e324_Barcelona-Logo.png
@@ -173,3 +172,21 @@ wwwroot\images\teams\885b9893-50ce-4f20-9903-b90edb29dca2.png
 wwwroot\images\teams\8cc2f44f-8656-4217-aed4-2f8dd9be358e.png
 wwwroot\images\teams\06faa747-15cb-4a44-ae23-ad3773eabc2c.png
 wwwroot\images\teams\dfa0107d-07b2-4618-b431-e5602f5ce700.png
+wwwroot\images\teams\1dc485a9-8bc2-48ee-bf56-1c51bfc4466d.png
+wwwroot\images\teams\bdf5b44e-07eb-453f-8713-0f1ce237713e.png
+wwwroot\images\teams\a7efcf6e-6fa6-47cf-80e0-efd935a8a44d.png
+wwwroot\images\teams\6d33788e-2efe-4cf5-bead-cee651341eb3.png
+wwwroot\images\teams\72010d35-b7eb-41bd-aef8-17269b91a246.png
+wwwroot\images\teams\6d725570-8566-4d3f-9f8f-ddc539cc3852.png
+wwwroot\images\teams\1714531a-cc26-4415-8d7f-faadfbb6d8ed.png
+wwwroot\images\teams\82928086-ee62-4e28-9dce-ef404ce7f217.png
+wwwroot\images\teams\d25b2d15-9046-4910-873d-c32e31812ab6.png
+wwwroot\images\teams\75f12458-296c-4ddb-9663-f2019aabb605.png
+wwwroot\images\teams\a3fb8cf1-d8da-478a-b5f0-387c736a2dad.png
+wwwroot\images\teams\e100aae9-afd8-4868-89fe-d3700c340187.png
+wwwroot\images\teams\d9a15f5f-ee35-4d9f-afcd-5e7829de9470.png
+wwwroot\images\teams\dee1bbd0-129d-4fd6-9f14-c3c73dc7f030.png
+wwwroot\images\teams\db2f1a24-4eee-471d-a4ec-3286fdcd09c0.png
+wwwroot\images\teams\64dba58f-322c-4f8c-a6b4-0e9f9818d2d2.png
+wwwroot\images\teams\0ab5c0c5-048e-4c77-9597-8a8027172692.png
+wwwroot\favicon.ico
