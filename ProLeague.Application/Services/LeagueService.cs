@@ -127,5 +127,15 @@ namespace ProLeague.Application.Services
                 File.Delete(filePath);
             }
         }
+
+        public async Task<IEnumerable<League>> GetAllLeaguesWithTeamsAsync(string season)
+        {
+            return await _unitOfWork.Leagues.GetAllLeaguesWithTeamsAsync(season);
+        }
+
+        public async Task<League?> GetLeagueDetailsAsync(int id, string season)
+        {
+            return await _unitOfWork.Leagues.GetLeagueDetailsAsync(id, season);
+        }
     }
 }

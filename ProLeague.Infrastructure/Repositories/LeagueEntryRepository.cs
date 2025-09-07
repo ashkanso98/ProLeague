@@ -9,11 +9,12 @@ namespace ProLeague.Infrastructure.Repositories
     {
         public LeagueEntryRepository(ApplicationDbContext context) : base(context)
         {
-        }
 
-        public async Task<LeagueEntry?> FindAsync(int teamId, int leagueId)
+        }
+        public async Task<LeagueEntry?> FindAsync(int teamId, int leagueId, string season)
         {
-            return await _context.LeagueEntries.FindAsync(teamId, leagueId);
+            // The underlying EF Core FindAsync correctly handles composite keys
+            return await _context.LeagueEntries.FindAsync(teamId, leagueId, season);
         }
     }
 }

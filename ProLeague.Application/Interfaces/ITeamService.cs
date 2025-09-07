@@ -14,5 +14,8 @@ namespace ProLeague.Application.Interfaces
         Task<Result> DeleteTeamAsync(int id);
         Task<IEnumerable<Team>> GetTeamsByLeagueIdAsync(int leagueId);
         Task<IEnumerable<Team>> GetAllTeamsWithLeaguesAsync();
+        Task<Result> AddTeamToLeagueAsync(int teamId, int leagueId, string season);
+        Task<Result> RemoveTeamFromLeagueAsync(int teamId, int leagueId, string season);
+        Task<IEnumerable<Team>> GetTeamsByLeagueIdAsync(int leagueId, string season);
     }
 }

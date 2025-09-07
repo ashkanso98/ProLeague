@@ -26,7 +26,7 @@ namespace ProLeague.Application.Services
         public async Task<Result> CreateDeductionAsync(CreatePointDeductionViewModel model)
         {
             // Check if the team is actually in the league
-            var leagueEntry = await _unitOfWork.LeagueEntries.FindAsync(model.TeamId, model.LeagueId);
+            var leagueEntry = await _unitOfWork.LeagueEntries.FindAsync(model.TeamId, model.LeagueId, model.Season);
             if (leagueEntry == null)
             {
                 return Result.Failure(new[] { "The selected team is not part of the selected league." });
@@ -37,6 +37,7 @@ namespace ProLeague.Application.Services
                 TeamId = model.TeamId,
                 LeagueId = model.LeagueId,
                 Points = model.Points,
+                Season = model.Season,
                 Reason = model.Reason,
                 DateApplied = DateTime.UtcNow
             };

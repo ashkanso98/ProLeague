@@ -20,5 +20,7 @@ namespace ProLeague.Application.ViewModels.Admin
         [Display(Name = "Reason")]
         [StringLength(200)]
         public string Reason { get; set; }
+        [Required]
+        public string Season { get; set; }
     }
 }

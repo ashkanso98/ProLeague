@@ -146,5 +146,41 @@ namespace ProLeague.Application.Services
                 File.Delete(fullPath);
             }
         }
+        public async Task<Result> AddTeamToLeagueAsync(int teamId, int leagueId, string season)
+        {
+            var existingEntry = await _unitOfWork.LeagueEntries.FindAsync(teamId, leagueId, season);
+            if (existingEntry != null)
+            {
+                return Result.Failure(new[] { "این تیم از قبل در این فصل از لیگ ثبت شده است." });
+            }
+
+            var newEntry = new LeagueEntry
+            {
+                TeamId = teamId,
+                LeagueId = leagueId,
+                Season = season
+            };
+
+            await _unitOfWork.LeagueEntries.AddAsync(newEntry);
+            await _unitOfWork.CompleteAsync();
+            return Result.Success();
+        }
+
+        public async Task<Result> RemoveTeamFromLeagueAsync(int teamId, int leagueId, string season)
+        {
+            var entryToDelete = await _unitOfWork.LeagueEntries.FindAsync(teamId, leagueId, season);
+            if (entryToDelete == null)
+            {
+                return Result.Failure(new[] { "رکورد مورد نظر یافت نشد." });
+            }
+
+            _unitOfWork.LeagueEntries.Delete(entryToDelete);
+            await _unitOfWork.CompleteAsync();
+            return Result.Success();
+        }
+        public async Task<IEnumerable<Team>> GetTeamsByLeagueIdAsync(int leagueId, string season)
+        {
+            return await _unitOfWork.Teams.GetTeamsByLeagueIdAsync(leagueId, season);
+        }
     }
 }

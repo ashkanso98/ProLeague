@@ -1,42 +1,55 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Configuration;
 using ProLeague.Application.Interfaces;
+using System.Linq;
+using System.Threading.Tasks;
 
-public class LeagueController : Controller
+namespace ProLeague.Controllers
 {
-    private readonly ILeagueService _leagueService;
+    public class LeagueController : Controller
+    {
+        private readonly ILeagueService _leagueService;
+        private readonly IConfiguration _configuration;
 
-    public LeagueController(ILeagueService leagueService)
-    {
-        _leagueService = leagueService;
-    }
-    // GET: /League
-    public async Task<IActionResult> Index()
-    {
-        var leagues = await _leagueService.GetAllLeaguesWithTeamsAsync();
-        return View(leagues);
-    }
-    public async Task<IActionResult> Details(int id, int? week)
-    {
-        var league = await _leagueService.GetLeagueDetailsAsync(id);
-        if (league == null)
+        public LeagueController(ILeagueService leagueService, IConfiguration configuration)
         {
-            return NotFound();
+            _leagueService = leagueService;
+            _configuration = configuration;
         }
 
-        // Get all unique match weeks to populate the dropdown
-        var availableWeeks = league.Matches
-            .Select(m => m.MatchWeek)
-            .Distinct()
-            .OrderBy(w => w);
+        // GET: /League
+        public async Task<IActionResult> Index()
+        {
+            // Read the current season from configuration
+            var currentSeason = _configuration["CurrentSeason"];
+            // Pass the season to the service to get the correct list of leagues
+            var leagues = await _leagueService.GetAllLeaguesWithTeamsAsync(currentSeason);
+            return View(leagues);
+        }
 
-        // Pass the list of weeks to the view
-        ViewData["AvailableWeeks"] = new SelectList(availableWeeks);
+        // GET: /League/Details/5
+        public async Task<IActionResult> Details(int id, int? week)
+        {
+            // Read the current season from configuration
+            var currentSeason = _configuration["CurrentSeason"];
+            // Pass both the id and the season to the service
+            var league = await _leagueService.GetLeagueDetailsAsync(id, currentSeason);
 
-        // Determine which week to display. If no week is selected in the URL,
-        // default to the most recently played/scheduled week.
-        ViewData["SelectedWeek"] = week ?? availableWeeks.LastOrDefault();
+            if (league == null)
+            {
+                return NotFound();
+            }
 
-        return View(league);
+            var availableWeeks = league.Matches
+                .Select(m => m.MatchWeek)
+                .Distinct()
+                .OrderBy(w => w);
+
+            ViewData["AvailableWeeks"] = new SelectList(availableWeeks);
+            ViewData["SelectedWeek"] = week ?? availableWeeks.LastOrDefault();
+
+            return View(league);
+        }
     }
 }

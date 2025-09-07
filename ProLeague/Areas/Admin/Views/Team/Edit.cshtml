@@ -1,4 +1,4 @@
-﻿@model ProLeague.Application.ViewModels.Team.EditTeamViewModel
+﻿@* @model ProLeague.Application.ViewModels.Team.EditTeamViewModel
 
 @{
     ViewData["Title"] = "ویرایش تیم: " + Model.Name;
@@ -67,4 +67,92 @@
             });
         });
     </script>
+} *@
+
+@model ProLeague.Application.ViewModels.Team.EditTeamViewModel
+
+@{
+    ViewData["Title"] = "ویرایش تیم: " + Model.Name;
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+
+<h1 class="h3 mb-3">@ViewData["Title"]</h1>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
+<div class="card shadow-sm mb-4">
+    <div class="card-header"><h5 class="mb-0">اطلاعات اصلی تیم</h5></div>
+    <div class="card-body">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <input type="hidden" asp-for="Id" />
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Stadium" class="form-label"></label>
+                        <input asp-for="Stadium" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-5">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save me-2"></i> ذخیره اطلاعات اصلی</button>
+        </form>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header"><h5 class="mb-0">مدیریت فصول و لیگ‌ها</h5></div>
+    <div class="card-body">
+        <h6>لیگ‌های ثبت شده</h6>
+        <table class="table table-sm table-striped">
+            @foreach (var entry in Model.LeagueEntries)
+            {
+                <tr>
+                    <td>@entry.League.Name</td>
+                    <td>@entry.Season</td>
+                    <td>
+                        <form asp-action="DeleteLeagueEntry" method="post">
+                            <input type="hidden" name="teamId" value="@entry.TeamId" />
+                            <input type="hidden" name="leagueId" value="@entry.LeagueId" />
+                            <input type="hidden" name="season" value="@entry.Season" />
+                            <button type="submit" class="btn btn-sm btn-danger">حذف</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </table>
+        <hr />
+        <h6 class="mt-4">افزودن تیم به لیگ جدید</h6>
+        <form asp-action="AddLeagueEntry" method="post">
+            <input type="hidden" asp-for="Id" />
+            <div class="row">
+                <div class="col-md-5">
+                    <label asp-for="AddLeagueId" class="form-label"></label>
+                    <select asp-for="AddLeagueId" class="form-select" asp-items="ViewBag.Leagues"></select>
+                </div>
+                <div class="col-md-5">
+                    <label asp-for="AddSeason" class="form-label"></label>
+                    <input asp-for="AddSeason" class="form-control" />
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-success w-100">افزودن</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="mt-4">
+    <a asp-action="Index" class="btn btn-secondary">بازگشت به لیست تیم‌ها</a>
+</div>

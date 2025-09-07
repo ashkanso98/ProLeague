@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using ProLeague.Domain.Entities;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -51,5 +52,16 @@ namespace ProLeague.Application.ViewModels.Team
         public IFormFile? NewLogoFile { get; set; }
         [Display(Name = "تیم مهم")]
         public bool IsImportant { get; set; }
+
+        // This will hold the list of leagues the team is already in.
+        public List<LeagueEntry> LeagueEntries { get; set; } = new();
+
+        // These properties are for the "Add New Entry" form.
+        [Display(Name = "افزودن به لیگ")]
+        public int AddLeagueId { get; set; }
+
+        [Display(Name = "برای فصل")]
+        [Required(ErrorMessage = "وارد کردن فصل اجباری است.")]
+        public string AddSeason { get; set; } = DateTime.Now.Year + "-" + (DateTime.Now.Year + 1);
     }
 }

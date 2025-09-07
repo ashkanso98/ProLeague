@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using ProLeague.Application.Interfaces;
 using ProLeague.Application.ViewModels.Admin;
 using ProLeague.Application.ViewModels.Match;
+using Microsoft.Extensions.Configuration;
 
 namespace ProLeague.Areas.Admin.Controllers
 {
@@ -14,12 +15,13 @@ namespace ProLeague.Areas.Admin.Controllers
         private readonly IMatchService _matchService;
         private readonly ILeagueService _leagueService;
         private readonly ITeamService _teamService;
-
-        public MatchController(IMatchService matchService, ILeagueService leagueService, ITeamService teamService)
+        private readonly IConfiguration _configuration;
+        public MatchController(IMatchService matchService, ILeagueService leagueService, ITeamService teamService, IConfiguration configuration)
         {
             _matchService = matchService;
             _leagueService = leagueService;
             _teamService = teamService;
+            _configuration = configuration;
         }
         public async Task<IActionResult> Index(int? leagueId, int? week)
         {
@@ -62,12 +64,23 @@ namespace ProLeague.Areas.Admin.Controllers
         }
 
         // GET: Admin/Match/Create
+        //public async Task<IActionResult> Create()
+        //{
+        //    ViewBag.Leagues = new SelectList(await _leagueService.GetAllLeaguesAsync(), "Id", "Name");
+        //    return View(new CreateMatchViewModel());
+        //}
         public async Task<IActionResult> Create()
         {
             ViewBag.Leagues = new SelectList(await _leagueService.GetAllLeaguesAsync(), "Id", "Name");
-            return View(new CreateMatchViewModel());
-        }
 
+            // Pre-populate the ViewModel with the current season
+            var model = new CreateMatchViewModel
+            {
+                Season = _configuration["CurrentSeason"] ?? DateTime.Now.Year.ToString()
+            };
+
+            return View(model);
+        }
         // POST: Admin/Match/Create
         [HttpPost]
         [ValidateAntiForgeryToken]

@@ -81,5 +81,49 @@ namespace ProLeague.Infrastructure.Repositories
 
             return topLeagues.DistinctBy(l => l.Id).ToList();
         }
+
+        //******
+
+        public async Task<List<League>> GetAllLeaguesWithTeamsAsync(string season)
+        {
+            return await _context.Leagues
+                .Include(l => l.TeamEntries.Where(e => e.Season == season)) // Filter by season
+                .ThenInclude(le => le.Team)
+                .OrderBy(l => l.Name)
+                .ToListAsync();
+        }
+
+        public async Task<League?> GetLeagueDetailsAsync(int id, string season)
+        {
+            return await _context.Leagues
+                .Include(l => l.TeamEntries.Where(e => e.Season == season)) // Filter by season
+                .ThenInclude(le => le.Team)
+                .Include(l => l.TeamEntries.Where(e => e.Season == season)) // Filter by season
+                .ThenInclude(le => le.Deductions)
+                .Include(l => l.Matches.Where(m => m.Season == season)) // Filter by season
+                .ThenInclude(m => m.HomeTeam)
+                .Include(l => l.Matches.Where(m => m.Season == season)) // Filter by season
+                .ThenInclude(m => m.AwayTeam)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(l => l.Id == id);
+        }
+
+        public async Task<List<League>> GetHomepageLeaguesAsync(int count, int pinnedLeagueId, string season)
+        {
+            var leagues = await _context.Leagues
+                .Include(l => l.TeamEntries.Where(e => e.Season == season)) // Filter by season
+                .ThenInclude(le => le.Team)
+                .ToListAsync();
+
+            var pinnedLeague = leagues.FirstOrDefault(l => l.Id == pinnedLeagueId);
+            var topLeagues = leagues.Where(l => l.Id != pinnedLeagueId).Take(count).ToList();
+
+            if (pinnedLeague != null)
+            {
+                topLeagues.Insert(0, pinnedLeague);
+            }
+
+            return topLeagues.DistinctBy(l => l.Id).ToList();
+        }
     }
 }

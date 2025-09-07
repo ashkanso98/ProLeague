@@ -11,6 +11,8 @@
     <div class="card-body">
         <form asp-action="Create">
             <input type="hidden" asp-for="LeagueId" />
+            <input type="hidden" asp-for="Season" /> <div asp-validation-summary="All" class="text-danger mb-3"></div>
+            <input type="hidden" asp-for="LeagueId"/>
             <div asp-validation-summary="All" class="text-danger mb-3"></div>
 
             <div class="row">
@@ -22,7 +24,7 @@
                 </div>
                 <div class="col-md-6 mb-3">
                     <label asp-for="Points" class="form-label"></label>
-                    <input asp-for="Points" class="form-control" type="number" />
+                    <input asp-for="Points" class="form-control" type="number"/>
                 </div>
             </div>
             <div class="mb-3">
@@ -30,7 +32,7 @@
                 <textarea asp-for="Reason" class="form-control" rows="3"></textarea>
             </div>
 
-            <hr />
+            <hr/>
             <button type="submit" class="btn btn-success"><i class="fas fa-save me-2"></i> ثبت</button>
             <a asp-action="Index" asp-route-leagueId="@Model.LeagueId" class="btn btn-secondary"><i class="fas fa-times me-2"></i> انصراف</a>
         </form>

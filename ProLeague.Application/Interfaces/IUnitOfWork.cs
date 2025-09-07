@@ -11,10 +11,15 @@ namespace ProLeague.Application.Interfaces
         Task<List<League>> GetHomepageLeaguesAsync(int count, int pinnedLeagueId);
         Task<List<League>> GetTopLeaguesAsync(int count, int excludeId);
         Task<List<League>> GetAllLeaguesWithTeamsAsync();
+
+        Task<List<League>> GetAllLeaguesWithTeamsAsync(string season); 
+        Task<League?> GetLeagueDetailsAsync(int id, string season);   
+        Task<List<League>> GetHomepageLeaguesAsync(int count, int pinnedLeagueId, string season);
     }
     public interface ILeagueEntryRepository : IRepository<LeagueEntry>
     {
-        Task<LeagueEntry?> FindAsync(int teamId, int leagueId);
+        //Task<LeagueEntry?> FindAsync(int teamId, int leagueId);
+        Task<LeagueEntry?> FindAsync(int teamId, int leagueId, string season);
     }
     public interface ITeamRepository : IRepository<Team>
     {
@@ -22,6 +27,7 @@ namespace ProLeague.Application.Interfaces
         Task<Team?> GetTeamWithLeaguesAsync(int id); 
         Task<IEnumerable<Team>> GetTeamsByLeagueIdAsync(int leagueId);
         Task<IEnumerable<Team>> GetAllTeamsWithLeaguesAsync();
+        Task<IEnumerable<Team>> GetTeamsByLeagueIdAsync(int leagueId, string season);
     }
     public interface IPointDeductionRepository : IRepository<PointDeduction>
     {

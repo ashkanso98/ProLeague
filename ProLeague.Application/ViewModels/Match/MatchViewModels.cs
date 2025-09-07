@@ -33,6 +33,9 @@ namespace ProLeague.Application.ViewModels.Match
         [Display(Name = "Away Team Goals")]
         [Range(0, 100, ErrorMessage = "Goals must be between 0 and 100.")]
         public int? AwayTeamGoals { get; set; }
+        [Required]
+        [Display(Name = "Season")]
+        public string Season { get; set; }
     }
 
     public class UpdateMatchResultViewModel

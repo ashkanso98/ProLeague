@@ -15,5 +15,8 @@ namespace ProLeague.Application.Interfaces
         Task<League?> GetLeagueDetailsAsync(int id); 
         Task<IEnumerable<League>> GetAllLeaguesWithTeamsAsync();
 
+        Task<IEnumerable<League>> GetAllLeaguesWithTeamsAsync(string season);
+        Task<League?> GetLeagueDetailsAsync(int id, string season);
+
     }
 }

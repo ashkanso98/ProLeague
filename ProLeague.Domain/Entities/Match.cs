@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProLeague.Domain.Entities
 {
@@ -16,6 +17,9 @@ namespace ProLeague.Domain.Entities
         public int? AwayTeamGoals { get; set; }
         public DateTime MatchDate { get; set; }
         public int MatchWeek { get; set; }
+        public string? Round { get; set; }
+        [StringLength(10)]
+        public string Season { get; set; } = null!;
         public MatchStatus Status { get; set; } = MatchStatus.Scheduled;
 
         // Navigation Properties

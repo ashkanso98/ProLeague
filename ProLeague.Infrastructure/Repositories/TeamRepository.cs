@@ -65,5 +65,12 @@ namespace ProLeague.Infrastructure.Repositories
                 .Include(t => t.LeagueEntries) // Include the join entity
                 .FirstOrDefaultAsync(t => t.Id == id);
         }
+        public async Task<IEnumerable<Team>> GetTeamsByLeagueIdAsync(int leagueId, string season)
+        {
+            return await _context.Teams
+                .Where(t => t.LeagueEntries.Any(le => le.LeagueId == leagueId && le.Season == season))
+                .OrderBy(t => t.Name)
+                .ToListAsync();
+        }
     }
 }

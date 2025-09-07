@@ -131,5 +131,29 @@ namespace ProLeague.Areas.Admin.Controllers
             // Use MultiSelectList for many-to-many relationships
             ViewBag.Leagues = new MultiSelectList(leagues.OrderBy(l => l.Name), "Id", "Name", selectedLeagues as System.Collections.IEnumerable);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddLeagueEntry(EditTeamViewModel model)
+        {
+            var result = await _teamService.AddTeamToLeagueAsync(model.Id, model.AddLeagueId, model.AddSeason);
+            if (!result.Succeeded)
+            {
+                TempData["ErrorMessage"] = result.Errors?.FirstOrDefault();
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "تیم با موفقیت به لیگ اضافه شد.";
+            }
+            return RedirectToAction(nameof(Edit), new { id = model.Id });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteLeagueEntry(int teamId, int leagueId, string season)
+        {
+            await _teamService.RemoveTeamFromLeagueAsync(teamId, leagueId, season);
+            TempData["SuccessMessage"] = "تیم از لیگ حذف شد.";
+            return RedirectToAction(nameof(Edit), new { id = teamId });
+        }
     }
 }

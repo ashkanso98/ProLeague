@@ -13,12 +13,14 @@ namespace ProLeague.Areas.Admin.Controllers
         private readonly IPointDeductionService _deductionService;
         private readonly ILeagueService _leagueService;
         private readonly ITeamService _teamService;
+        private readonly IConfiguration _configuration;
 
-        public PointDeductionController(IPointDeductionService deductionService, ILeagueService leagueService, ITeamService teamService)
+        public PointDeductionController(IPointDeductionService deductionService, ILeagueService leagueService, ITeamService teamService, IConfiguration configuration)
         {
             _deductionService = deductionService;
             _leagueService = leagueService;
             _teamService = teamService;
+            _configuration = configuration;
         }
 
         // GET: Admin/PointDeduction?leagueId=5
@@ -33,18 +35,18 @@ namespace ProLeague.Areas.Admin.Controllers
         }
 
         // GET: Admin/PointDeduction/Create?leagueId=5
-        public async Task<IActionResult> Create(int leagueId)
-        {
-            var league = await _leagueService.GetLeagueByIdAsync(leagueId);
-            if (league == null) return NotFound();
+        //public async Task<IActionResult> Create(int leagueId)
+        //{
+        //    var league = await _leagueService.GetLeagueByIdAsync(leagueId);
+        //    if (league == null) return NotFound();
 
-            var teamsInLeague = await _teamService.GetTeamsByLeagueIdAsync(leagueId);
-            ViewBag.Teams = new SelectList(teamsInLeague, "Id", "Name");
-            ViewBag.LeagueName = league.Name;
+        //    var teamsInLeague = await _teamService.GetTeamsByLeagueIdAsync(leagueId);
+        //    ViewBag.Teams = new SelectList(teamsInLeague, "Id", "Name");
+        //    ViewBag.LeagueName = league.Name;
 
-            var model = new CreatePointDeductionViewModel { LeagueId = leagueId };
-            return View(model);
-        }
+        //    var model = new CreatePointDeductionViewModel { LeagueId = leagueId };
+        //    return View(model);
+        //}
 
         // POST: Admin/PointDeduction/Create
         [HttpPost]
@@ -88,6 +90,30 @@ namespace ProLeague.Areas.Admin.Controllers
             await _deductionService.DeleteDeductionAsync(id);
             TempData["SuccessMessage"] = "Point deduction was successfully deleted.";
             return RedirectToAction(nameof(Index), new { leagueId = deduction.LeagueId });
+        }
+
+        //**
+
+        public async Task<IActionResult> Create(int leagueId)
+        {
+            var league = await _leagueService.GetLeagueByIdAsync(leagueId);
+            if (league == null) return NotFound();
+
+            // Get teams for the current season to populate the dropdown
+            var currentSeason = _configuration["CurrentSeason"];
+            var teamsInLeague = await _teamService.GetTeamsByLeagueIdAsync(leagueId, currentSeason); // This method needs to be season-aware
+
+            ViewBag.Teams = new SelectList(teamsInLeague, "Id", "Name");
+            ViewBag.LeagueName = league.Name;
+
+            // Pre-populate the model with the leagueId and currentSeason
+            var model = new CreatePointDeductionViewModel
+            {
+                LeagueId = leagueId,
+                Season = currentSeason
+            };
+
+            return View(model);
         }
     }
 }

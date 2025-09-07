@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProLeague.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using ProLeague.Infrastructure.Data;
 namespace ProLeague.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250906173038_AddSeasonsToCompetitions")]
+    partial class AddSeasonsToCompetitions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -331,10 +334,6 @@ namespace ProLeague.Infrastructure.Migrations
                     b.Property<int>("LeagueId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Season")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
                     b.Property<int>("Draws")
                         .HasColumnType("int");
 
@@ -350,10 +349,14 @@ namespace ProLeague.Infrastructure.Migrations
                     b.Property<int>("Played")
                         .HasColumnType("int");
 
+                    b.Property<string>("Season")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
                     b.Property<int>("Wins")
                         .HasColumnType("int");
 
-                    b.HasKey("TeamId", "LeagueId", "Season");
+                    b.HasKey("TeamId", "LeagueId");
 
                     b.HasIndex("LeagueId");
 
@@ -533,17 +536,12 @@ namespace ProLeague.Infrastructure.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("Season")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
                     b.Property<int>("TeamId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TeamId", "LeagueId", "Season");
+                    b.HasIndex("TeamId", "LeagueId");
 
                     b.ToTable("PointDeductions");
                 });
@@ -775,7 +773,7 @@ namespace ProLeague.Infrastructure.Migrations
                 {
                     b.HasOne("ProLeague.Domain.Entities.LeagueEntry", "LeagueEntry")
                         .WithMany("Deductions")
-                        .HasForeignKey("TeamId", "LeagueId", "Season")
+                        .HasForeignKey("TeamId", "LeagueId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
